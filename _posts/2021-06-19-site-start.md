@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "My Personal Site Starts Here"
-date: 2021-16-19
+date: 2021-06-19
 ---
 
 Well, this is a starting point for the builing of my personal academic webiste. A lot of things need to learn as a neophyte, but this is much more interesting than I thought.
