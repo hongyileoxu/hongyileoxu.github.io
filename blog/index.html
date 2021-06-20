@@ -5,13 +5,13 @@ title: Hongyi's Blog
 	<h2>{{ page.title }}</h2>
 	<p> This is a test for the font size.</p>
 
+	<p>
 	<ul class="posts">
 
 	  {% for post in site.posts %}
-	    <p>
-		    <li><span>{{ post.date | date_to_string }}</span> -- <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-	    </p>
+	   <li><span>{{ post.date | date_to_string }}</span> -- <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
 	</ul>
+	</p>
 	
 	
