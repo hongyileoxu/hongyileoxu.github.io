@@ -3,14 +3,16 @@ layout: default
 title: Hongyi's Blog
 ---
 	<h2>{{ page.title }}</h2>
-	<p> This is a test for the font size. 4th change!</p>
+	<p> This is a test for the font size. 5th change!</p>
 	<ul>
-		<li>This is something difference.</li>
+		<li>
+			{{ post.date | date_to_string }} -- <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+			This is something difference.
+		</li>
 	</ul>
 
 	<ul class="posts">
 
-	  {% for post in site.posts %}
-	   <li> -- <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-	  {% endfor %}
+	   <li><span>{{ post.date | date_to_string }}</span> -- <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+
 	</ul>	
