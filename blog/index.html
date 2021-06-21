@@ -3,9 +3,13 @@ layout: default
 title: Hongyi's Blog
 ---
 	<h2>{{ page.title }}</h2>
-	<p> This is a test for the font size. 5.2th change!</p>
+	<p> This is a test for the font size. 6th change!</p>
 
-	<<ul class="posts">
+	<ul class="posts>
+		   <li> This is another test for the font size.</li>
+	</ul>
+
+	<ul class="posts">
 
 	  {% for post in site.posts %}
 	   <li><span>{{ post.date | date_to_string }}</span> - <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
