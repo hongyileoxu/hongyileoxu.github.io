@@ -3,13 +3,13 @@ layout: default
 title: Hongyi's Blog
 ---
 	<h2>{{ page.title }}</h2>
-	<ul class="posts">
-		<li> This section records some steps about creating this website.</li>
+	<nav>
+	<ul>
+		<li> This section records some steps about creating this website. 1</li>
 	</ul>
+	</na>
 
-	<ul class="posts">
-		<li> This is used to test the font size.</li>
-			 
+	<ul class="posts">			 
 	  {% for post in site.posts %}
 	   <li><span>{{ post.date | date_to_string }}</span> - <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
