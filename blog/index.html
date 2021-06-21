@@ -7,7 +7,7 @@ title: Hongyi's Blog
 	<ul class="posts">
  		   <li> This section records some steps about creating this website. </li>
  	</ul>
-	<ul class="posts">			 
+	<ul>			 
 	  {% for post in site.posts %}
 	   <li><span>{{ post.date | date_to_string }}</span> - <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
