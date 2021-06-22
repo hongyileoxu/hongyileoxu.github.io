@@ -1,6 +1,6 @@
 ---
-layout: default
-title: Hongyi's Projects
+layout: projects
+title: Replications and Experiments
 ---
 
 This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. So if you have some better solutions, please feel free to [email](mailto:hongyi.xu.anu@qq.com) me.
