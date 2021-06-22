@@ -1,5 +1,5 @@
 ---
-layout: projects
+layout: project
 title: Replications and Experiments
 ---
 
