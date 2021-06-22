@@ -16,3 +16,5 @@ Below is a list of projects:
 Below is a list of experiments:
 - Frydman, C. & Rangel, A. 2014, "Debiasing the disposition effect by reducing the saliency of information about a stock's purchase price", Journal of economic behavior & organization. _**> Experiment Frydman and Rangel (2014)**_
 
+*The exact policy about how to use the data from these experiments has not been decided.
+
