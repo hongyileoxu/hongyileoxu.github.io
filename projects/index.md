@@ -17,14 +17,14 @@ Below is a list of experiments:
 - Frydman, C. & Rangel, A. 2014, "Debiasing the disposition effect by reducing the saliency of information about a stock's purchase price", Journal of economic behavior & organization, vol. 107, no. Pt B, pp. 541-552. > _Experiment Frydman and Rangel (2014)_
 
 
-- <font size=1> Frydman, C. & Rangel, A. 2014 </font>
-- <font size=2> Frydman, C. & Rangel, A. 2014 </font>
-- <font size=3> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="1"> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="2"> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="3"> Frydman, C. & Rangel, A. 2014 </font>
 
-- <font size=1> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="1"> Frydman, C. & Rangel, A. 2014 </font>
 
-- <font size=2> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="2"> Frydman, C. & Rangel, A. 2014 </font>
 
-- <font size=3> Frydman, C. & Rangel, A. 2014 </font>
+- <font size="3"> Frydman, C. & Rangel, A. 2014 </font>
 
 
