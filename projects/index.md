@@ -23,5 +23,5 @@ _*The exact policy about how to use the data from these experiments has not been
 Upcoming projects:
 
 
-Upcoming projects:
+
 - 
