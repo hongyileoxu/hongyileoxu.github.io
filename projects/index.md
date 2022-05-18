@@ -8,7 +8,7 @@ This section presents some replications of past papers I am interested in. The c
 Below is a list of projects:
 - Welch, I. & Goyal, A. 2008, "A Comprehensive Look at the Empirical Performance of Equity Premium Prediction", The Review of financial studies. **[> Project Goyal and Welch (2008)](https://hongyileoxu.github.io/blog/2021/06/19/site-start)**
 
-- **[> Tercile Portfolios Results - Size](https://hongyileoxu.github.io/Xu_2022_v4.0_Deciles_size.html)**
+- **[Tercile Portfolios Results - Size - 25Year In-sample](https://hongyileoxu.github.io/research/Xu_et_al_2022/Xu_2022_v4.0_Deciles_size25y.html)**
 
 - Ferreira, M.A. & Santa-Clara, P. 2011, "Forecasting stock market returns: The sum of the parts is more than the whole", Journal of financial economics. _**> Project Ferreira and Santa-Clara (2011)**_
 
