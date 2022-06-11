@@ -26,7 +26,8 @@ _*The exact policy about how to use the data from these experiments has not been
 
 Working projects:
 
--  Project for the Theoretical Corporate Finance
+-  Project for the Theoretical Corporate Finance  
+
   -  **[Optimal Contract under Diversification](http://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.htmlhongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
 
 
