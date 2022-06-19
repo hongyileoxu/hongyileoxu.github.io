@@ -26,7 +26,7 @@ _*The exact policy about how to use the data from these experiments has not been
 
 Working projects:
 
--  Project for the Theoretical Corporate Finance.   
+-  Project for the Theoretical Corporate Finance. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
 
     - **[Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
     - **[Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)**
