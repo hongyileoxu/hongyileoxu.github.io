@@ -3,10 +3,10 @@ layout: project
 title: Replications and Experiments
 ---
 
-This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. So if you have some better solutions, please feel free to [email](mailto:hongyi.xu.anu@qq.com) me.
+This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. So if you have some better solutions, please feel free to [email](mailto:hongyi.xu@phdstudent.hhs.se) me.
 
 Below is a list of projects:
-- Welch, I. & Goyal, A. 2008, "A Comprehensive Look at the Empirical Performance of Equity Premium Prediction", The Review of financial studies. **[> Project Goyal and Welch (2008)](https://hongyileoxu.github.io/blog/2021/06/19/site-start)**
+- Welch, I. & Goyal, A. 2008, "A Comprehensive Look at the Empirical Performance of Equity Premium Prediction", The Review of financial studies. **[> Project Goyal and Welch (2008)]**
 
     - **[Tercile Portfolios Results - Size - 25Year In-sample (33% + 33% + 33%)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Xu_2022_v4.0_Deciles_size_25y.html)**
     - **[Tercile Portfolios Results - Size - 20Year In-sample (30% + 40% + 30%)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Xu_2022_v4.0_Deciles_sz3.html)**
