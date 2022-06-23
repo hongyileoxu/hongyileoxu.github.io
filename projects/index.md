@@ -30,5 +30,6 @@ Working projects:
 
     - **[Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
     - **[Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)**
+    - **[Model for Limited Abilities]](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model2.html)**
 
 Thank You! 
