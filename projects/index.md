@@ -31,6 +31,6 @@ Working projects:
     - **[Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
     - **[Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)**
     - **[Model for Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model2.html)**
-    - [A wonderful document explaining the difference between spin-off, split-off, split-up and carve-ouut](https://www.acapam.com/blog/what-is-the-difference-among-spin-off-split-off-and-split-up/)
+    - A wonderful [document](https://www.acapam.com/blog/what-is-the-difference-among-spin-off-split-off-and-split-up/) explaining the difference between spin-off, split-off, split-up and carve-ouut
 
 Thank You! 
