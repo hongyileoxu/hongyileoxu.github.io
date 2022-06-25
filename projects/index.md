@@ -1,6 +1,6 @@
 ---
 layout: project
-title: Replications and Experiments
+title: Projects, Replications and Experiments
 ---
 
 This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. So if you have some better solutions, please feel free to [email](mailto:hongyi.xu@phdstudent.hhs.se) me.
@@ -26,7 +26,7 @@ _*The exact policy about how to use the data from these experiments has not been
 
 Working projects:
 
--  Project for the Theoretical Corporate Finance. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
+-  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
 
     - **[Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
     - **[Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)**
