@@ -24,7 +24,7 @@ Below is a list of experiments:
 
 _*The exact policy about how to use the data from these experiments has not been decided._
 
-Working projects:
+Projects in Progress:
 
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
 
