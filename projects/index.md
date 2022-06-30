@@ -35,7 +35,6 @@ Projects in Progress:
         + [Momentum (mom)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_mom.html)
 
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
-
     - **[Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)**
     - **[Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)**
     - **[Model for Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model2.html)**
