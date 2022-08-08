@@ -27,8 +27,10 @@ _*The exact policy about how to use the data from these experiments has not been
 Projects in Progress:
 
 - A Portfolio-Level, Sum-of-the-Parts Approach to Return Predictability, with Dean Katselas and Jo Drienko.
-    - Single-sort Decile Portfolios
-        + | [Size (size)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Size.html) | [Book-to-market ratio (bm)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_bm.html) | [Operating profitability (op)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_op.html) | [Investment (inv)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Inv.html) | [Momentum (mom)](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_mom.html) | 
+    - Single-sorted Decile Portfolios
+        + | [Size (size);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Size.html) | [Book-to-market ratio (bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_bm.html) | [Operating profitability (op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_op.html) | [Investment (inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Inv.html) | [Momentum (mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_mom.html) | 
+    - Double-sorted Size-Characteristic Quintiles
+        + | [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_bm3.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_op3.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_inv3.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_mom3.html) | 
           
 
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v1.pdf)  
