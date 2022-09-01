@@ -40,4 +40,7 @@ Projects in Progress:
     - [Model for Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model2.html)
     - A wonderful [document](https://www.acapam.com/blog/what-is-the-difference-among-spin-off-split-off-and-split-up/) explaining the difference between spin-off, split-off, split-up and carve-out.
 
+
+- JF2021 Discussion. [[Slide]](https://hongyileoxu.github.io/research/Slides/JF2021Pre_Hongyi_Xu.pdf)
+
 Thank You! 
