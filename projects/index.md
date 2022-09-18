@@ -34,7 +34,7 @@ Projects in Progress:
         + | [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_bm3.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_op3.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_inv3.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_mom3.html) | 
           
 
--  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Coporate_Spinoff_v2.pdf)  
+-  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Corporate_Spinoff_v2.pdf.pdf)  
 
     - [Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)
     - [Optimal Contract with Limited Abilities](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Model1.html)
