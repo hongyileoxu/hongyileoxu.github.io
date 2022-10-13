@@ -10,5 +10,5 @@ date: 2022-10-13
     -   Causal Graph in R: Libraries to create and analyze causal graphs `library(dagitty)` and `library(ggdag)`.
                              
 -   [Metrics Notes](https://about.peterhull.net/metrix) by Professor Peter Hull. 
-    -   Instrumental variable with Difference-in-Difference: [DDIV]([https://about.peterhull.net/metrix](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fsq1371avtwalmom%2FDDIV.pdfhttps%3A%2F%2Fwww.dropbox.com%2Fs%2Fm6jt5dsqm5xvyml%2FisoLATE_022018.pdf%3Fraw%3D1&sa=D&sntz=1&usg=AOvVaw3LPjYJajKcqr6GjffTIGWN))
+    -   Instrumental variable with Difference-in-Difference: [DDIV](https://uce04d8f60f2d63e425dafd1c49f.dl.dropboxusercontent.com/cd/0/inline2/Buv-Oy9vX8htBbMyn7VYiVtlg4cNK-Yl8UbG_vznKnB5zMDTByqma94xt-1v2PsSsedqpRjVW41AenDTbG-kd8usJelnlb6t9jeEQoSoQVKcdiehBJA3OQOX2Lqy--YfCcLK4Z2r2uo8NAZSq2gMRVak9bzIHmoBGkbazbNeMndCEsVe7uYjPOqBbrmtm36GHxhdUzZ8ivhjcaR_bR5KuDW6PWjvJeFXpTZI8R31m1jS_O9oRxaJ8UA_zHPZfFB8_KFEIEMk3r1TM6fjgR0eshiQoTints44-45hb1D_FHCEhUxotPhs_Yvd3beoex3ODlaHvDXxoQrcm4Jd-feEG7Xj3T9TcByvR0Ybng7_MIchpjXw3G3mRU0UX007pvxGrhsg3wZxg1f9mouSV09vnJ1ktc6cNDLyyhDHjj_JLlKqIA/file#)
     -   
