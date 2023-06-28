@@ -45,6 +45,6 @@ Projects in Progress:
 
 - Journal of Finance 2021 Issue Discussion. [[Slide]](https://hongyileoxu.github.io/research/Slides/JF2021Pre_Hongyi_Xu.pdf)
 
-- EDGAR 10-Q/K Parsing Repurchase Info. [[Code]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3functions.html)
+- EDGAR 10-Q/K Parsing Repurchase Info. [[Code]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3afunctions.html)
 
 Thank You! 
