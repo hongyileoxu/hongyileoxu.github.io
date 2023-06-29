@@ -98,13 +98,13 @@ filing.item <- function(x, # filing
     ### <Tables starts here!>
     ### clean the table 
     item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])))[-1,]
-    tbl_periods_id <- grep(pattern = '(\\w+\\d{1,2},\\s+\\d{4}|Total|total)', item_table[,1]) # id_row for the periods
+    tbl_periods_id <- grep(pattern = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total)', item_table[,1]) # id_row for the periods
     tbl_periods <- rep(item_table[tbl_periods_id,1],
                        time = c(diff(tbl_periods_id), 1) 
     ) # return the periods 
     tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
     
-    tbl_title <- c("item", item_table[1,][-1])
+    tbl_title <- item_table[1,]
     tbl_numbers <- item_table[-(1:(tbl_periods_id[1]-1)),] %>% # remove the first line
       cbind(., "period" =`length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
       .[-(tbl_periods_id[which(c(diff(tbl_periods_id), 1) != 1)] - (tbl_periods_id[1]-1)), # clean duplicated rows 
