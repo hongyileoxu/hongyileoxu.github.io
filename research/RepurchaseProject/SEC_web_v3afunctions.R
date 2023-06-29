@@ -141,24 +141,29 @@ filing.cleaned <- function(loc_file, # name of the filing
                            zip_file # name of the zipped file 
 ) { 
   ## import the txt filing 
-  filing = readLines(unz(zip_file, loc_file))
-  
+  filing <- readLines(unz(zip_file, loc_file))
+            
   ## store header info 
   info <- t(filing.header(x = filing)[,2])
   ## store item location
-  loc_item2 <- loc.item(x = filing, filing_type = info[2] )
-  ## generate cleaned info 
-  item2_cleaned <- filing.item(x = filing,
-                               loc_item = loc_item2$loc_item,
-                               item_id = loc_item2$item_id,
-                               filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})'),
-                               parts = "footnote")
-  
+  loc_item2 <- loc.item(x = filing, filing_type = substr(info[2], start = 1, stop = 4) )
+  if (all(is.na(loc_item2$loc_item))) { 
+    ## check whether the item is in the document
+    item2_cleaned <- list(table = NULL,
+                          parts = NULL,  
+                          table_unit = NULL)
+  } else {
+    ## generate cleaned info 
+    item2_cleaned <- filing.item(x = filing,
+                                 loc_item = loc_item2$loc_item,
+                                 item_id = loc_item2$item_id,
+                                 filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})'),
+                                 parts = "footnote")
+  }
   ## return output 
   return(c(list(info = info), # store header info
               item2_cleaned)) # combine info with cleaned table 
 } 
-
 
 # Appendix. list of built-in functions----
 lsf.str()
