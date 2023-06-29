@@ -13,7 +13,7 @@ library(gt)
 filing.header <- function(x, # the file 
                           regex_header = 'ACCESSION NUMBER:|</SEC-(HEADER|Header)>' # the regex of the start to end of the header section in the filing
 ) { # parse filing header info 
-  header <- grep(pattern = regex_header, x = filing, perl = T)
+  header <- grep(pattern = regex_header, x = x, perl = T)
   header_cleaned <- str_squish(x[header[1]:(header[2]-1)]) 
   header_info <- str_split_fixed(header_cleaned[header_cleaned != ""], 
                                  pattern = ":\\s", 2)
@@ -39,7 +39,7 @@ loc.item <- function(x, # filing
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
   ## > item 5 in 10-K: "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
-  toc <- filing.toc(x = filing)
+  toc <- filing.toc(x = x)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
   
