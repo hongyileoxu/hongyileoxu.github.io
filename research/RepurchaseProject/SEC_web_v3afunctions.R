@@ -34,7 +34,7 @@ filing.toc <- function(x, # filing
 loc.item <- function(x, # filing 
                      filing_type, # filing type from the previous input
                      regex_item = c("Unregistered Sales of Equity Securities and Use of Proceeds", 
-                                    "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities") 
+                                    "Market for Registrant%27s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities") 
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
