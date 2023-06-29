@@ -41,6 +41,8 @@ loc.item <- function(x, # filing
   toc <- filing.toc(x = filing)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
+  print(regex)
+  
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
   item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
