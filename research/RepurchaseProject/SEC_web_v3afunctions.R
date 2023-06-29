@@ -122,7 +122,7 @@ filing.item <- function(x, # filing
     ### return the cleaned table
     tbl_numbers_cleaned <- melt(as.tibble(tbl_numbers), id.vars = c("item", "period")) 
     
-    return(list(table = tbl_numbers_cleaned, 
+    return(list(table = as.matrix(tbl_numbers_cleaned), 
                 parts = filing_item2_txt,
                 table_unit = item_table_unit
     ) )
