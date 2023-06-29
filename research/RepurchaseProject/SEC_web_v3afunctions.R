@@ -11,7 +11,7 @@ library(gt)
 
 # a. filing.header(): extract the header info from the filing ----
 filing.header <- function(x, # the file 
-                          regex_header = 'ACCESSION NUMBER:|</SEC-HEADER>' # the regex of the start to end of the header section in the filing
+                          regex_header = 'ACCESSION NUMBER:|</SEC-(HEADER|Header)>' # the regex of the start to end of the header section in the filing
 ) { # parse filing header info 
   header <- grep(pattern = regex_header, x = filing, perl = T)
   header_cleaned <- str_squish(x[header[1]:(header[2]-1)]) 
