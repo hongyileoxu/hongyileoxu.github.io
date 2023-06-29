@@ -92,8 +92,8 @@ filing.item <- function(x, # filing
     filing_item2_txt <- strsplit(x = item_htm2txt, split = (html_text(item_tbls[[item_tbl_id]], trim = F)), fixed = T)[[1]][match(parts, c("header", "footnote"))]
     
     ### extract the unit information 
-    item_table_unit <- c(na.omit((str_extract(string = item_htm2txt,
-                                              pattern = str_extract(html_text(item_html), pattern = "\\(([^()]+)\\)")))))
+    item_table_unit <- item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+    # c(na.omit((str_extract(string = item_htm2txt, pattern = str_extract(html_text(item_html), pattern = "\\(([^()]+)\\)")))))
     
     ### <Tables starts here!>
     ### clean the table 
