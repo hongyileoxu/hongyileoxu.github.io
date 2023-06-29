@@ -36,25 +36,25 @@ loc.item <- function(x, # filing
                      regex_item = c("Unregistered Sales of Equity Securities and Use of Proceeds",
                                     "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities") 
 ) { # locate the section of the item of interest 
-  # > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
-  # > item 5 in 10-K: "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
+    # > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
+    # > item 5 in 10-K: "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
   toc <- filing.toc(x = filing)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
   item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
-                                                           x = html_text(toc_txt), 
-                                                           ignore.case = T)) + 0:6],"href"))[1:2],
+                                        x = html_text(toc_txt), 
+                                        ignore.case = T)) + 0:6],"href"))[1:2],
                   pattern = '#', replacement = '')
   loc_item <- vapply(X = item_id,
                      FUN = function(p) {
-                       loc_item0 <- grep(pattern = p, x = x, fixed = T)
-                       return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
-                     },
+                        loc_item0 <- grep(pattern = p, x = x, fixed = T)
+                        return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                      },
                      FUN.VALUE = numeric(1))
-  
-  return(list(loc_item = loc_item, item_id = item_id))
+
+   return(list(loc_item = loc_item, item_id = item_id))
 }
 
 # d. filing.item_txt(): header/footnote / unit ----
