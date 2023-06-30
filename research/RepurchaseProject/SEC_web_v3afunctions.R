@@ -124,7 +124,7 @@ filing.item <- function(x, # filing
 
     tbl_numbers0 <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
       cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-      .[tbl_rowkeep+1-tbl_periods_id[1],] # clean duplicated rows 
+      .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
     tbl_title <- c("item", item_table[1,][-1], "period")
     
     #### store duplicated and non-duplicated items
