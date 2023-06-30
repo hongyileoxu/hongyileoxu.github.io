@@ -31,31 +31,47 @@ filing.toc <- function(x, # filing
 
 # c. loc.item(): locate the item of interest ---- 
 ## particularly item 2 in 10-Q and item 5 in 10-K
-loc.item <- function(x, # filing 
-                     filing_type, # filing type from the previous input
-                     regex_item = c("Unregistered Sales of Equity Securities and Use of Proceeds", 
-                                    "Market for Registrant") 
+loc.item  <- function(x, # filing 
+                      filing_type, # filing type from the previous input
+                      regex_item = c("Unregistered Sales of Equity Securities and Use of Proceeds", 
+                                     "Market for Registrant") # item header
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
-  ## > item 5 in 10-K: "Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
+  ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
   toc <- filing.toc(x = x)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
   
+  
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
   item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
-                                        x = html_text(toc_txt), 
-                                        ignore.case = T)) + 0:6],"href"))[1:2],
+                                                           x = html_text(toc_txt), 
+                                                           ignore.case = T)) + 0:6],"href"))[1:2],
                   pattern = '#', replacement = '')
-  loc_item <- vapply(X = item_id,
-                     FUN = function(p) {
-                        loc_item0 <- grep(pattern = p, x = x, fixed = T)
-                        return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
-                      },
-                     FUN.VALUE = numeric(1))
+  if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
+    loc_item <- vapply(X = item_id,
+                       FUN = function(p) {
+                         loc_item0 <- grep(pattern = p, x = x, fixed = T)
+                         return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                       },
+                       FUN.VALUE = numeric(1))
+  } else { # if no url or link/identifier is found
+    ## look for all the items 
+    regex_item <- c("Item 2.", "Item 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+    item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of each item
+    loc_item1 <- tail(grepl(htm2txt(x[item_all]), regex_item, ignore.case = T), 1)  # find the match
+    ## check whether the 1st location is found
+    if (length(loc_item1) > 0) { # if the first is identified
+      loc_item2 <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T, value = T)[1]
+      loc_item <- ifelse(length(loc_item2) == 0, c(loc_item1, length(x)), c(loc_item1, loc_item2))
+    } else { # if the first is not identified
+      loc_item <- rep(NA, 2)
+    }
 
+  }
+  ## return the location and id 
   return(list(loc_item = loc_item, item_id = item_id))
 }
 
