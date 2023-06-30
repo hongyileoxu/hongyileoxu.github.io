@@ -65,13 +65,13 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total
                         filing_qrt # the filing quarter 
 ) {
   # identify the rows that match the regex_row
-  tbl_periods_id <- grep(pattern = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total)', item_table[,1]) # id_row for the periods
+  tbl_periods_id <- grep(pattern = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total)', row_name) # id_row for the periods
   tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
   # identify the kept rows
   tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
                          y = subset(tbl_periods_id, tbl_periods_times != 1))
   # create the `period` column 
-  tbl_periods <- rep(item_table[tbl_periods_id,1], time = tbl_periods_times )
+  tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
   tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
   # return values
   return(list(rowkeep = tbl_rowkeep, 
@@ -108,7 +108,7 @@ filing.item <- function(x, # filing
     filing_item2_txt <- strsplit(x = item_htm2txt, split = (html_text(item_tbls[[item_tbl_id]], trim = F)), fixed = T)[[1]][match(parts, c("header", "footnote"))]
     
     ### extract the unit information 
-    item_table_unit <- item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+    item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
     
     ### <Tables starts here!>
     ### clean the table 
