@@ -167,7 +167,7 @@ filing.item <- function(x, # filing
     
   } else { # if no table in the item 
     return(list(table = NULL,
-                parts = NULL,  
+                parts = html_text(item_html, trim = T),   
                 table_unit = NULL
     ))
   }
