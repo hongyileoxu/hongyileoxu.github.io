@@ -100,12 +100,7 @@ filing.item <- function(x, # filing
          filing_qrt, # the quarter the filing was made 
          table = TRUE, # whether to scrap the table numbers 
          parts = c("footnote") # the parts of information that you want 
-) { 
-  if  (all(is.na(item_id))) {
-    return(list(table = rep(NA, 4),
-                  parts = html_text(item_html, trim = T),   
-                  table_unit = NA))
-  } else {  
+) {  
     # extract info from the section/item 
     if (loc_item[1] == loc_item[2]) {
       item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
@@ -170,11 +165,10 @@ filing.item <- function(x, # filing
       ) )
       
     } else { # if no table in the item 
-      return(list(table = rep(NA, 4),
+      return(list(table = matrix(NA, nrow = 1, ncol = 4),
                   parts = html_text(item_html, trim = T),   
                   table_unit = NA))
     }
-  }
 }
 
 # f. filing.cleaned(): the aggregate function function ----
@@ -191,7 +185,7 @@ filing.cleaned <- function(loc_file, # name of the filing
   loc_item2 <- loc.item(x = filing, filing_type = substr(info[2], start = 1, stop = 4) )
   if (all(is.na(loc_item2$loc_item))) { 
     ## check whether the item is in the document
-    item2_cleaned <- list(table = rep(NA, 4),
+    item2_cleaned <- list(table = matrix(NA, nrow = 1, ncol = 4),
                           parts = NA,  
                           table_unit = NA)
   } else {
