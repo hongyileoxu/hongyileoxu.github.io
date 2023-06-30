@@ -101,74 +101,79 @@ filing.item <- function(x, # filing
          table = TRUE, # whether to scrap the table numbers 
          parts = c("footnote") # the parts of information that you want 
 ) { 
-  # extract info from the section/item 
-  if (loc_item[1] == loc_item[2]) {
-    item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
-                                  pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
-    item_txt <- str_extract(string = item_parse, 
-                            pattern = paste0("^(.*?)", item_id[2], collapse = ""))
-  } else {
-    # the full item 
-    item_txt <- x[loc_item[1]:loc_item[2]] 
-  }
-  # find the table(s) 
-  item_html <- read_html(paste0(item_txt, collapse = ""))
-  item_tbls <- html_nodes(item_html, "table")
-  item_tbl_id <- grep(pattern = "Total", x = item_tbls, fixed = T)[1]  # identify the correct table
+  if  (all(is.na(item_id))) {
+    return(list(table = rep(NA, 4),
+                  parts = html_text(item_html, trim = T),   
+                  table_unit = NA))
+  } else {  
+    # extract info from the section/item 
+    if (loc_item[1] == loc_item[2]) {
+      item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
+                                    pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
+      item_txt <- str_extract(string = item_parse, 
+                              pattern = paste0("^(.*?)", item_id[2], collapse = ""))
+    } else {
+      # the full item 
+      item_txt <- x[loc_item[1]:loc_item[2]] 
+    }
+    # find the table(s) 
+    item_html <- read_html(paste0(item_txt, collapse = ""))
+    item_tbls <- html_nodes(item_html, "table")
+    item_tbl_id <- grep(pattern = "Total", x = item_tbls, fixed = T)[1]  # identify the correct table
+    
+    ## extract the table 
+    if (!is.na(item_tbl_id)) {
+      ## extract the txt header and/or footnote from the item
+      item_htm2txt <- html_text(item_html, trim = T) # pure text document 
+      filing_item2_txt <- strsplit(x = item_htm2txt, split = (html_text(item_tbls[[item_tbl_id]], trim = F)), fixed = T)[[1]][match(parts, c("header", "footnote"))]
+      
+      ### extract the unit information 
+      item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+      
+      ### <Tables starts here!>
+      ### clean the table 
+      item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1)[-1,] %>%
+        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
+        unique.matrix(MARGIN = 2)
+      # item_table %>% View("unique_col_row") 
+      
+      #### identify the rows to keep
+      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
+      tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+      tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
   
-  ## extract the table 
-  if (!is.na(item_tbl_id)) {
-    ## extract the txt header and/or footnote from the item
-    item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-    filing_item2_txt <- strsplit(x = item_htm2txt, split = (html_text(item_tbls[[item_tbl_id]], trim = F)), fixed = T)[[1]][match(parts, c("header", "footnote"))]
-    
-    ### extract the unit information 
-    item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
-    
-    ### <Tables starts here!>
-    ### clean the table 
-    item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1)[-1,] %>%
-      .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
-      unique.matrix(MARGIN = 2)
-    # item_table %>% View("unique_col_row") 
-    
-    #### identify the rows to keep
-    tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
-    tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
-    tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
-
-    tbl_numbers0 <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
-      cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-      .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
-    tbl_title <- c("item", item_table[1,][-1], "period")
-    
-    #### store duplicated and non-duplicated items
-    tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
-    tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
-    
-    tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>%
-      split(., seq(nrow(.))) %>% # record the repeated headers. 
-      sapply(FUN = function(id) str_replace(paste(tbl_numbers0[, id[1]],
-                                                  tbl_numbers0[, id[2]],
-                                                  sep = ""), 
-                                            pattern = "\\$|(\\s*?)\\(\\d\\)",
-                                            replacement = "")) %>%
-      cbind(tbl_numbers0[, tbl_title_nonduplicated]) %>% 
-      `colnames<-`(value = tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)])
-    
-    ### return the cleaned table
-    tbl_numbers_cleaned <- melt(as.tibble(tbl_numbers), id.vars = c("item", "period")) 
-    # tbl_numbers_cleaned %>% View
-    return(list(table = as.matrix(tbl_numbers_cleaned), 
-                parts = filing_item2_txt,
-                table_unit = item_table_unit
-    ) )
-    
-  } else { # if no table in the item 
-    return(list(table = NULL,
-                parts = html_text(item_html, trim = T),   
-                table_unit = NULL
-    ))
+      tbl_numbers0 <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
+        cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+        .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
+      tbl_title <- c("item", item_table[1,][-1], "period")
+      
+      #### store duplicated and non-duplicated items
+      tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+      tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
+      
+      tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>%
+        split(., seq(nrow(.))) %>% # record the repeated headers. 
+        sapply(FUN = function(id) str_replace(paste(tbl_numbers0[, id[1]],
+                                                    tbl_numbers0[, id[2]],
+                                                    sep = ""), 
+                                              pattern = "\\$|(\\s*?)\\(\\d\\)",
+                                              replacement = "")) %>%
+        cbind(tbl_numbers0[, tbl_title_nonduplicated]) %>% 
+        `colnames<-`(value = tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)])
+      
+      ### return the cleaned table
+      tbl_numbers_cleaned <- melt(as.tibble(tbl_numbers), id.vars = c("item", "period")) 
+      # tbl_numbers_cleaned %>% View
+      return(list(table = as.matrix(tbl_numbers_cleaned), 
+                  parts = filing_item2_txt,
+                  table_unit = item_table_unit
+      ) )
+      
+    } else { # if no table in the item 
+      return(list(table = rep(NA, 4),
+                  parts = html_text(item_html, trim = T),   
+                  table_unit = NA))
+    }
   }
 }
 
@@ -186,9 +191,9 @@ filing.cleaned <- function(loc_file, # name of the filing
   loc_item2 <- loc.item(x = filing, filing_type = substr(info[2], start = 1, stop = 4) )
   if (all(is.na(loc_item2$loc_item))) { 
     ## check whether the item is in the document
-    item2_cleaned <- list(table = NULL,
-                          parts = NULL,  
-                          table_unit = NULL)
+    item2_cleaned <- list(table = rep(NA, 4),
+                          parts = NA,  
+                          table_unit = NA)
   } else {
     ## generate cleaned info 
     item2_cleaned <- filing.item(x = filing,
