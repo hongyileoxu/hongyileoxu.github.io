@@ -120,8 +120,10 @@ filing.item <- function(x, # filing
     if (!is.na(item_tbl_id)) {
       ## extract the txt header and/or footnote from the item
       item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-      filing_item2_txt <- strsplit(x = item_htm2txt, split = (html_text(item_tbls[[item_tbl_id]], trim = F)), fixed = T)[[1]][match(parts, c("header", "footnote"))]
-      
+      filing_item2_txt <- str_replace(string = item_htm2txt,
+                                      pattern = (html_text(item_tbls[[item_tbl_id]], trim = F)),
+                                      replacement = "<footnotehere>" ) # remove the table in the section and keep the text. 
+    
       ### extract the unit information 
       item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
       
