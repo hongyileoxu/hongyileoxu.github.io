@@ -225,6 +225,7 @@ filing.cleaned <- function(loc_file, # name of the filing
     item2_cleaned <- filing.item(x = filing,
                                  loc_item = loc_item2$loc_item,
                                  item_id = loc_item2$item_id,
+                                 item = loc_item2$item_id,
                                  filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})'),
                                  parts = "footnote")
   }
