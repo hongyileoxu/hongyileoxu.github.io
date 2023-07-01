@@ -42,6 +42,7 @@ loc.item  <- function(x, # filing
   toc <- filing.toc(x = x)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
+  regex2 <- c("Item 2.", "Item 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
@@ -58,8 +59,7 @@ loc.item  <- function(x, # filing
                        },
                        FUN.VALUE = numeric(1))
   } else { # if no url or link/identifier is found
-    ## look for all the items 
-    regex2 <- c("Item 2.", "Item 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+    ## look for all the items   
     item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of each item
     loc_item1 <- item_all[tail(grep(pattern = regex2, x = htm2txt(x[item_all]), ignore.case = T), 1)]  # find the match
     ## check whether the 1st location is found
@@ -70,8 +70,8 @@ loc.item  <- function(x, # filing
       loc_item <- rep(NA, 2)
     }
   }
-  ## return the location and id 
-  return(list(loc_item = loc_item, item_id = item_id))
+  ## return the location, id, and item number (i.e. item 2 or 5)
+  return(list(loc_item = loc_item, item_id = item_id, item = regex2))
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
