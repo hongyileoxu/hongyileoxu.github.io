@@ -99,6 +99,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total
 filing.item <- function(x, # filing
          loc_item, # the location of the item of interest
          item_id, # the identifier from 'href' for the section 
+         item, # the number of the item 
          filing_qrt, # the quarter the filing was made 
          table = TRUE, # whether to scrap the table numbers 
          parts = c("footnote") # the parts of information that you want 
@@ -125,76 +126,77 @@ filing.item <- function(x, # filing
   item_html <- read_html(paste0(item_txt, collapse = ""))
   item_tbls <- html_nodes(item_html, "table")
   if (all(is.na(item_tbls))) { # if no table found in the item 
-    return(list(table = matrix(NA, nrow = 1, ncol = 4),
+    return(list(table = NULL,
                 parts = html_text(item_html, trim = T),  
-                table_unit = NA))
+                table_unit = NULL))
   } else { # if there are tables!
-    item_tbl_id <- which.max(sapply(html_table(item_tbls),
-                                    FUN = function(tbl) prod(dim(tbl)))) # basically find the table with the most number of cells. 
-    
-    ## extract the table 
-    if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
-      ## 
-      item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-      filing_item2_txt <- str_replace(string = item_htm2txt,
-                                      pattern = fixed(html_text(item_tbls[[item_tbl_id]], trim = F)), # use funciton `fixed` to find the exact match
-                                      replacement = "<footnotehere>" )
-      
-      ### extract the unit information 
-      item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
-      
-      ### <Tables starts here!>
-      ### clean the table 
-      item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1)[-1,] %>%
-        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
-        unique.matrix(MARGIN = 2)
-      # item_table %>% View("unique_col_row") 
-      
-      #### identify the rows to keep
-      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
-      tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
-      tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
+  item_tbl_id <- which.max(sapply(html_table(item_tbls),
+                                  FUN = function(tbl) prod(dim(tbl)))) # basically find the table with the most number of cells. 
   
-      tbl_numbers0 <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
-        cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-        .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
-      ## clean the main titles and store to tbl_title0
-      ifelse((tbl_rowkeep[1]-1) == 1,
-             tbl_title0 <- item_table[1,-1],
-             tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
-                                 MARGIN = 2,
-                                 FUN = function(name) paste0(name, collapse = "")))
-      tbl_title <- c("item", tbl_title0, "period")
-      
-      # apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F], MARGIN = 2, FUN = function(name) paste0(name, collapse = ""))
-      
-      #### store duplicated and non-duplicated items
-      tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+  ## extract the table 
+  if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
+    ## 
+    item_htm2txt <- html_text(item_html, trim = T) # pure text document 
+    filing_item2_txt <- str_replace(string = item_htm2txt,
+                                    pattern = fixed(html_text(item_tbls[[item_tbl_id]], trim = F)), # use funciton `fixed` to find the exact match
+                                    replacement = "<footnotehere>" )
+    
+    ### extract the unit information 
+    item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+    
+    ### <Tables starts here!>
+    ### clean the table 
+    item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1)[-1,] %>%
+      .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
+      unique.matrix(MARGIN = 2)
+    # item_table %>% View("unique_col_row") 
+    
+    ### identify the rows to keep
+    tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
+    tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+    tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
+    
+    ### clean rows in the table 
+    tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
+      cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+      .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
+    ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
+    ifelse((tbl_rowkeep[1]-1) == 1,
+           tbl_title0 <- item_table[1,-1],
+           tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
+                               MARGIN = 2, 
+                               FUN = function(name) paste0(name, collapse = "")))
+    tbl_title <- c("item", tbl_title0, "period")
+    
+    ### store duplicated and non-duplicated column headers
+    tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+    #### check whether have duplicated columns 
+    if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
       tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
-      
-      tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>%
-        split(., seq(nrow(.))) %>% # record the repeated headers. 
-        sapply(FUN = function(id) str_replace(paste(tbl_numbers0[, id[1]],
-                                                    tbl_numbers0[, id[2]],
+      tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
+        split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
+        sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
+                                                    tbl_numbers[, id[2]],
                                                     sep = ""), 
                                               pattern = "\\$|(\\s*?)\\(\\d\\)",
                                               replacement = "")) %>%
-        cbind(tbl_numbers0[, tbl_title_nonduplicated]) %>% # cbind with non-duplicated headers. 
+        cbind(tbl_numbers[, tbl_title_nonduplicated]) %>% # cbind with non-duplicated headers. 
         `colnames<-`(value = tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)])
-      
-      ### return the cleaned table
-      tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
-      # tbl_numbers_cleaned %>% View
-      return(list(table = as.matrix(tbl_numbers_cleaned), 
-                  parts = filing_item2_txt,
-                  table_unit = item_table_unit
-      ) )
-      
-    } else { # if no table in the item 
-      return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = html_text(item_html, trim = T),  
-                  table_unit = NA ))
-    }
+    } ## otherwise just use the old tbl_numbers 
+    
+    ### return the cleaned table
+    tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+    # tbl_numbers_cleaned %>% View
+    return(list(table = as.matrix(tbl_numbers_cleaned), 
+                parts = filing_item2_txt,
+                table_unit = item_table_unit
+    ) )
+    
+  } else { # if no table in the item 
+    return(list(table = NULL,
+                parts = html_text(item_html, trim = T),  
+                table_unit = NULL ))
+  }
   }
 }
 
