@@ -75,12 +75,12 @@ loc.item  <- function(x, # filing
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
-tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total)', # the regex for the kept row(s)
+tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-])', # the regex for the kept row(s)
                         row_name, # the name of each row
                         filing_qrt # the filing quarter 
 ) {
   # identify the rows that match the regex_row
-  tbl_periods_id <- grep(pattern = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total)', row_name) # id_row for the periods
+  tbl_periods_id <- grep(pattern = regex_row, row_name) # id_row for the periods
   tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
   # identify the kept rows
   tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
