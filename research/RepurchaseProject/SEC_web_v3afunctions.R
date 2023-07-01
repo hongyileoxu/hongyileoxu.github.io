@@ -65,7 +65,7 @@ loc.item  <- function(x, # filing
     ## check whether the 1st location is found
     if (length(loc_item1) > 0) { # if the first is identified
       loc_item2 <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T, value = F)[1] + loc_item1
-      ifelse(length(loc_item2) == 0, loc_item <- c(loc_item1, length(x)), loc_item <- c(loc_item1, loc_item2))
+      ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2)) 
     } else { # if the first is not identified
       loc_item <- rep(NA, 2)
     }
