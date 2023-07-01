@@ -180,10 +180,11 @@ filing.item <- function(x, # filing
                                                     sep = ""), 
                                               pattern = "\\$|(\\s*?)\\(\\d\\)",
                                               replacement = "")) %>%
-        cbind(tbl_numbers[, tbl_title_nonduplicated]) %>% # cbind with non-duplicated headers. 
-        `colnames<-`(value = tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)])
+        cbind(tbl_numbers[, tbl_title_nonduplicated]) # cbind with non-duplicated headers. 
     } ## otherwise just use the old tbl_numbers 
-    
+
+    `colnames<-`(x = tbl_numbers, value = tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)])
+               
     ### return the cleaned table
     tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
     # tbl_numbers_cleaned %>% View
