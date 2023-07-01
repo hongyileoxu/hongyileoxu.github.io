@@ -42,7 +42,7 @@ loc.item  <- function(x, # filing
   toc <- filing.toc(x = x)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("Item 2.", "Item 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+  regex2 <- c("[>](Item|ITEM) 2.", "[>](Item|ITEM) 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
