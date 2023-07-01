@@ -117,7 +117,7 @@ filing.item <- function(x, # filing
   # find the table(s) 
   item_html <- read_html(paste0(item_txt, collapse = ""))
   item_tbls <- html_nodes(item_html, "table")
-  if (is.na(item_tbls)) { # if no table found in the item 
+  if (all(is.na(item_tbls))) { # if no table found in the item 
     return(list(table = NULL,
                 parts = html_text(item_html, trim = T),  
                 table_unit = NULL))
