@@ -118,9 +118,9 @@ filing.item <- function(x, # filing
   item_html <- read_html(paste0(item_txt, collapse = ""))
   item_tbls <- html_nodes(item_html, "table")
   if (all(is.na(item_tbls))) { # if no table found in the item 
-    return(list(table = NULL,
+    return(list(table = rep(NA, 4),
                 parts = html_text(item_html, trim = T),  
-                table_unit = NULL))
+                table_unit = NA))
   } else { # if there are tables!
     item_tbl_id <- which.max(sapply(html_table(item_tbls),
                                     FUN = function(tbl) prod(dim(tbl)))) # basically find the table with the most number of cells. 
@@ -184,9 +184,9 @@ filing.item <- function(x, # filing
       ) )
       
     } else { # if no table in the item 
-      return(list(table = NULL,
+      return(list(table = rep(NA, 4),
                   parts = html_text(item_html, trim = T),  
-                  table_unit = NULL ))
+                  table_unit = NA ))
     }
   }
 }
