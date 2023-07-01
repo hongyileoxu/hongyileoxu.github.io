@@ -114,8 +114,8 @@ filing.item <- function(x, # filing
     # find the table(s) 
     item_html <- read_html(paste0(item_txt, collapse = ""))
     item_tbls <- html_nodes(item_html, "table")
-    item_tbl_id <- grep(pattern = "Total", x = item_tbls, fixed = T)[1]  # identify the correct table
-    
+    item_tbl_id <- grep(pattern = "Paid\\s*Per\\s*Share", x = html_text(item_tbls), ignore.case = T)[1]  # identify the correct table
+  
     ## extract the table 
     if (!is.na(item_tbl_id)) {
       ## extract the txt header and/or footnote from the item
