@@ -105,10 +105,17 @@ filing.item <- function(x, # filing
 ) { 
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
-    item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
-                                  pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
-    item_txt <- str_extract(string = item_parse, 
-                            pattern = paste0("^(.*?)", item_id[2], collapse = ""))
+    if (any(is.na(item.id))) {
+      item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
+                                    pattern = item, n = Inf) %>% .[1, ncol(.)]
+      item_txt <- str_extract(string = item_parse, 
+                              pattern = "^(.*?)[itemITEM]{4}\\s*\\d{1}[.]")
+    } else {
+      item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
+                                    pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
+      item_txt <- str_extract(string = item_parse, 
+                              pattern = paste0("^(.*?)", item_id[2], collapse = ""))
+    }
   } else {
     # the full item 
     item_txt <- x[loc_item[1]:loc_item[2]] 
