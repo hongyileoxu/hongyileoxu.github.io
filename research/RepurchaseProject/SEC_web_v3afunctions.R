@@ -105,7 +105,7 @@ filing.item <- function(x, # filing
 ) { 
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
-    if (any(is.na(item.id))) {
+    if (any(is.na(item_id))) {
       item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
                                     pattern = item, n = Inf) %>% .[1, ncol(.)]
       item_txt <- str_extract(string = item_parse, 
