@@ -120,18 +120,18 @@ filing.item <- function(x, # filing
   
   # find the table(s) 
   item_html <- read_html(paste0(item_txt, collapse = ""))
-  item_tbls <- html_nodes(item_html, "table")
   if (all(is.na(item_tbls))) { # if no table found in the item 
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = html_text(item_html, trim = T),  
                 table_unit = NA))
   } else { # if there are tables!
+  item_tbls <- html_nodes(item_html, "table") 
   item_tbl_id <- which.max(sapply(html_table(item_tbls),
                                   FUN = function(tbl) prod(dim(tbl)))) # basically find the table with the most number of cells. 
   
   ## extract the table 
   if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
-    ## 
+    ## extract the item text information 
     item_htm2txt <- html_text(item_html, trim = T) # pure text document 
     filing_item2_txt <- sub(pattern = gsub(pattern = "([()\\$\\[\\]])", replacement = "\\\\\\1", # replacing special characters by regex
                                              html_text(item_tbls[[item_tbl_id]], trim = T), perl = T),
