@@ -81,16 +81,20 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total
 ) {
   # identify the rows that match the regex_row
   tbl_periods_id <- grep(pattern = regex_row, row_name) # id_row for the periods
-  tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
-  # identify the kept rows
-  tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
-                         y = subset(tbl_periods_id, tbl_periods_times != 1))
-  # create the `period` column 
-  tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
-  tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
-  # return values
-  return(list(rowkeep = tbl_rowkeep, 
-              period = tbl_periods))
+  if (length(tbl_periods_id) > 0) { # check if the table is valid
+    tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
+    # identify the kept rows
+    tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
+                           y = subset(tbl_periods_id, tbl_periods_times != 1))
+    # create the `period` column 
+    tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
+    tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
+    # return values
+    return(list(rowkeep = tbl_rowkeep, 
+                period = tbl_periods))
+  } else { # table is not actual there !!!
+    return(NA) # indicating no table in there!
+  }
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -157,47 +161,54 @@ filing.item <- function(x, # filing
             
       ### identify the rows to keep
       tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
-      tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
-      tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
-      
-      ### clean rows in the table 
-      tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
-        cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-        .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
-      
-      ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
-      ifelse((tbl_rowkeep[1]-1) == 1,
-             tbl_title0 <- item_table[1,-1],
-             tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
-                                 MARGIN = 2, 
-                                 FUN = function(name) paste0(name, collapse = "")))
-      tbl_title <- c("item", tbl_title0, "period")
-      
-      ### store duplicated and non-duplicated column headers
-      tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
-      tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
-      #### check whether have duplicated columns 
-      if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
-        tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
-          split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
-          sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
-                                                      tbl_numbers[, id[2]],
-                                                      sep = ""), 
-                                                pattern = "\\$|(\\s*?)\\(\\d\\)",
-                                                replacement = "")) %>%
-          cbind(tbl_numbers[, tbl_title_nonduplicated]) # cbind with non-duplicated headers. 
-      } ## otherwise just use the old tbl_numbers 
-      
-      colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)]
-      
-      ### return the cleaned table
-      tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
-      # tbl_numbers_cleaned %>% View
-      return(list(table = as.matrix(tbl_numbers_cleaned), 
-                  parts = filing_item2_txt,
-                  table_unit = item_table_unit
-      ) )
-      
+
+      if (is.na(tbl_rowkeep_info)) { # IF THE TABLE IS NOT VALID
+        # no actual table can be identified 
+        return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                    parts = html_text(item_html, trim = T),  
+                    table_unit = NA ))
+      } else { # Continue for a valid table      
+        tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+        tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
+        
+        ### clean rows in the table 
+        tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
+          cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+          .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
+        
+        ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
+        ifelse((tbl_rowkeep[1]-1) == 1,
+               tbl_title0 <- item_table[1,-1],
+               tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
+                                   MARGIN = 2, 
+                                   FUN = function(name) paste0(name, collapse = "")))
+        tbl_title <- c("item", tbl_title0, "period")
+        
+        ### store duplicated and non-duplicated column headers
+        tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+        tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
+        #### check whether have duplicated columns 
+        if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
+          tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
+            split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
+            sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
+                                                        tbl_numbers[, id[2]],
+                                                        sep = ""), 
+                                                  pattern = "\\$|(\\s*?)\\(\\d\\)",
+                                                  replacement = "")) %>%
+            cbind(tbl_numbers[, tbl_title_nonduplicated]) # cbind with non-duplicated headers. 
+        } ## otherwise just use the old tbl_numbers 
+        
+        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)]
+        
+        ### return the cleaned table
+        tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+        # tbl_numbers_cleaned %>% View
+        return(list(table = as.matrix(tbl_numbers_cleaned), 
+                    parts = filing_item2_txt,
+                    table_unit = item_table_unit
+        ) )
+      }
     } else { # if no table in the item 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
                   parts = html_text(item_html, trim = T),  
