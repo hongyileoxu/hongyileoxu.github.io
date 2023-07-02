@@ -165,7 +165,7 @@ filing.item <- function(x, # filing
       ### identify the rows to keep
       tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
 
-      if (is.na(tbl_rowkeep_info)) { # IF THE TABLE IS NOT VALID
+      if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
         # no actual table can be identified 
         return(list(table = matrix(NA, nrow = 1, ncol = 4),
                     parts = html_text(item_html, trim = T),  
