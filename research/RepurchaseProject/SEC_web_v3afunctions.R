@@ -107,10 +107,10 @@ filing.item <- function(x, # filing
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
     if (any(is.na(item_id))) {
-      item_parse <- sub(pattern = fixed(paste(".", item, sep="")), "*", x[loc_item[1]])
+      item_parse <- sub(pattern = paste(".*", item, sep = "")[1], "*", x[loc_item[1]])
       item_txt <- sub(pattern = "[>][itemITEM]{4}\\s*\\d{1}\\..*", "", item_parse)
     } else {
-      item_parse <- sub(pattern = paste(".", item_id[1], sep=""), "*", x[loc_item[1]])
+      item_parse <- sub(pattern = paste(".*", item_id[1], sep = "")[1], "*", x[loc_item[1]])
       item_txt <- sub(pattern = paste(item_id[2], ".*", sep=""), "", item_parse)
     }
   } else {
