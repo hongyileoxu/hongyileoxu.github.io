@@ -166,9 +166,9 @@ filing.item <- function(x, # filing
     
     ### store duplicated and non-duplicated column headers
     tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+    tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
     #### check whether have duplicated columns 
     if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
-      tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
       tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
         split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
         sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
