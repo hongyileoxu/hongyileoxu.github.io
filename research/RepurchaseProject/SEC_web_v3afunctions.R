@@ -54,7 +54,7 @@ loc.item  <- function(x, # filing
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
     loc_item <- vapply(X = item_id,
                        FUN = function(p) {
-                         loc_item0 <- grep(pattern = p, x = x, fixed = T)
+                         loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x) # the regex is modified to match the exact pattern in html
                          return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
                        },
                        FUN.VALUE = numeric(1))
