@@ -129,7 +129,7 @@ filing.item <- function(x, # filing
   
   if ((grepl(pattern = "<table>|</table>", item_html, ignore.case = T)) == FALSE) { # if no table found in the item # all(is.na(item_tbls))
     print("No Table!")
-    return(list(table = matrix(NA, nrow = 1, ncol = 5),
+    return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = html_text(item_html, trim = T),  
                 table_unit = NA))
   } else { # if there are tables!
