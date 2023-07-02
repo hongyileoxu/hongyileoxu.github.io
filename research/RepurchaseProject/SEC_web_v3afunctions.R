@@ -175,7 +175,7 @@ filing.item <- function(x, # filing
         tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
         
         ### clean rows in the table 
-        tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),] %>% # remove the first(several) line(s) and keep only the numbers
+        tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)), , drop = F] %>% # remove the first(several) line(s) and keep only the numbers
           cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
           .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
         
