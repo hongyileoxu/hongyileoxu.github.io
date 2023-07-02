@@ -42,7 +42,7 @@ loc.item  <- function(x, # filing
   toc <- filing.toc(x = x)
   
   regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("[>](Item|ITEM) 2.", "[>](Item|ITEM) 5.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+  regex2 <- c("[>][itemITEM]{4}\\s*2\\.", "[>][itemITEM]{4}\\s*5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
@@ -107,15 +107,11 @@ filing.item <- function(x, # filing
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
     if (any(is.na(item_id))) {
-      item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
-                                    pattern = item, n = Inf) %>% .[1, ncol(.)]
-      item_txt <- str_extract(string = item_parse, 
-                              pattern = "^(.*?)[itemITEM]{4}\\s*\\d{1}[.]")
+      item_parse <- sub(pattern = fixed(paste(".", item, sep="")), "*", x[loc_item[1]])
+      item_txt <- sub(pattern = "[>][itemITEM]{4}\\s*\\d{1}\\..*", "", item_parse)
     } else {
-      item_parse <- str_split_fixed(string = x[loc_item[1]:loc_item[2]],
-                                    pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
-      item_txt <- str_extract(string = item_parse, 
-                              pattern = paste0("^(.*?)", item_id[2], collapse = ""))
+      item_parse <- sub(pattern = paste(".", item_id[1], sep=""), "*", x[loc_item[1]])
+      item_txt <- sub(pattern = paste(item_id[2], ".*", sep=""), "", item_parse)
     }
   } else {
     # the full item 
