@@ -133,8 +133,8 @@ filing.item <- function(x, # filing
   if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
     ## 
     item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-    filing_item2_txt <- sub(pattern = gsub(pattern = "\\$", "\\\\$", # replace unnecessary `$` signs
-                                             fixed(html_text(item_tbls[[item_tbl_id]], trim = T))),
+    filing_item2_txt <- sub(pattern = gsub(pattern = "([()\\$\\[\\]])", replacement = "\\\\\\1", # replacing special characters by regex
+                                             html_text(item_tbls[[item_tbl_id]], trim = T), perl = T),
                               replacement = "<footnote>",
                               x = item_htm2txt)
     
