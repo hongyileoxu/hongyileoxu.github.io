@@ -177,7 +177,7 @@ filing.item <- function(x, # filing
         ### clean rows in the table 
         tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)), , drop = F] %>% # remove the first(several) line(s) and keep only the numbers
           cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-          .[tbl_rowkeep+1-tbl_rowkeep[1],] # clean duplicated rows 
+          .[tbl_rowkeep+1-tbl_rowkeep[1], , drop = F] # clean duplicated rows 
         
         ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
         ifelse((tbl_rowkeep[1]-1) == 1,
