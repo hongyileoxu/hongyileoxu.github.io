@@ -75,7 +75,7 @@ loc.item  <- function(x, # filing
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
-tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-])', # the regex for the kept row(s)
+tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-]|\\d+\\/\\d+\\/\\d+)', # the regex for the kept row(s)
                         row_name, # the name of each row
                         filing_qrt # the filing quarter 
 ) {
@@ -133,9 +133,10 @@ filing.item <- function(x, # filing
   if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
     ## 
     item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-    filing_item2_txt <- str_replace(string = item_htm2txt,
-                                    pattern = fixed(html_text(item_tbls[[item_tbl_id]], trim = F)), # use funciton `fixed` to find the exact match
-                                    replacement = "<footnotehere>" )
+    filing_item2_txt <- sub(pattern = gsub(pattern = "\\$", "\\\\$", # replace unnecessary `$` signs
+                                             fixed(html_text(item_tbls[[item_tbl_id]], trim = T))),
+                              replacement = "<footnote>",
+                              x = item_htm2txt)
     
     ### extract the unit information 
     item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
