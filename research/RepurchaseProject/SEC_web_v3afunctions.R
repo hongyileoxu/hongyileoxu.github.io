@@ -115,12 +115,8 @@ filing.item <- function(x, # filing
       item_txt <- sub(pattern = "[>][itemITEM]{4}\\s*\\d{1}\\..*", "", item_parse)
     } else {
       print("Yes! item_id")
-      item_parse <- sub(pattern = paste(".*", item_id[1], sep = "")[1], "", x[loc_item[1]])
-      item_txt <- sub(pattern = paste(item_id[2], ".*", sep=""), "", item_parse)
-      # item_parse <- str_split_fixed(string = x[loc_item[1]],
-      #                               pattern = item_id[1], n = Inf) %>% .[1, ncol(.)]
-      # item_txt <- str_extract(string = item_parse, 
-      #                         pattern = paste0("^(.*?)", item_id[2], collapse = ""))
+      item_parse <- sub(pattern = paste(".*(\"|\')", item_id[1], "(\"|\')", sep = "")[1], "", x[loc_item[1]])
+      item_txt <- sub(pattern = paste("(\"|\')", item_id[2], "(\"|\')", ".*", sep=""), "", item_parse)
     }
   } else {
     # the full item 
@@ -151,7 +147,7 @@ filing.item <- function(x, # filing
                               x = item_htm2txt)
       
       ### extract the unit information 
-      item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+      item_table_unit <- str_extract(string = item_htm2txt, pattern = "\\(in[^()]+\\)")
       
       ### <Tables starts here!>
       ### clean the table 
@@ -225,8 +221,8 @@ filing.item0 <- function(x, # filing
       item_parse <- sub(pattern = paste(".*", item, sep = "")[1], "*", x[loc_item[1]])
       item_txt <- sub(pattern = "[>][itemITEM]{4}\\s*\\d{1}\\..*", "", item_parse)
     } else {
-      item_parse <- sub(pattern = paste(".*", item_id[1], sep = "")[1], "*", x[loc_item[1]])
-      item_txt <- sub(pattern = paste(item_id[2], ".*", sep=""), "", item_parse)
+      item_parse <- sub(pattern = paste(".*(\"|\')", item_id[1], "(\"|\')", sep = "")[1], "", x[loc_item[1]])
+      item_txt <- sub(pattern = paste("(\"|\')", item_id[2], "(\"|\')", ".*", sep=""), "", item_parse)
     }
   } else {
     # the full item 
@@ -254,7 +250,8 @@ filing.item0 <- function(x, # filing
                               x = item_htm2txt)
     
     ### extract the unit information 
-    item_table_unit <- str_extract(string = item_htm2txt, pattern = '\\(\\in\\s\\w+(,.+|)\\)')
+    item_table_unit <- str_extract(string = item_htm2txt, pattern = "\\(in[^()]+\\)")
+    
     
     ### <Tables starts here!>
     ### clean the table 
