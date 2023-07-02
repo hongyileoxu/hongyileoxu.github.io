@@ -138,11 +138,10 @@ filing.item <- function(x, # filing
                 table_unit = NA))
   } else { # if there are tables!
     item_tbls <- html_nodes(item_html, "table")
-    item_tbl_id <- which.max(sapply(html_table(item_tbls),
-                                    FUN = function(tbl) prod(dim(tbl)))) # basically find the table with the most number of cells. 
+    item_tbl_id <- grep(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T)[1] # identify the correct table
     
     ## extract the table 
-    if (grepl(pattern = "total|purchase|repurchase", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
+    if (grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T)) {
       ## 
       item_htm2txt <- html_text(item_html, trim = T) # pure text document 
       filing_item2_txt <- sub(pattern = gsub(pattern = "([()\\$\\[\\]])", replacement = "\\\\\\1", 
