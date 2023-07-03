@@ -197,17 +197,24 @@ filing.item <- function(x, # filing
         tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
         #### check whether have duplicated columns 
         if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
-          tbl_numbers <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
+          tbl_numbers_nondup <- tbl_numbers[, tbl_title_nonduplicated,drop=F] # non-duplicated columns 
+          tbl_numbers_dup <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
             split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
             sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
-                                                        tbl_numbers[, id[2]],
+                                                        tbl_numbers[, id[2]], # merge cells in the same row
                                                         sep = ""), 
                                                   pattern = "\\$|(\\s*?)\\(\\d\\)",
-                                                  replacement = "")) %>%
-            cbind(tbl_numbers[, tbl_title_nonduplicated]) # cbind with non-duplicated headers. 
+                                                  replacement = ""))
+           if (is.matrix(tbl_numbers_dup)) {
+              tbl_numbers <- cbind(tbl_numbers_dup, tbl_numbers_nondup)
+            } else {
+              tbl_numbers <- cbind(matrix(tbl_numbers_dup, nrow = 1), tbl_numbers_nondup)
+            }  # cbind with non-duplicated headers. 
         } ## otherwise just use the old tbl_numbers 
+                   
         #### append back the column headers
         colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
+        
         ### return the cleaned table - from wide to long
         tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
 
