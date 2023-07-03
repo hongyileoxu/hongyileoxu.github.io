@@ -1,5 +1,4 @@
 # =================================================================
-
 # 0. import libraries ---- 
 library(rvest)
 library(xml2) # for modify nodes in htmlß
@@ -7,7 +6,6 @@ library(tidyverse)
 library(reshape2)
 library(htm2txt) # convert html to txt. # not very useful
 library(gt) # just for beautiful tables
-
 # =================================================================
 
 # a. filing.header(): extract the header info from the filing ----
@@ -233,9 +231,9 @@ filing.item <- function(x, # filing
 
 # f. filing.cleaned(): the aggregate function function ----
 ## this function returns the cleaned header info, table, table_unit and parts (header and footnote in the item)
-filing.cleaned <- function(loc_file # name of the filing
-                           , zip_file # name of the zipped file 
-                           , text_break_node # xml text to replace the identified table 
+filing.cleaned <- function(loc_file, # name of the filing
+                           zip_file, # name of the zipped file 
+                           text_break_node # xml text to replace the identified table 
 ) { 
   ## import the txt filing 
   filing <- readLines(unz(zip_file, loc_file))
