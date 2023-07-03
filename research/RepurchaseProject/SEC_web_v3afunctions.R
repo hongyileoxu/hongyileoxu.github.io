@@ -112,6 +112,7 @@ filing.item <- function(x, # filing
                         item_id, # the identifier from 'href' for the section 
                         item, # the number of the item 
                         filing_qrt, # the quarter the filing was made 
+                        text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
                         parts = c("footnote") # the parts of information that you want 
 ) { 
@@ -251,6 +252,7 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  loc_item = loc_item2$loc_item,
                                  item_id = loc_item2$item_id,
                                  item = loc_item2$item_id,
+                                 text_break_node = text_break_node, 
                                  filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})'),
                                  parts = "footnote")
   }
