@@ -136,7 +136,7 @@ filing.item <- function(x, # filing
   item_html <- read_html(paste(item_txt, collapse = ""))
   # html_text(item_html)
   
-  if ((grepl(pattern = "<table>|</table>", item_html, ignore.case = T)) == FALSE) { # if no table found in the item # all(is.na(item_tbls))
+  if ((grepl(pattern = "<table>|</table>", item_html, ignore.case = T)) == FALSE) { # if no table found in the item 
     print("No Table!")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = html_text(item_html, trim = T),  
@@ -148,19 +148,11 @@ filing.item <- function(x, # filing
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
                FALSE, # if no table is identified
-               grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = html_text(item_tbls[[item_tbl_id]]), ignore.case = T) # check again the table is correct
+               grepl(pattern = "total.*number.*of|Average.*Price.*Paid",
+                     x = html_text(item_tbls[[item_tbl_id]]),
+                     ignore.case = T) # check again the table is correct
                )
-      ) {
-      ## extract the item text 
-      item_htm2txt <- html_text(item_html, trim = T) # pure text document 
-      filing_item2_txt <- sub(pattern = gsub(pattern = "([()\\$\\[\\]])", replacement = "\\\\\\1", 
-                                             html_text(item_tbls[[item_tbl_id]], trim = T), perl = T),
-                              replacement = "<footnote>",
-                              x = item_htm2txt)
-      
-      ### extract the unit information 
-      item_table_unit <- str_extract(string = item_htm2txt, pattern = "\\(in[^()]+\\)")
-      
+      ) { 
       ### <Tables starts here!>
       ### clean the table 
       item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix
@@ -206,11 +198,20 @@ filing.item <- function(x, # filing
                                                   replacement = "")) %>%
             cbind(tbl_numbers[, tbl_title_nonduplicated]) # cbind with non-duplicated headers. 
         } ## otherwise just use the old tbl_numbers 
-        
-        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)]
-        
-        ### return the cleaned table
+        #### append back the column headers
+        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
+        ### return the cleaned table - from wide to long
         tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+
+        ## <table unit information>
+        ## extract the unit information 
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s[^()]+\\)")
+        
+        ## <text info excl. table>
+        ## extract item text and exclude the table. 
+        xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
+        filing_item2_txt <- html_text(item_html, trim = T) # store the txt excl. table
+                   
         # tbl_numbers_cleaned %>% View
         return(list(table = as.matrix(tbl_numbers_cleaned), 
                     parts = filing_item2_txt,
