@@ -78,7 +78,7 @@ loc.item  <- function(x, # filing
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
-tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-]|\\d+\\/\\d+\\/\\d+)', # the regex for the kept row(s)
+tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
                         row_name, # the name of each row
                         filing_qrt # the filing quarter 
 ) {
