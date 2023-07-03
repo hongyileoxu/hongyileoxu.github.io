@@ -48,7 +48,7 @@ loc.item  <- function(x, # filing
   
   item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
                                                            x = html_text(toc_txt), 
-                                                           ignore.case = T)) + 0:6],"href"))[1:2],
+                                                           ignore.case = T)):length(toc_txt)],"href"))[1:2],
                   pattern = '#', replacement = '')
   
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
