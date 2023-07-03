@@ -2,10 +2,11 @@
 
 # 0. import libraries ---- 
 library(rvest)
+library(xml2) # for modify nodes in htmlß
 library(tidyverse)
-library(htm2txt) # convert html to txt. 
 library(reshape2)
-library(gt)
+library(htm2txt) # convert html to txt. # not very useful
+library(gt) # just for beautiful tables
 
 # =================================================================
 
