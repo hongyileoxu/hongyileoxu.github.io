@@ -157,7 +157,7 @@ filing.item <- function(x, # filing
       ### <Tables starts here!>
       ### clean the table 
       item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
-        .[-which.max(rowSums(is.na(.))), ] %>% # exclude the mostly empty line. 
+        .[-which.max(rowSums(is.na(.))), ] %>%  # exclude the mostly empty line. 
         .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
         unique.matrix(MARGIN = 2)
             
