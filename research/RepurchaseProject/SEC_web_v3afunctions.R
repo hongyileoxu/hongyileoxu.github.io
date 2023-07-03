@@ -157,19 +157,20 @@ filing.item <- function(x, # filing
       ### <Tables starts here!>
       ### clean the table 
       item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
-        .[-which.max(rowSums(is.na(.))), ] %>%  # exclude the mostly empty line. 
-        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% # colSums(is.na(.))==0
-        unique.matrix(MARGIN = 2)
+        .[-which.max(rowSums(is.na(.))), ] %>% # exclude the mostly empty line. 
+        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$"))] %>% 
+        unique.matrix(MARGIN = 2) 
             
       ### identify the rows to keep
       tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
 
       if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
-        # no actual table can be identified 
+        ## no actual table can be identified 
         return(list(table = matrix(NA, nrow = 1, ncol = 4),
                     parts = html_text(item_html, trim = T),  
                     table_unit = NA ))
-      } else { # Continue for a valid table      
+      } else { 
+        ## Continue for a valid table      
         tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
         tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
         
