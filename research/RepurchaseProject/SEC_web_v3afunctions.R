@@ -46,10 +46,14 @@ loc.item  <- function(x, # filing
   
   toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
   
-  item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
-                                                           x = html_text(toc_txt), 
-                                                           ignore.case = T)):length(toc_txt)],"href"))[1:2],
-                  pattern = '#', replacement = '')
+  if (length(grep(pattern = regex, x = html_text(toc_txt), ignore.case = T)) == 0) { # if no one is found
+    item_id <- rep(NA, 2)
+  } else { # if there are items in their
+    item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
+                                                             x = html_text(toc_txt), 
+                                                             ignore.case = T)):length(toc_txt)],"href"))[1:2],
+                    pattern = '#', replacement = '')
+  } 
   
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
     loc_item <- vapply(X = item_id,
