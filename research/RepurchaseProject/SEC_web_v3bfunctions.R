@@ -171,11 +171,17 @@ filing.item <- function(x, # filing
         ## Continue for a valid table      
         tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
         tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
-        
+
         ### clean rows in the table 
-        tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)), , drop = F] %>% # remove the first(several) line(s) and keep only the numbers
-          cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-          .[tbl_rowkeep+1-tbl_rowkeep[1], , drop = F] # clean duplicated rows 
+        if (tbl_rowkeep[1]-1 == 0) {
+          tbl_numbers <- item_table %>% # remove the first(several) line(s) and keep only the numbers
+            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
+        } else {
+          tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),, drop = F] %>% # remove the first(several) line(s) and keep only the numbers
+            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
+        }
         
         ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
         ifelse((tbl_rowkeep[1]-1) == 1,
