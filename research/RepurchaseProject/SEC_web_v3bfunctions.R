@@ -57,22 +57,23 @@ loc.item  <- function(x, # filing
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
     loc_item <- vapply(X = item_id,
                        FUN = function(p) {
-                         loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x) # the regex is modified to match the exact pattern in html
+                         loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
                          return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
                        },
                        FUN.VALUE = numeric(1))
   } else { # if no url or link/identifier is found
-    ## look for all the items   
+    ## look for all the items 
     item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of each item
-    loc_item1 <- item_all[tail(grep(pattern = regex2, x = htm2txt(x[item_all]), ignore.case = T), 1)]  # find the match
+    loc_item1 <- item_all[tail(grep(pattern = regex2, x = x[item_all], ignore.case = T), 1)]  # find the match
     ## check whether the 1st location is found
     if (length(loc_item1) > 0) { # if the first is identified
       loc_item2 <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T, value = F)[1] + loc_item1
-      ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2)) 
+      ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
     } else { # if the first is not identified
       loc_item <- rep(NA, 2)
     }
   }
+  
   ## return the location, id, and item number (i.e. item 2 or 5)
   return(list(loc_item = loc_item, item_id = item_id, item = regex2))
 }
