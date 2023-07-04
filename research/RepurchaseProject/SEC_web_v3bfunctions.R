@@ -143,9 +143,9 @@ filing.item <- function(x, # filing
 ) { 
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
-    print("same loc_item")
+    print('same loc_item')
     if (any(is.na(item_id)) == TRUE) {
-      # print("no item_id")
+      # print('no item_id')
       item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
       item_txt <- sub(pattern = "(>?)[itemITEM]{4}.*", "", item_parse) 
     } else {
