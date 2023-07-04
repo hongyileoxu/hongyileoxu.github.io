@@ -96,19 +96,33 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|to|[-]|\\d+
                         filing_qrt # the filing quarter 
 ) {
   # identify the rows that match the regex_row
-  tbl_periods_id <- unique(c(grep(pattern = regex_row, row_name), max(which(row_name != "")))) # id_row for the periods
-  if (length(tbl_periods_id) > 0) { # check if the table is valid
-    tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
-    # identify the kept rows
-    tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
-                           y = subset(tbl_periods_id, tbl_periods_times != 1))
-    # create the `period` column 
-    tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
-    tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
+  tbl_periods_id <- grep(pattern = regex_row, row_name, ignore.case = T) # id_row for the periods
+  tbl_periods_last <- max(which(row_name != ""))
+  if (length(tbl_periods_id) > 0) {
+    
+    if (tbl_periods_last %in% tbl_periods_id) {
+      # the last row is included in tbl_periods_id
+      tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
+      # identify the kept rows
+      tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
+                             y = subset(tbl_periods_id, tbl_periods_times != 1))
+      # create the `period` column 
+      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
+      tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
+    } else {
+      # the last row is not included in tbl_periods_id (e.g. no row "total")
+      tbl_periods_times <- diff(c(tbl_periods_id, tbl_periods_last+1)) # time of repeat for each row 
+      # identify the kept rows
+      tbl_rowkeep <- setdiff(x = tbl_periods_id[1]:tbl_periods_last, 
+                             y = subset(tbl_periods_id, tbl_periods_times != 1))
+      # create the `period` column 
+      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
+    }
+    
     # return values
     return(list(rowkeep = tbl_rowkeep, 
                 period = tbl_periods))
-  } else { # table is not actual there !!!
+  } else {
     return(NA) # indicating no table in there!
   }
 }
