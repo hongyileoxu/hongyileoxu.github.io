@@ -75,7 +75,6 @@ loc.item  <- function(x, # filing
                        FUN.VALUE = numeric(1))
   } else { # if no url or link/identifier is found
     ## look for all the items 
-            # item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of all items
     loc_item1 <- tail(grep(pattern = regex1, x = x, ignore.case = T), 1)  # find the match
     ## check whether the 1st location is found
     if (length(loc_item1) > 0) { # if the first is identified
@@ -87,11 +86,11 @@ loc.item  <- function(x, # filing
   }
   
   ## return the location, id, and item number (i.e. item 2 or 5)
-  return(list(loc_item = loc_item, item_id = item_id, item = c(regex, regex2)))
+  return(list(loc_item = loc_item, item_id = item_id, item = c(regex1, regex2)))
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
-tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
+tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
                         row_name, # the name of each row
                         filing_qrt # the filing quarter 
 ) {
