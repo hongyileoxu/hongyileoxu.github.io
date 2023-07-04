@@ -146,7 +146,7 @@ filing.item <- function(x, # filing
     if (any(is.na(item_id)) == TRUE) {
       # print("no item_id")
       item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
-      item_txt <- sub(pattern = "[>][itemITEM]{4}.*", "", item_parse) 
+      item_txt <- sub(pattern = "(>?)[itemITEM]{4}.*", "", item_parse) 
     } else {
       print("Yes! item_id")
       item_parse <- sub(pattern = paste(".*(\"|\')", item_id[1], "(\"|\')", sep = "")[1], "", x[loc_item[1]])
