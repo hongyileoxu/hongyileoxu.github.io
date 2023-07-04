@@ -107,7 +107,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
                              y = subset(tbl_periods_id, tbl_periods_times != 1))
       # create the `period` column 
       tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times)
-      if (grepl(pattern = "Total", x = tail(tbl_periods, 1), ignore.case = T)) {
+      if (grepl(pattern = '[Total]{5}', x = tail(tbl_periods, 1), ignore.case = T)) {
         tbl_periods[length(tbl_periods)] <- filing_qrt # entering the filing quarter
       }
 
