@@ -106,8 +106,11 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
       tbl_rowkeep <- setdiff(x = head(tbl_periods_id, 1):tail(tbl_periods_id, 1), 
                              y = subset(tbl_periods_id, tbl_periods_times != 1))
       # create the `period` column 
-      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
-      tbl_periods[tbl_periods == "Total"] <- filing_qrt # entering the filing quarter
+      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times)
+      if (grepl(pattern = "Total", x = tail(tbl_periods, 1), ignore.case = T)) {
+        tbl_periods[length(tbl_periods)] <- filing_qrt # entering the filing quarter
+      }
+
     } else {
       # the last row is not included in tbl_periods_id (e.g. no row "total")
       tbl_periods_times <- diff(c(tbl_periods_id, tbl_periods_last+1)) # time of repeat for each row 
@@ -115,7 +118,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
       tbl_rowkeep <- setdiff(x = tbl_periods_id[1]:tbl_periods_last, 
                              y = subset(tbl_periods_id, tbl_periods_times != 1))
       # create the `period` column 
-      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times )
+      tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times)
     }
     
     # return values
