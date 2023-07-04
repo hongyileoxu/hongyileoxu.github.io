@@ -132,7 +132,7 @@ filing.item <- function(x, # filing
     print("same loc_item")
     if (any(is.na(item_id)) == TRUE) {
       # print("no item_id")
-      item_parse <- sub(pattern = paste(".*(", item[1], "|", item[2], ")", sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+      item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
       item_txt <- sub(pattern = "[>][itemITEM]{4}.*", "", item_parse) 
     } else {
       print("Yes! item_id")
@@ -148,7 +148,7 @@ filing.item <- function(x, # filing
   item_html <- read_html(paste(item_txt, collapse = ""))
   # html_text(item_html)
   
-  if ((grepl(pattern = "<table>|</table>", item_html, ignore.case = T)) == FALSE) { # if no table found in the item 
+  if (length(html_nodes(item_html, "table")) == 0) { # if no table found in the item 
     print("No Table!")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = html_text(item_html, trim = T),  
