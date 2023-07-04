@@ -38,22 +38,34 @@ loc.item  <- function(x, # filing
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
   ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
-  toc <- filing.toc(x = x)
+
+  regex1 <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
+  regex2 <- c("[>][itemITEM]{4}.+2\\.", "[>][itemITEM]{4}.+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
-  regex <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("[>][itemITEM]{4}\\s*2\\.", "[>][itemITEM]{4}\\s*5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
-  
-  toc_txt <- html_nodes(html_nodes(toc, "table"), "a") 
-  
-  if (length(grep(pattern = regex, x = html_text(toc_txt), ignore.case = T)) == 0) { # if no one is found
+  ## <Find item_id in the ToC>
+  toc_tbl <- html_nodes(filing.toc(x = x), "table") # tables including the toc
+  toc_tbl_id <- grep(pattern = "Part I", x = toc_tbl, ignore.case = T)[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
+  if (isTRUE(grepl(pattern = "href", x = toc_tbl[[toc_tbl_id]], ignore.case = T))) { 
+    # if such table exists & contains url 
+    ## find the row of item in the TOC
+    toc_row <- html_nodes(toc_tbl[[toc_tbl_id]], "tr") %>% # separate each row
+      .[grep("item", x = ., ignore.case = T)]
+    toc_row[grep("item", x = toc_row, ignore.case = T)]
+    toc_row_id <- grep(pattern = regex1, x = toc_row)[1] # separate and identify the row
+    
+    ## find the id for the item 
+    if (!is.na(toc_row_id)) { # if this item exists in the toc 
+      item_id1 <- html_attr(html_node(toc_row[toc_row_id], "a"), "href")[1]
+      item_id2 <- html_attr(html_node(toc_row[toc_row_id+1], "a"), "href")[1]
+      item_id <-  sub(pattern = '#', replacement = '', x = c(item_id1, item_id2))
+    } else {
+      item_id <- rep(NA, 2)
+    }
+  } else {
     item_id <- rep(NA, 2)
-  } else { # if there are items in their
-    item_id <- gsub(x = unique(html_attr(toc_txt[which(grepl(pattern = regex,
-                                                             x = html_text(toc_txt), 
-                                                             ignore.case = T)):length(toc_txt)],"href"))[1:2],
-                    pattern = '#', replacement = '')
-  } 
-  
+  }
+
+  ## <What if no url is found.>  
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
     loc_item <- vapply(X = item_id,
                        FUN = function(p) {
@@ -63,11 +75,11 @@ loc.item  <- function(x, # filing
                        FUN.VALUE = numeric(1))
   } else { # if no url or link/identifier is found
     ## look for all the items 
-    item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of each item
-    loc_item1 <- item_all[tail(grep(pattern = regex2, x = x[item_all], ignore.case = T), 1)]  # find the match
+            # item_all <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x, ignore.case = T) # the location of all items
+    loc_item1 <- tail(grep(pattern = regex1, x = x, ignore.case = T), 1)  # find the match
     ## check whether the 1st location is found
     if (length(loc_item1) > 0) { # if the first is identified
-      loc_item2 <- grep(pattern = "[>]item\\s*\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T, value = F)[1] + loc_item1
+      loc_item2 <- grep(pattern = "[>]item.+\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1
       ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
     } else { # if the first is not identified
       loc_item <- rep(NA, 2)
