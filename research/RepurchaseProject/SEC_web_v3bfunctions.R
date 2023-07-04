@@ -75,7 +75,7 @@ loc.item  <- function(x, # filing
   }
   
   ## return the location, id, and item number (i.e. item 2 or 5)
-  return(list(loc_item = loc_item, item_id = item_id, item = regex2))
+  return(list(loc_item = loc_item, item_id = item_id, item = c(regex, regex2)))
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
@@ -109,7 +109,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
-                        item, # the number of the item 
+                        item, # the regex for the item (item number./ item name)
                         filing_qrt, # the quarter the filing was made 
                         text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
