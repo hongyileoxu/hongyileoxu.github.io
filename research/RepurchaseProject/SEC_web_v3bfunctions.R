@@ -120,8 +120,8 @@ filing.item <- function(x, # filing
     print("same loc_item")
     if (any(is.na(item_id)) == TRUE) {
       # print("no item_id")
-      item_parse <- sub(pattern = paste(".*", item, sep = "")[1], "", x[loc_item[1]])
-      item_txt <- sub(pattern = "[>][itemITEM]{4}\\s*\\d{1}\\..*", "", item_parse)
+      item_parse <- sub(pattern = paste(".*(", item[1], "|", item[2], ")", sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+      item_txt <- sub(pattern = "[>][itemITEM]{4}.*", "", item_parse) 
     } else {
       print("Yes! item_id")
       item_parse <- sub(pattern = paste(".*(\"|\')", item_id[1], "(\"|\')", sep = "")[1], "", x[loc_item[1]])
