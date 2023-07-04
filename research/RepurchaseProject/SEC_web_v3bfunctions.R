@@ -78,7 +78,7 @@ loc.item  <- function(x, # filing
     loc_item1 <- tail(grep(pattern = regex1, x = x, ignore.case = T), 1)  # find the match
     ## check whether the 1st location is found
     if (length(loc_item1) > 0) { # if the first is identified
-      loc_item2 <- grep(pattern = "(>?)(Item|ITEM).+\\d{1}[.], x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1
+      loc_item2 <- grep(pattern = "(>?)(Item|ITEM).+\\d{1}[.], x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
       ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
     } else { # if the first is not identified
       loc_item <- rep(NA, 2)
