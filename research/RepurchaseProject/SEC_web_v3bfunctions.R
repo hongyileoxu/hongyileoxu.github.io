@@ -91,12 +91,12 @@ loc.item  <- function(x, # filing
 }
 
 # d. tbl.rowkeep(): sub-function for `filing.item` for table row cleaning  ----
-tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|total|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
+tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
                         row_name, # the name of each row
                         filing_qrt # the filing quarter 
 ) {
   # identify the rows that match the regex_row
-  tbl_periods_id <- grep(pattern = regex_row, row_name) # id_row for the periods
+  tbl_periods_id <- unique(c(grep(pattern = regex_row, row_name), max(which(row_name != "")))) # id_row for the periods
   if (length(tbl_periods_id) > 0) { # check if the table is valid
     tbl_periods_times <- c(diff(tbl_periods_id), 1) # time of repeat for each row 
     # identify the kept rows
