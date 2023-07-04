@@ -112,7 +112,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
       }
 
     } else {
-      # the last row is not included in tbl_periods_id (e.g. no row "total")
+      # the last row is not included in tbl_periods_id (e.g. no row 'total')
       tbl_periods_times <- diff(c(tbl_periods_id, tbl_periods_last+1)) # time of repeat for each row 
       # identify the kept rows
       tbl_rowkeep <- setdiff(x = tbl_periods_id[1]:tbl_periods_last, 
