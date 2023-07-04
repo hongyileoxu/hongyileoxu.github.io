@@ -146,15 +146,14 @@ filing.item <- function(x, # filing
   
   # find the table(s) 
   item_html <- read_html(paste(item_txt, collapse = ""))
-  # html_text(item_html)
-  
-  if (length(html_nodes(item_html, "table")) == 0) { # if no table found in the item 
+    
+  item_tbls <- html_nodes(item_html, "table")
+  if (length(item_tbls) == 0) { # if no table found in the item 
     print("No Table!")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = html_text(item_html, trim = T),  
                 table_unit = NA))
   } else { # if there are tables!
-    item_tbls <- html_nodes(item_html, "table")
     item_tbl_id <- grep(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T)[1] # identify the correct table
     
     ## extract the table 
