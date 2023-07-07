@@ -4,8 +4,8 @@ library(rvest)
 library(xml2) # for modify nodes in htmlß
 library(tidyverse)
 library(reshape2)
-library(htm2txt) # convert html to txt. # not very useful
-library(gt) # just for beautiful tables
+# library(htm2txt) # convert html to txt. # not very useful
+# library(gt) # just for beautiful tables
 # =================================================================
 
 # a. filing.header(): extract the header info from the filing ----
