@@ -4,6 +4,7 @@ library(rvest)
 library(xml2) # for modify nodes in htmlß
 library(tidyr)
 library(reshape2)
+library(stringr) # for str_squish 
 # library(htm2txt) # convert html to txt. # not very useful
 # library(gt) # just for beautiful tables
 # =================================================================
