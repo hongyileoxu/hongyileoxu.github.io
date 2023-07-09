@@ -294,8 +294,12 @@ filing.cleaned <- function(loc_file, # name of the filing
                            text_break_node # xml text to replace the identified table 
 ) { 
   ## import the txt filing 
-  filing <- readLines(unz(zip_file, loc_file))
-            
+  if (!is.null(zip_file)) {
+    filing <- readLines(unz(zip_file, loc_file))
+  } else {
+    filing <- readLines(loc_file)
+  }
+        
   ## store header info 
   info <- filing.header(x = filing) 
   selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
