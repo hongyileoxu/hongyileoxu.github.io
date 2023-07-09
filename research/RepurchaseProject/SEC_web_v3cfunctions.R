@@ -297,9 +297,12 @@ filing.cleaned <- function(loc_file, # name of the filing
   filing <- readLines(unz(zip_file, loc_file))
             
   ## store header info 
-  info <- t(filing.header(x = filing)[,2])
+  info <- filing.header(x = filing) 
+  selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
+  info_cleaned <- info[match(selected_headers, table = info[1:(grep("mail", info[,1], ignore.case = T)-1),1]), 2] # all info before section "MAIL ADDRESS:"
+    
   ## store item location
-  loc_item2 <- loc.item(x = filing, filing_type = substr(info[2], start = 1, stop = 4) )
+  loc_item2 <- loc.item(x = filing, filing_type = substr(info[2,2], start = 1, stop = 4) )
   if (all(is.na(loc_item2$loc_item))) { 
     ## check whether the item is in the document
     item2_cleaned <- list(table = matrix(NA, nrow = 1, ncol = 4),
@@ -316,10 +319,43 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  parts = "footnote")
   }
   ## return output 
-  return(c(list(info = info), # store header info
+  return(c(list(info = info_cleaned), # store header info
               item2_cleaned)) # combine info with cleaned table 
 } 
 
+
+# g. filing.cleaned_parallel(): the filing.cleaned() function for parallel ---- 
+## this is based on funtion `filing.cleaned` and gives to output in parallel computing  
+filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node) {
+  ## use `filing.cleaned` first to generate outputs 
+  res_filing.cleaned <- try(
+    filing_cleaned <- filing.cleaned(loc_file,
+                                     zip_file, 
+                                     text_break_node), 
+    silent = T
+  )
+  
+  ## whether error in the `filing.cleaned` function 
+  if (inherits(res_filing.cleaned, "try-error")) { # if error 
+    return(list(info = c(loc_file, zip_file),
+                item2_cleaned = matrix("ERROR", nrow = 1, ncol = 4))) # store the file info in `info` and NA in `item2_cleaned`.  
+  } else {
+    # store values
+    if (ncol(filing_cleaned$table) != 4) {
+      return(list(info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts),
+                  item2_cleaned = matrix("ERROR", nrow = 1, ncol = 4))) # store the file info in `info` and NA in `item2_cleaned`.  
+    } else {
+      ## store table data 
+      return(list(
+        filing_info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts), 
+        repurchase_tbl = filing_cleaned$table 
+      ))
+    }
+  }
+}
+
+                   
+                   
 # Appendix. list of built-in functions----
 lsf.str()
 
