@@ -326,7 +326,10 @@ filing.cleaned <- function(loc_file, # name of the filing
 
 # g. filing.cleaned_parallel(): the filing.cleaned() function for parallel ---- 
 ## this is based on funtion `filing.cleaned` and gives to output in parallel computing  
-filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node) {
+filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors = 1) {
+  ## set the error return format
+  error <- list("NA", matrix("ERROR", nrow = 1, ncol = 4))[[errors]]
+  
   ## use `filing.cleaned` first to generate outputs 
   res_filing.cleaned <- try(
     filing_cleaned <- filing.cleaned(loc_file,
@@ -338,12 +341,12 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node) {
   ## whether error in the `filing.cleaned` function 
   if (inherits(res_filing.cleaned, "try-error")) { # if error 
     return(list(info = c(loc_file, zip_file),
-                item2_cleaned = matrix("ERROR", nrow = 1, ncol = 4))) # store the file info in `info` and NA in `item2_cleaned`.  
+                item2_cleaned = error)) # store the file info in `info` and NA in `item2_cleaned`.  
   } else {
     # store values
     if (ncol(filing_cleaned$table) != 4) {
       return(list(info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts),
-                  item2_cleaned = matrix("ERROR", nrow = 1, ncol = 4))) # store the file info in `info` and NA in `item2_cleaned`.  
+                  item2_cleaned = error)) # store the file info in `info` and NA in `item2_cleaned`.  
     } else {
       ## store table data 
       return(list(
