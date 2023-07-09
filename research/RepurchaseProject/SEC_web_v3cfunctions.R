@@ -347,7 +347,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node) {
     } else {
       ## store table data 
       return(list(
-        filing_info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts), 
+        filing_info = c(filing_cleaned$info[1:26], filing_cleaned$table_unit, filing_cleaned$parts), 
         repurchase_tbl = filing_cleaned$table 
       ))
     }
