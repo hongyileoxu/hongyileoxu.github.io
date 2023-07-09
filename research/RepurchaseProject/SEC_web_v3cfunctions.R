@@ -353,13 +353,12 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
     # store values
     if (ncol(filing_cleaned$table) != 4) {
       return(list(info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts),
-                  item2_cleaned = error)) # store the file info in `info` and NA in `item2_cleaned`.  
+                  item2_cleaned = "check")) # store the file info in `info` and NA in `item2_cleaned`.  
     } else {
       ## store table data 
       return(list(
         filing_info = c(filing_cleaned$info[1:26], filing_cleaned$table_unit, filing_cleaned$parts), 
-        repurchase_tbl = filing_cleaned$table, 
-        error = error # an error signal 
+        repurchase_tbl = filing_cleaned$table
       ))
     }
   }
