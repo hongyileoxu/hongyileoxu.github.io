@@ -354,7 +354,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
   } else {
     # store values
     if (ncol(filing_cleaned$table) != 4) {
-      return(list(info = c(loc_file, zip_file)) # store the file info in `info`.  
+      return(list(info = c(loc_file, zip_file) )) # store the file info in `info`.  
     } else {
       ## store table data 
       return(list(
