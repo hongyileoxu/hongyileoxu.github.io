@@ -33,7 +33,7 @@ filing.toc <- function(x, # filing
 ## particularly item 2 in 10-Q and item 5 in 10-K
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
-                      regex_item = c("(Unregistered|UNREGISTERED)\\s*(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)|(Use|use|USE)\\s*(of|Of|OF)\\s*(Proceeds|PROCEEDS|proceeds)", 
+                      regex_item = c("(Unregistered|UNREGISTERED)\\s*(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
                                      "(Market|MARKET)\\s*(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
 ) { 
   # locate the section of the item of interest 
@@ -41,12 +41,12 @@ loc.item  <- function(x, # filing
   ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
 
   regex1 <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][ItemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+  regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][itemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   ## <Find item_id in the ToC>
-  toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc
+  toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc 
     .[grep("href", x = ., ignore.case = T)] 
-  toc_tbl_id <- which(grepl(pattern = ">Part.+I|Other", x = toc_tbl, ignore.case = T) & grepl(pattern = "SIGNATURE|EXHIBIT", x = toc_tbl, ignore.case = T))[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
+  toc_tbl_id <- which(grepl(pattern = ">Part.+I|SIGNATURE", x = toc_tbl, ignore.case = T) & grepl(pattern = "SIGNATURE|EXHIBIT", x = toc_tbl, ignore.case = T))[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   if (isTRUE(grepl(pattern = "href", x = toc_tbl[[toc_tbl_id]], ignore.case = T))) { 
     # if such table exists & contains url 
     ## find the row of item in the TOC
@@ -88,13 +88,13 @@ loc.item  <- function(x, # filing
                            x = x, ignore.case = F), 1)  # find the match
     # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
     ## check whether the 1st location is found
-    if (length(loc_item1) > 0) { # if the first is identified #  & length(loc_item1_check) > 0
-    #   if (loc_item1 >= loc_item1_check) { # if the place is correct 
+    if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
+      # if (loc_item1 >= loc_item1_check) { # if the place is correct 
         loc_item2 <- grep(pattern = "(>?)(Item|ITEM)[^0-9]+\\d{1}[.]", x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
         ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
-    #   } else {
-    #     loc_item <- rep(NA, 2)
-    #   }
+      # } else {
+      #   loc_item <- rep(NA, 2)
+      # }
     } else { # if the first is not identified
       loc_item <- rep(NA, 2)
     }
