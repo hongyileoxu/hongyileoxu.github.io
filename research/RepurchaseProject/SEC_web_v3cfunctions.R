@@ -337,7 +337,7 @@ filing.cleaned <- function(loc_file, # name of the filing
 ## this is based on funtion `filing.cleaned` and gives to output in parallel computing  
 filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors = 1) {
   ## set the error return format
-  error <- list("NA", matrix("ERROR", nrow = 1, ncol = 4))[[errors]]
+  error <- list(NA, matrix("ERROR", nrow = 1, ncol = 4))[[errors]]
   
   ## use `filing.cleaned` first to generate outputs 
   res_filing.cleaned <- try(
@@ -358,7 +358,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
     if (ncol(filing_cleaned$table) != 4) {
       return(list(info = c(filing_cleaned$info[1:30], filing_cleaned$table_unit, filing_cleaned$parts),
                   repurchase_tbl = filing_cleaned$table, 
-                  item2_cleaned = "check")) # store the file info in `info` and NA in `item2_cleaned`.  
+                  error = "check")) # store the file info in `info` and NA in `item2_cleaned`.  
     } else {
       ## store table data 
       return(list(
