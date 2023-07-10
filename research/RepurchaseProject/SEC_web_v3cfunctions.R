@@ -33,8 +33,8 @@ filing.toc <- function(x, # filing
 ## particularly item 2 in 10-Q and item 5 in 10-K
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
-                      regex_item = c("Unregistered\\s*Sales\\s*of", 
-                                     "Market\\s*for\\s*(Registrant|)") # item header
+                      regex_item = c("(Unregistered|UNREGISTERED)\\s*(Sales|sales|SALES)\\s*(of|Of|OF)", 
+                                     "(Market|MARKET)\\s*(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant)") # item header
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
@@ -85,7 +85,7 @@ loc.item  <- function(x, # filing
   } else { # if no url or link/identifier is found
     ## look for all the items 
     loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
-                           x = x, ignore.case = T), 1)  # find the match
+                           x = x, ignore.case = F), 1)  # find the match
     loc_item1_check <- tail(grep(pattern = ">Part.+II", x = x, ignore.case = T), 1) # record the Part II section in the filing
     ## check whether the 1st location is found
     if (length(loc_item1) > 0 & length(loc_item1_check) > 0) { # if the first is identified
