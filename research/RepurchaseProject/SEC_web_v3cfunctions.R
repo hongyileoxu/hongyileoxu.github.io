@@ -84,7 +84,7 @@ loc.item  <- function(x, # filing
                        FUN.VALUE = numeric(1))
   } else { # if no url or link/identifier is found
     ## look for all the items 
-    loc_item1 <- tail(grep(pattern = regex2, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
+    loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
                            x = x, ignore.case = T), 1)  # find the match
     loc_item1_check <- tail(grep(pattern = ">Part.+II", x = x, ignore.case = T), 1) # record the Part II section in the filing
     ## check whether the 1st location is found
