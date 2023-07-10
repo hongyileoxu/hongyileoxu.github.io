@@ -44,7 +44,8 @@ loc.item  <- function(x, # filing
   regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][itemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   ## <Find item_id in the ToC>
-  toc_tbl <- html_nodes(filing.toc(x = x), "table") # tables including the toc
+  toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc
+    .[grep("href", x = ., ignore.case = T)] 
   toc_tbl_id <- which(grepl(pattern = ">Part.+I|Other", x = toc_tbl, ignore.case = T) & grepl(pattern = "SIGNATURE|EXHIBIT", x = toc_tbl, ignore.case = T))[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   if (isTRUE(grepl(pattern = "href", x = toc_tbl[[toc_tbl_id]], ignore.case = T))) { 
     # if such table exists & contains url 
