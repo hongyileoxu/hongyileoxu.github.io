@@ -86,7 +86,7 @@ loc.item  <- function(x, # filing
     ## look for all the items 
     loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
                            x = x, ignore.case = F), 1)  # find the match
-    loc_item1_check <- tail(grep(pattern = ">Part.+II", x = x, ignore.case = T), 1) # record the Part II section in the filing
+    loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
     ## check whether the 1st location is found
     if (length(loc_item1) > 0 & length(loc_item1_check) > 0) { # if the first is identified
       if (loc_item1 >= loc_item1_check) { # if the place is correct 
