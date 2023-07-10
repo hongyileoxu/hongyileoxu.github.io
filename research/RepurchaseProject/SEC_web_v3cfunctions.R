@@ -41,7 +41,7 @@ loc.item  <- function(x, # filing
   ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
 
   regex1 <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][itemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+  regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][ItemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   ## <Find item_id in the ToC>
   toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc
@@ -164,7 +164,7 @@ filing.item <- function(x, # filing
     if (any(is.na(item_id)) == TRUE) {
       # print("no item_id")
       item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
-      item_txt <- sub(pattern = "(>?)[itemITEM]{4}[^0-9]+\\d{1}.*", "", item_parse) 
+      item_txt <- sub(pattern = "(>|)[Item|ITEM]{4}.*", "", item_parse) 
     } else {
       # print("Yes! item_id")
       item_parse <- sub(pattern = paste(".*(\"|\')", item_id[1], "(\"|\')", sep = "")[1], "", x[loc_item[1]])
