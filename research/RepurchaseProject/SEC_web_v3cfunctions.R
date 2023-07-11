@@ -62,17 +62,17 @@ loc.item  <- function(x, # filing
     
     ## find the id for the item 
     if (!is.na(toc_row_id)) { # if this item exists in the toc 
-      item_id1 <- html_attr(html_nodes(toc_row[toc_row_id], "a"), "href")[1]
+      item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[1]
       if (!grepl('#', item_id1)) {
         item_id <- rep(NA, 2)
       } else {
-        item_id2 <- html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href")[1]
+        item_id2 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href"), value = T)[1]
         if (!grepl('#', item_id2)) { # check whether it is a valid href -> if no then replace with the next valid one 
-          item_id2 <- grep('#', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T, fixed = T)[1]
+          item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T, fixed = T)[1]
         }
         
         if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
-          item_id1 <- html_attr(html_nodes(toc_row[toc_row_id], "a"), "href")[2]
+          item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[2]
         }
         
         item_id <-  sub(pattern = '#', replacement = '', x = c(item_id1, item_id2))
