@@ -98,7 +98,7 @@ loc.item  <- function(x, # filing
       # if (loc_item1 >= loc_item1_check) { # if the place is correct 
         loc_item2 <- grep(pattern = "(>?)(Item|ITEM)", x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
         if (is.na(loc_item2)) { # if it returns NA
-          loc_item2 <- grep(pattern = "(>?)(Item|ITEM)", x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          loc_item2 <- grep(pattern = ">(Item|ITEM)", x = x[(loc_item1+1):length(x)], ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
         } ## have a second try if `loc_item2` is NA.   
         ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
       # } else {
