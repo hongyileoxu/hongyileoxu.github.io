@@ -86,7 +86,7 @@ loc.item  <- function(x, # filing
   }
 
   ## <What if no url is found.>  
-  if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
+  if (!any(is.na(item_id))) { # locate the item if item_id(url) is found
 
     if (NA %in% is.numeric(item_id)) { # if the id does not contain numbers
       loc_item <- vapply(X = item_id,
