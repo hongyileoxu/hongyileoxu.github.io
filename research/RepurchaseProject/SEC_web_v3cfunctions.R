@@ -82,12 +82,23 @@ loc.item  <- function(x, # filing
 
   ## <What if no url is found.>  
   if (!all(is.na(item_id))) { # locate the item if item_id(url) is found
-    loc_item <- vapply(X = item_id,
-                       FUN = function(p) {
-                         loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
-                         return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
-                       },
-                       FUN.VALUE = numeric(1))
+
+    if (NA %in% is.numeric(item_id)) { # if the id does not contain numbers
+      loc_item <- vapply(X = item_id,
+                         FUN = function(p) {
+                           loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
+                           return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                         },
+                         FUN.VALUE = numeric(1))
+    } else { # if the id is a number
+      loc_item <- vapply(X = item_id,
+                         FUN = function(p) {
+                           loc_item0 <- grep(pattern = paste("[<].+name.*=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
+                           return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                         },
+                         FUN.VALUE = numeric(1))
+    }
+    
   } else { # if no url or link/identifier is found
     ## look for all the items 
     loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
