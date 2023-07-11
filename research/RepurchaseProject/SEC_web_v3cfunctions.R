@@ -57,19 +57,24 @@ loc.item  <- function(x, # filing
     # if such table exists & contains url 
     ## find the row of item in the TOC
     toc_row <- html_nodes(toc_tbl[[toc_tbl_id]], "tr") %>% # separate each row
-      .[grep("[0-9]", x = ., ignore.case = T)]
+      .[grep("[0-9]", x = html_text(.), ignore.case = T)]
     toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T)[1] # separate and identify the row
     
     ## find the id for the item 
     if (!is.na(toc_row_id)) { # if this item exists in the toc 
-      item_id1 <- html_attr(html_node(toc_row[toc_row_id], "a"), "href")[1]
+      item_id1 <- html_attr(html_nodes(toc_row[toc_row_id], "a"), "href")[1]
       if (!grepl('#', item_id1)) {
         item_id <- rep(NA, 2)
       } else {
-        item_id2 <- html_attr(html_node(toc_row[toc_row_id+1], "a"), "href")[1]
-        if (!grepl('#', item_id2)) { # check whether it is a valid href
-          item_id2 <- grep('#', html_attr(html_node(toc_row[-(1:toc_row_id)], "a"), "href"), value = T, fixed = T)[1]
+        item_id2 <- html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href")[1]
+        if (!grepl('#', item_id2)) { # check whether it is a valid href -> if no then replace with the next valid one 
+          item_id2 <- grep('#', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T, fixed = T)[1]
         }
+        
+        if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
+          item_id1 <- html_attr(html_nodes(toc_row[toc_row_id], "a"), "href")[2]
+        }
+        
         item_id <-  sub(pattern = '#', replacement = '', x = c(item_id1, item_id2))
       }
     } else {
