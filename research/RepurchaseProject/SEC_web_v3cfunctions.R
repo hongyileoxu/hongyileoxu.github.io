@@ -5,6 +5,7 @@ library(xml2) # for modify nodes in htmlß
 library(tidyr)
 library(reshape2)
 library(stringr) # for str_squish 
+library(archive) # to connect files in large zip files (>= 4GB)
 # library(htm2txt) # convert html to txt. # not very useful
 # library(gt) # just for beautiful tables
 # =================================================================
@@ -301,7 +302,7 @@ filing.cleaned <- function(loc_file, # name of the filing
 ) { 
   ## import the txt filing 
   if (!is.null(zip_file)) {
-    filing <- readLines(unz(zip_file, loc_file))
+    filing <- readLines(archive_read(zip_file, loc_file))
   } else {
     filing <- readLines(loc_file)
   }
