@@ -115,7 +115,7 @@ loc.item  <- function(x, # filing
     }
 
     ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
-    if (diff(loc_item) == 0 & nchar(x[loc_item[1]]) < 5000) {
+    if (diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000) {
       ## this part is exactly the same as the following part > brutal force
       ## look for all the items 
       loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
