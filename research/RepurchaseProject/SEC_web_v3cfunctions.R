@@ -91,16 +91,27 @@ loc.item  <- function(x, # filing
   ## <What if no url is found.>  
   if (!any(is.na(item_id))) { # locate the item if item_id(url) is found
 
-    x_text_id <- grep(pattern = '<text>|</text>', x = x, ignore.case = T)[1:2] # identify the main body 
-    ## extract all attributes in each part of the text  
-    x_text_attr <- lapply(x_text_id[1]:x_text_id[2], FUN = function(id) {
-      res_attr <- try(html_attrs(html_nodes(read_html(x[id]), "a")), silent = T)
-      ifelse(inherits(res_attr, "try-error"), output <- NA,
-             ifelse(is.null(unlist(res_attr)[1]), output <- NA, output <- unlist(res_attr)) )
-      return(output)
-    } )
-    ## find the paragraph containing matched id(s) 
-    loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))) + x_text_id[1] - 1
+    if (any(nchar(item_id) >= 3)) {
+      ## if the id is in the acceptable length
+      loc_item <- vapply(X = item_id,
+                         FUN = function(p) {
+                           loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
+                           return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                         },
+                         FUN.VALUE = numeric(1))
+    } else {
+      ## if only the num of characters is too few in the id 
+      x_text_id <- grep(pattern = '<text>|</text>', x = x, ignore.case = T)[1:2] # identify the main body 
+      ## extract all attributes in each part of the text  
+      x_text_attr <- lapply(x_text_id[1]:x_text_id[2], FUN = function(id) {
+        res_attr <- try(html_attrs(html_nodes(read_html(x[id]), "a")), silent = T)
+        ifelse(inherits(res_attr, "try-error"), output <- NA,
+               ifelse(is.null(unlist(res_attr)[1]), output <- NA, output <- unlist(res_attr)) )
+        return(output)
+      } )
+      ## find the paragraph containing matched id(s) 
+      loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))) + x_text_id[1] - 1
+    }
     
   } else { # if no url or link/identifier is found
     ## look for all the items 
@@ -189,7 +200,7 @@ filing.item <- function(x, # filing
       item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
       item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
     } else {
-      if (any(nchar(item_id) > 3)) { # the id is long enough
+      if (any(nchar(item_id) >= 3)) { # the id is long enough
         # print("Yes! item_id")
         item_parse <- sub(pattern = paste(".*(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
         item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
