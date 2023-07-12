@@ -10,6 +10,9 @@ library(archive) # to connect files in large zip files (>= 4GB)
 # library(gt) # just for beautiful tables
 # =================================================================
 
+# parameters: 
+text_break_node = read_xml("<table><tr><td> &lt;footnote&gt; </td></tr></table>\n")
+
 # a. filing.header(): extract the header info from the filing ----
 filing.header <- function(x, # the file 
                           regex_header = 'ACCESSION NUMBER:|</SEC-(HEADER|Header)>' # the regex of the start to end of the header section in the filing
