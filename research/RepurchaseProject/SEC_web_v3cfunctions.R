@@ -38,8 +38,8 @@ filing.toc <- function(x, # filing
 ## particularly item 2 in 10-Q and item 5 in 10-K
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
-                      regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s*(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
-                                     "(Market|MARKET)\\s*(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
+                      regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s+(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
+                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
