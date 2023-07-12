@@ -203,11 +203,18 @@ filing.item <- function(x, # filing
       if (any(nchar(item_id) >= 3)) { # the id is long enough
         # print("Yes! item_id")
         item_parse <- sub(pattern = paste(".*(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
-        item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+        if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = T)) {
+          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+          item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
+        } else {
+          item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+        }
+        
       } else { # if the id is NOT long enough 
         # print("Yes! item_id")
         item_parse <- sub(pattern = paste(".*<a\\s\\w+=(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
         item_txt <- sub(pattern = paste("<a\\s\\w+=(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+        
       }
     }
   } else {
