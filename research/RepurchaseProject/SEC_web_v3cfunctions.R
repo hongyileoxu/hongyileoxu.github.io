@@ -38,7 +38,7 @@ filing.toc <- function(x, # filing
 ## particularly item 2 in 10-Q and item 5 in 10-K
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
-                      regex_item = c("(Unregistered|UNREGISTERED)\\s*(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
+                      regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s*(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
                                      "(Market|MARKET)\\s*(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
 ) { 
   # locate the section of the item of interest 
@@ -244,12 +244,7 @@ filing.item <- function(x, # filing
           item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
         } else {
           item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
-          if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = F)) {
-            item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
-          } else {
-            item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
-            item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
-          }
+          item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
         }
         
       } else { # if the id is NOT long enough 
