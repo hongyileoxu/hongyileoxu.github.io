@@ -197,16 +197,16 @@ filing.item <- function(x, # filing
     # print("same loc_item")
     if (any(is.na(item_id)) == TRUE) {
       # print("no item_id")
-      item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+      item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
       item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
     } else {
       if (any(nchar(item_id) >= 3)) { # the id is long enough
         # print("Yes! item_id")
         item_parse <- sub(pattern = paste(".*(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
-        if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = T)) {
+        if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = F)) {
           item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
         } else {
-          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
           item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
         }
         
