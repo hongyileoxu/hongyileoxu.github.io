@@ -244,7 +244,12 @@ filing.item <- function(x, # filing
           item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
         } else {
           item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
-          item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
+          if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = F)) {
+            item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
+          } else {
+            item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+            item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
+          }
         }
         
       } else { # if the id is NOT long enough 
