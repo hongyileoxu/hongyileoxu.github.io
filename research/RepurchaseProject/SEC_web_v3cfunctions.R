@@ -12,6 +12,7 @@ library(archive) # to connect files in large zip files (>= 4GB)
 
 # parameters: 
 text_break_node = read_xml("<table><tr><td> &lt;footnote&gt; </td></tr></table>\n")
+text_break_table = read_xml("<table><tr><td> &lt;table&gt; </td></tr></table>\n")
 
 # a. filing.header(): extract the header info from the filing ----
 filing.header <- function(x, # the file 
