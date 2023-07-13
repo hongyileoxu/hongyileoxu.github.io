@@ -29,7 +29,11 @@ filing.header <- function(x, # the file
 filing.toc <- function(x, # filing 
                        regex_toc = '<text>|</text>' # locate ToC
 ){ # find the table of content(s)
-  toc <- grep(pattern = regex_toc, x = x, ignore.case = T)[1:2] # the part containing the ToC
+  if (length(x) == 1) {
+    toc <- rep(1,2)
+  } else {
+    toc <- grep(pattern = regex_toc, x = x, ignore.case = T)[1:2] # the part containing the ToC
+  }
   filing_toc <- read_html(paste0(x[toc[1]:toc[2]], collapse = "")) # extract the toc
   return(filing_toc)
 } 
