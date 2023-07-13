@@ -43,7 +43,7 @@ filing.toc <- function(x, # filing
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
                       regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s+(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
-                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
+                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|Re|re|RE)") # item header
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
@@ -410,7 +410,11 @@ filing.cleaned <- function(loc_file, # name of the filing
   info <- filing.header(x = filing) 
   selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
   info_cleaned <- info[match(selected_headers, table = info[1:(grep("mail", info[,1], ignore.case = T)-1),1]), 2] # all info before section "MAIL ADDRESS:"
-    
+
+  ## form to one string 
+  x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2]
+  filing <- paste(filing[x_text_id[1]:x_text_id[2]], collapse = " ")
+  
   ## store item location
   loc_item2 <- loc.item(x = filing, filing_type = substr(info[2,2], start = 1, stop = 4) )
   if (all(is.na(loc_item2$loc_item))) { 
