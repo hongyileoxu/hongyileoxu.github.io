@@ -359,7 +359,7 @@ filing.item <- function(x, # filing
 
         ## <table unit information>
         ## extract the unit information 
-        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s[^()]+\\)")
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9]+\\)")
         
         ## <text info excl. table>
         ## extract item text and exclude the table. 
