@@ -274,15 +274,7 @@ filing.item <- function(x, # filing
   }
   
   # find the table(s) 
-  res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
-  if (inherits(res, "try-error")) {
-    if (nchar(x[loc_item[1]]) > 300) {
-      item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
-      item_txt <- sub(pattern = "(>?)[itemITEM]{4}[^0-9]+\\d{1}.*", "", item_parse)
-      res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
-    }
-    res2 <- try(item_html <- read_html(paste('<p>', item_txt, '</p>', collapse = "")), silent = T)
-  } 
+  item_html <- read_html(paste("<text>", paste(item_txt, collapse = ""), "</text>", collapse = ""))
   
   item_tbls <- html_nodes(item_html, "table")
   if (length(item_tbls) == 0) { # if no table found in the item 
