@@ -89,87 +89,94 @@ loc.item  <- function(x, # filing
     item_id <- rep(NA, 2)
   }
 
-  ## <What if no url is found.>  
-  if (!any(is.na(item_id))) { # locate the item if item_id(url) is found
-
-    if (any(nchar(item_id) >= 3)) {
-      ## if the id is in the acceptable length
-      loc_item <- vapply(X = item_id,
-                         FUN = function(p) {
-                           loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
-                           return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
-                         },
-                         FUN.VALUE = numeric(1))
-    } else {
-      ## if only the num of characters is too few in the id 
-      x_text_id <- grep(pattern = '<text>|</text>', x = x, ignore.case = T)[1:2] # identify the main body 
-      ## extract all attributes in each part of the text  
-      x_text_attr <- lapply(x_text_id[1]:x_text_id[2], FUN = function(id) {
-        res_attr <- try(html_attrs(html_nodes(read_html(x[id]), "a")), silent = T)
-        ifelse(inherits(res_attr, "try-error"), output <- NA,
-               ifelse(is.null(unlist(res_attr)[1]), output <- NA, output <- unlist(res_attr)) )
-        return(output)
-      } )
-      ## find the paragraph containing matched id(s) 
-      loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))) + x_text_id[1] - 1
-    }
-
-    ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
-    if (diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000) {
-      ## this part is exactly the same as the following part > brutal force
+  if (length(x) == 1) { # check if `x` has only one element 
+    loc_item <- rep(1, 2)
+    
+  } else {
+    ## <What if no url is found.>  
+    if (!any(is.na(item_id))) { # locate the item if item_id(url) is found
+  
+      if (any(nchar(item_id) >= 3)) {
+        ## if the id is in the acceptable length
+        loc_item <- vapply(X = item_id,
+                           FUN = function(p) {
+                             loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
+                             return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
+                           },
+                           FUN.VALUE = numeric(1))
+      } else {
+        ## if only the num of characters is too few in the id 
+        x_text_id <- grep(pattern = '<text>|</text>', x = x, ignore.case = T)[1:2] # identify the main body 
+        ## extract all attributes in each part of the text  
+        x_text_attr <- lapply(x_text_id[1]:x_text_id[2], FUN = function(id) {
+          res_attr <- try(html_attrs(html_nodes(read_html(x[id]), "a")), silent = T)
+          ifelse(inherits(res_attr, "try-error"), output <- NA,
+                 ifelse(is.null(unlist(res_attr)[1]), output <- NA, output <- unlist(res_attr)) )
+          return(output)
+        } )
+        ## find the paragraph containing matched id(s) 
+        loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))) + x_text_id[1] - 1
+      }
+  
+      ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
+      if (diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000) {
+        ## this part is exactly the same as the following part > brutal force
+        ## look for all the items 
+        loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
+                               x = x, ignore.case = F), 1)  # find the match
+        # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
+        ## check whether the 1st location is found
+        if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
+          # if (loc_item1 >= loc_item1_check) { # if the place is correct 
+          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
+                            x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                            ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          
+          if (is.na(loc_item2)) { # if it returns NA
+            loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+                              x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                              ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          } ## have a second try if `loc_item2` is NA. 
+          ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
+          
+          # } else {
+          #   loc_item <- rep(NA, 2)
+          # }
+        } else { # if the first is not identified
+          loc_item <- rep(NA, 2)
+        }
+      }
+                                                                    
+      
+    } else { # if no url or link/identifier is found
       ## look for all the items 
       loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
                              x = x, ignore.case = F), 1)  # find the match
       # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
       ## check whether the 1st location is found
       if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
-        # if (loc_item1 >= loc_item1_check) { # if the place is correct 
-        loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
-                          x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                          ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        
-        if (is.na(loc_item2)) { # if it returns NA
-          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+          # if (loc_item1 >= loc_item1_check) { # if the place is correct 
+          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
                             x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
                             ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        } ## have a second try if `loc_item2` is NA. 
-        ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
-        
-        # } else {
-        #   loc_item <- rep(NA, 2)
-        # }
-      } else { # if the first is not identified
-        loc_item <- rep(NA, 2)
-      }
+          
+          if (is.na(loc_item2)) { # if it returns NA
+            loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+                              x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                              ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          } ## have a second try if `loc_item2` is NA. 
+          ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
+          
+          # } else {
+          #   loc_item <- rep(NA, 2)
+          # }
+        } else { # if the first is not identified
+          loc_item <- rep(NA, 2)
+        }
     }
-                                                                  
     
-  } else { # if no url or link/identifier is found
-    ## look for all the items 
-    loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
-                           x = x, ignore.case = F), 1)  # find the match
-    # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
-    ## check whether the 1st location is found
-    if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
-        # if (loc_item1 >= loc_item1_check) { # if the place is correct 
-        loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
-                          x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                          ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        
-        if (is.na(loc_item2)) { # if it returns NA
-          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
-                            x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                            ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        } ## have a second try if `loc_item2` is NA. 
-        ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
-        
-        # } else {
-        #   loc_item <- rep(NA, 2)
-        # }
-      } else { # if the first is not identified
-        loc_item <- rep(NA, 2)
-      }
-  }
+  }  
+
   
   ## return the location, id, and item number (i.e. item 2 or 5)
   return(list(loc_item = loc_item, item_id = item_id, item = c(regex1, regex2)))
