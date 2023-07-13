@@ -237,22 +237,25 @@ filing.item <- function(x, # filing
       item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
       item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
     } else {
+      
       if (any(nchar(item_id) >= 3)) { # the id is long enough
         # print("Yes! item_id")
-        item_parse <- sub(pattern = paste(".*(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
+        item_parse <- sub(pattern = paste(".*(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
+        
+        ## check if the item_parse contains the correct item info 
         if (grepl(item[1], html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = F)) {
-          item_txt <- sub(pattern = paste("(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-        } else {
-          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+          item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+        } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
+          item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
           item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
         }
         
       } else { # if the id is NOT long enough 
         # print("Yes! item_id")
-        item_parse <- sub(pattern = paste(".*<a\\s\\w+=(\"|\'|)", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
-        item_txt <- sub(pattern = paste("<a\\s\\w+=(\"|\'|)", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-        
+        item_parse <- sub(pattern = paste(".*<a\\s\\w+=(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
+        item_txt <- sub(pattern = paste("<a\\s\\w+=(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
       }
+      
     }
   } else {
     # the full item 
