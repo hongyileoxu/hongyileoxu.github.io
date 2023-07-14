@@ -252,8 +252,9 @@ filing.item <- function(x, # filing
         
       } else { # if the id is NOT long enough 
         # print("Yes! item_id")
-        item_parse <- sub(pattern = paste(".*<a\\s\\w+=(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
-        item_txt <- sub(pattern = paste("<a\\s\\w+=(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+        item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+        item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse)
+        
       }
       
     }
