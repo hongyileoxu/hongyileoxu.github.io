@@ -243,7 +243,7 @@ filing.item <- function(x, # filing
         item_parse <- sub(pattern = paste(".*(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
         
         ## check if the item_parse contains the correct item info 
-        if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}\\.", sep = ""), html_text(read_html(substr(item_parse, 1, 1500))), ignore.case = F)) { ## July 14, 2023 ----
+        if  (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}\\.", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 14, 2023 ----
           item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
         } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
           item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
