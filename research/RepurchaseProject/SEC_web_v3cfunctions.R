@@ -46,7 +46,7 @@ loc.item  <- function(x, # filing
   ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
 
   regex1 <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
-  regex2 <- c("[>][itemITEM]{4}[^0-9]+2\\.", "[>][itemITEM]{4}[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
+  regex2 <- c("[>](Item|ITEM)[^0-9]+2\\.", "[>](Item|ITEM)[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
   ## <Find item_id in the ToC>
   toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc 
@@ -61,7 +61,7 @@ loc.item  <- function(x, # filing
     # if such table exists & contains url 
     ## find the row of item in the TOC
     toc_row <- html_nodes(toc_tbl[[toc_tbl_id]], "tr") %>% # separate each row
-      .[grep("^(item)?\\s*\\d{1}", x = html_text(., trim = T), ignore.case = T)]
+      .[grep("^(Item)?\\s*\\d{1}", x = html_text(., trim = T), ignore.case = T)]
     toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T)[1] # separate and identify the row
     
     ## find the id for the item 
@@ -268,7 +268,7 @@ filing.item <- function(x, # filing
   if (inherits(res, "try-error")) {
     if (nchar(x[loc_item[1]]) > 300) {
       item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
-      item_txt <- sub(pattern = "(>?)[itemITEM]{4}[^0-9]+\\d{1}.*", "", item_parse)
+      item_txt <- sub(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}.*", "", item_parse)
       res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
     }
     res2 <- try(item_html <- read_html(paste('<p>', item_txt, '</p>', collapse = "")), silent = T)
