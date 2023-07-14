@@ -61,7 +61,7 @@ loc.item  <- function(x, # filing
     # if such table exists & contains url 
     ## find the row of item in the TOC
     toc_row <- html_nodes(toc_tbl[[toc_tbl_id]], "tr") %>% # separate each row
-      .[grep("^(Item)?\\s*\\d{1}", x = html_text(., trim = T), ignore.case = T)]
+      .[grep(pattern = "^(Item|ITEM|\\d)", x = html_text(., trim = T), ignore.case = T)]
     toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T)[1] # separate and identify the row
     
     ## find the id for the item 
