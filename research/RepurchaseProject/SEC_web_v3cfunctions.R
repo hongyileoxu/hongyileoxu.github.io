@@ -39,7 +39,7 @@ filing.toc <- function(x, # filing
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
                       regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s+(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
-                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(Registrant|REGISTRANT|registrant|)") # item header
+                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(The|THE|the)?\\s*(Registrant|REGISTRANT|registrant|Re|re|RE)") # item header
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
@@ -399,7 +399,19 @@ filing.cleaned <- function(loc_file, # name of the filing
   info <- filing.header(x = filing) 
   selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
   info_cleaned <- info[match(selected_headers, table = info[1:(grep("mail", info[,1], ignore.case = T)-1),1]), 2] # all info before section "MAIL ADDRESS:"
-    
+
+  ## clean the document to improve parsing accuracy. 
+  x_close_tagid <- grep(pattern = "</\\w+>$", filing) # identify the ending tag 
+  ### only do this if the element in the vector is not too small. 
+  if (length(x_close_tagid) > 10) {
+    x_para_id <- c(
+      grep(x = filing, pattern = "</SEC")[1], # the start of the doc 
+      x_close_tagid[which(diff(x_close_tagid) != 1)] # guess the location of a potential paragraph/term 
+    )
+    x_para_id <- cbind(head(x_para_id+1, -1), x_para_id[-1])
+    filing <- apply(X = x_para_id, MARGIN = 1, FUN = function(x) paste(filing[x[1]:x[2]], collapse = " "))
+  }
+  
   ## store item location
   loc_item2 <- loc.item(x = filing, filing_type = substr(info[2,2], start = 1, stop = 4) )
   if (all(is.na(loc_item2$loc_item))) { 
