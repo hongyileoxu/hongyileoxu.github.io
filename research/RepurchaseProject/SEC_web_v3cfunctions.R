@@ -264,10 +264,10 @@ filing.item <- function(x, # filing
   }
   
   # find the table(s) 
-  res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
+  res <- try(item_html <- read_html(paste("<text>", paste(str_squish(item_txt), collapse = ""), "</text>", collapse = "")), silent = T)
   if (inherits(res, "try-error")) {
     if (nchar(x[loc_item[1]]) > 300) {
-      item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = T)
+      item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", paste(item_txt, collapse = " "), ignore.case = T) ## July 14, 2023 ----
       item_txt <- sub(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}.*", "", item_parse)
       res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
     }
