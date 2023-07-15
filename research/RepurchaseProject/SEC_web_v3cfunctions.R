@@ -56,7 +56,7 @@ loc.item  <- function(x, # filing
   toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc 
     .[grep("href", x = ., ignore.case = T)] 
   if (any(grepl(pattern = ">Part.+I", x = toc_tbl, ignore.case = T))) {
-    toc_tbl_id <- which(grepl(pattern = ">Part.+[I]{2}", x = toc_tbl, ignore.case = T) )[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
+    toc_tbl_id <- which(grepl(pattern = ">Part.+[I]{2}|SIGNATURE", x = toc_tbl, ignore.case = T) )[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   } else {
     toc_tbl_id <- which(grepl(pattern = "SIGNATURE|EXHIBIT", x = toc_tbl, ignore.case = T))[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   }
