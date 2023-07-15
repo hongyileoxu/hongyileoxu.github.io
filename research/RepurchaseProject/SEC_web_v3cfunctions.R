@@ -90,8 +90,8 @@ loc.item  <- function(x, # filing
   }
 
   ## <What if no url is found.>  
-  if (!any(is.na(item_id))) { # locate the item if item_id(url) is found
-
+  if ( ifelse(any(is.na(item_id)), FALSE, item_id[1] != item_id[2]) ) { # locate the item if item_id(url) is found ## updated July 15, 2023 ----
+  
     if (any(nchar(item_id) >= 3)) {
       ## if the id is in the acceptable length
       loc_item <- vapply(X = item_id,
@@ -115,7 +115,7 @@ loc.item  <- function(x, # filing
     }
 
     ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
-    if (diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000 || sum(is.na(loc_item)) == 1) { ## updated July 15, 2023 ----
+    if ( ifelse(any(is.na(loc_item)), TRUE, diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000) ) { ## updated July 15, 2023 ----
       ## this part is exactly the same as the following part > brutal force
       ## look for all the items 
       loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
