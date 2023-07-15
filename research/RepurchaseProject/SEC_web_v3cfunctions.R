@@ -433,8 +433,6 @@ filing.cleaned <- function(loc_file, # name of the filing
 
   if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
     x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
-    ## get all the tables 
-    filing_tbl <- html_nodes(read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")), "table")
     ## search in the tables and store the outputs 
     item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")))
     if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
