@@ -404,7 +404,7 @@ filing.cleaned <- function(loc_file, # name of the filing
   ## clean the document to improve parsing accuracy. 
   x_close_tagid <- grep(pattern = "</\\w+>$", filing) # identify the ending tag 
   ### only do this if the element in the vector is not too small. 
-  if (length(x_close_tagid) > 10) {
+  if (length(x_close_tagid) > 10 & length(filing) > 800) { 
     x_para_id <- c(
       grep(x = filing, pattern = "</SEC")[1], # the start of the doc 
       x_close_tagid[which(diff(x_close_tagid) != 1)] # guess the location of a potential paragraph/term 
