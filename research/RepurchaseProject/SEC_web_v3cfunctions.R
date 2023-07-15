@@ -440,7 +440,8 @@ filing.cleaned <- function(loc_file, # name of the filing
   if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
     x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
     ## search in the tables and store the outputs 
-    item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")))
+    item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")), 
+                                            filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})')) ## updated July 15, 2023
     if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
       item2_cleaned <- item2_cleaned_alter 
     }
@@ -484,7 +485,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
 }
 
 # h. item2_html_table(): extract the table of interest directly from the filing ----
-item2_html_table <- function(item_html) { ## updated July 14, 2023 
+item2_html_table <- function(item_html, filing_qrt) { ## updated July 15, 2023 
   ## normally put the whole filing in html format in the function
   item_tbls <- html_nodes(item_html, "table")
   ## check for tables 
