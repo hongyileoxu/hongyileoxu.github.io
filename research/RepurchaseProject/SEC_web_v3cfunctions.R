@@ -403,8 +403,9 @@ filing.cleaned <- function(loc_file, # name of the filing
   ## store header info 
   info <- filing.header(x = filing) 
   selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
-  info_cleaned <- info[match(selected_headers, table = info[1:(grep("mail", info[,1], ignore.case = T)[1]-1),1]), 2] # all info before section "MAIL ADDRESS:"
-
+  info_cleaned <- info[match(selected_headers, 
+                             table = info[1:max(grep("mail", info[,1], ignore.case = T)[1]-1, nrow(info), na.rm = T),1]), 2] # all info before section "MAIL ADDRESS:"
+  
   ## clean the document to improve parsing accuracy. 
   x_close_tagid <- grep(pattern = "</\\w+>$", filing) # identify the ending tag 
   ### only do this if the element in the vector is not too small. 
