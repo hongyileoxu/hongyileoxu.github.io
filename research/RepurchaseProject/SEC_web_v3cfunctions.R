@@ -111,7 +111,7 @@ loc.item  <- function(x, # filing
         return(output)
       } )
       ## find the paragraph containing matched id(s) 
-      loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))) + x_text_id[1] - 1
+      loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))[1]) + x_text_id[1] - 1
     }
 
     ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
