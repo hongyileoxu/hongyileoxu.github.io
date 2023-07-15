@@ -243,10 +243,10 @@ filing.item <- function(x, # filing
         item_parse <- sub(pattern = paste(".*(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
         
         ## check if the item_parse contains the correct item info 
-        if  (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}\\.", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 14, 2023 ----
+        if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}(.)?.+[A-Z]\\w+\\s+[A-Z]", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 15, 2023 ----
           item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
         } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
-          item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F) # updated July 15, 2023 ----
           item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
         }
         
@@ -359,8 +359,8 @@ filing.item <- function(x, # filing
         tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
 
         ## <table unit information>
-        ## extract the unit information 
-        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9]+\\)")
+        ## extract the unit information ## updated July 15, 2023 ----
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9c]+\\)")
         
         ## <text info excl. table>
         ## extract item text and exclude the table. 
@@ -430,6 +430,18 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  filing_qrt = str_extract(loc_file, pattern = '(QTR\\d{1})'),
                                  parts = "footnote")
   }
+
+  if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
+    x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
+    ## get all the tables 
+    filing_tbl <- html_nodes(read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")), "table")
+    ## search in the tables and store the outputs 
+    item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")))
+    if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
+      item2_cleaned <- item2_cleaned_alter 
+    }
+  }
+                    
   ## return output 
   return(c(list(info = info_cleaned), # store header info
               item2_cleaned)) # combine info with cleaned table 
@@ -467,9 +479,149 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
   }
 }
 
+# h. item2_html_table(): extract the table of interest directly from the filing ----
+item2_html_table <- function(item_html) { ## updated July 14, 2023 
+  ## normally put the whole filing in html format in the function
+  item_tbls <- html_nodes(item_html, "table")
+  ## check for tables 
+  if (length(item_tbls) == 0) { # if no table found in the item 
+    # print("No Table!")
+    return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                parts = NA, 
+                table_unit = NA))
+  } else { # if there are tables!
+    item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
+                           str_count(string = as.character(item_tbls), pattern = "/td") > 6 & # number of columns > 6
+                           grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = html_text(item_tbls), ignore.case = T))[1] # identify the correct table ## updated July 14, 2023 ----
+    
+    ## extract the table 
+    if (ifelse(is.na(item_tbl_id), 
+               FALSE, # if no table is identified
+               grepl(pattern = "total.*number.*of|Average.*Price.*Paid",
+                     x = html_text(item_tbls[[item_tbl_id]]),
+                     ignore.case = T) # check again the table is correct
+    )
+    ) { 
+      ### <Tables starts here!>
+      ### clean the table 
+      item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
+        .[which(rowSums(is.na(.)) == min(rowSums(is.na(.)))), , drop=F] %>% # exclude the mostly empty line. 
+        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% 
+        unique.matrix(MARGIN = 2) 
+      
+      ### identify the rows to keep
+      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
+      
+      if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
+        ## no actual table can be identified 
+        return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                    parts = NA ,  
+                    table_unit = NA ))
+      } else { 
+        ## Continue for a valid table      
+        tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+        tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
+        
+        ### clean rows in the table 
+        if (tbl_rowkeep[1]-1 == 0) {
+          tbl_numbers <- item_table %>% # remove the first(several) line(s) and keep only the numbers
+            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
+        } else {
+          tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),, drop = F] %>% # remove the first(several) line(s) and keep only the numbers
+            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
+        }
+        
+        ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
+        ifelse((tbl_rowkeep[1]-1) == 1,
+               tbl_title0 <- item_table[1,-1],
+               tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
+                                   MARGIN = 2, 
+                                   FUN = function(name) paste0(name, collapse = " ")))
+        tbl_title <- c("item", tbl_title0, "period")
+        
+        ### store duplicated and non-duplicated column headers
+        tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+        tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
+        #### check whether have duplicated columns 
+        if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
+          tbl_numbers_nondup <- tbl_numbers[, tbl_title_nonduplicated,drop=F] # non-duplicated columns 
+          tbl_numbers_dup <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
+            split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
+            sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
+                                                        tbl_numbers[, id[2]], # merge cells in the same row
+                                                        sep = ""), 
+                                                  pattern = "\\$|(\\s*?)\\(\\d\\)",
+                                                  replacement = ""))
+          if (is.matrix(tbl_numbers_dup)) {
+            tbl_numbers <- cbind(tbl_numbers_dup, tbl_numbers_nondup)
+          } else {
+            tbl_numbers <- cbind(matrix(tbl_numbers_dup, nrow = 1), tbl_numbers_nondup)
+          }  # cbind with non-duplicated headers. 
+        } ## otherwise just use the old tbl_numbers 
+        
+        #### append back the column headers
+        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
+        
+        ### return the cleaned table - from wide to long
+        tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+        
+        ## <table unit information>
+        ## extract the unit information ## updated July 15, 2023 ----
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9c]+\\)")
+        
+        ## <text info excl. table>
+        ## extract item text and exclude the table. 
+        xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
+        filing_item2_txt <- sub(pattern = paste(".*", html_text(text_break_node)[1], sep = ""), 
+                                replacement = "", 
+                                html_text(item_html, trim = T)) %>% # store the txt excl. table
+          sub(pattern = "(Item|ITEM|[A-Z]\\w+\\s[A-Z]\\w+\\s[A-Z]).*", replacement = "", x = .) 
+        
+        # tbl_numbers_cleaned %>% View
+        return(list(table = as.matrix(tbl_numbers_cleaned), 
+                    parts = filing_item2_txt, 
+                    table_unit = item_table_unit
+        ) )
+      }
+    } else { # if no table in the item 
+      return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                  parts = NA, 
+                  table_unit = NA ))
+    }
+  }
+}
                    
                    
 # Appendix. list of built-in functions----
 lsf.str()
 
 # =====================================================
+
+
+# a. filing.cleaned_errorid(): identify the output with errors ---- 
+## From function `filing.cleaned_parallel()`, the `$filing_info` only exists in the correct outputs, 
+## while the info is stored in `$info` and the `$error` can distinguish cases that the file cannot be read. 
+filing.cleaned_errorid <- function(cleaned_dt) { # the cleaned data after the `parallel` 
+  error_id <- which(sapply(cleaned_dt, function(x) {length(x$filing_info) == 0}))
+  return(error_id)
+}
+
+# b. filing.cleaned_parts(): extract correct cleaned data > the `$filing_info` section ---- 
+filing.cleaned_parts <- function(cleaned_dt) {
+  # remove the entries with errors 
+  dt_errorfree <- cleaned_dt[-filing.cleaned_errorid(cleaned_dt)]
+  info_matrix <- do.call(rbind, lapply(dt_errorfree, function(x) x$filing_info))
+  
+  # record empty tables
+  dt_errorfree_na_id <- which(sapply(dt_errorfree, function(x) {NA %in% x$repurchase_tbl}))
+  repurchase_matrix <- do.call(rbind, lapply(dt_errorfree[-dt_errorfree_na_id],
+                                             function(x) cbind(id = x$filing_info[1], x$repurchase_tbl) ))
+  return(list(
+    info_matrix = info_matrix, 
+    repurchase_matrix = repurchase_matrix
+  ))
+}
+
+
