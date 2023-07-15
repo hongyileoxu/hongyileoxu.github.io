@@ -283,7 +283,7 @@ filing.item <- function(x, # filing
   } else { # if there are tables!
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") > 6 & # number of columns > 6
-                           grepl(pattern = "Average.*Price.*Paid.*Per.*Share", x = item_tbls, ignore.case = T))[1] # identify the correct table
+                           grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = item_tbls, ignore.case = T))[1] # identify the correct table
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
@@ -490,7 +490,7 @@ item2_html_table <- function(item_html) { ## updated July 14, 2023
   } else { # if there are tables!
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") > 6 & # number of columns > 6
-                           grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = html_text(item_tbls), ignore.case = T))[1] # identify the correct table ## updated July 14, 2023 ----
+                           grepl(pattern = "Average.*Price.*Paid.*Per.*Share", x = html_text(item_tbls), ignore.case = T))[1] # identify the correct table ## updated July 14, 2023 ----
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
