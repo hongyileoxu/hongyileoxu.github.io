@@ -283,7 +283,7 @@ filing.item <- function(x, # filing
   } else { # if there are tables!
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") > 6 & # number of columns > 6
-                           grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T))[1] # identify the correct table
+                           grepl(pattern = "Average.*Price.*Paid.*Per.*Share", x = item_tbls, ignore.case = T))[1] # identify the correct table
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
