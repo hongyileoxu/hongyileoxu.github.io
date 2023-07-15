@@ -30,7 +30,11 @@ filing.toc <- function(x, # filing
                        regex_toc = '<text>|</text>' # locate ToC
 ){ # find the table of content(s)
   toc <- grep(pattern = regex_toc, x = x, ignore.case = T)[1:2] # the part containing the ToC
-  filing_toc <- read_html(paste0(x[toc[1]:toc[2]], collapse = "")) # extract the toc
+  if (is.na(toc[2])) {
+    filing_toc <- read_html(x[toc[1]]) # extract the toc
+  } else {
+    filing_toc <- read_html(paste(x[toc[1]:toc[2]], collapse = "")) # extract the toc
+  }
   return(filing_toc)
 } 
 
