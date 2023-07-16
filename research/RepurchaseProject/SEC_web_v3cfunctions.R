@@ -139,7 +139,7 @@ loc.item  <- function(x, # filing
       ## check whether the 1st location is found
       if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
         if (loc_item1 == length(x)) {
-          loc_item2 <- loc_item1
+          loc_item <- rep(loc_item1, 2)
         } else {
           # if (loc_item1 >= loc_item1_check) { # if the place is correct 
           loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
