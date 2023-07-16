@@ -33,7 +33,7 @@ filing.toc <- function(x, # filing
   if (is.na(toc[2])) {
     filing_toc <- read_html(x[toc[1]]) # extract the toc
   } else {
-    filing_toc <- read_html(paste(x[toc[1]:toc[2]], collapse = "")) # extract the toc
+    filing_toc <- read_html(paste(x[toc[1]:toc[2]], collapse = " ")) # extract the toc
   }
   return(filing_toc)
 } 
