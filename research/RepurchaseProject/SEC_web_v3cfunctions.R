@@ -138,21 +138,24 @@ loc.item  <- function(x, # filing
       # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
       ## check whether the 1st location is found
       if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
-        # if (loc_item1 >= loc_item1_check) { # if the place is correct 
-        loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
-                          x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                          ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        
-        if (is.na(loc_item2)) { # if it returns NA
-          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+        if (loc_item1 == length(x)) {
+          loc_item2 <- loc_item1
+        } else {
+          # if (loc_item1 >= loc_item1_check) { # if the place is correct 
+          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
                             x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
                             ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-        } ## have a second try if `loc_item2` is NA. 
-        ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
+          
+          if (is.na(loc_item2)) { # if it returns NA
+            loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+                              x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                              ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          }
         
-        # } else {
-        #   loc_item <- rep(NA, 2)
-        # }
+          ## have a second try if `loc_item2` is NA. 
+          ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
+        }
+        
       } else { # if the first is not identified
         loc_item <- rep(NA, 2)
       }
