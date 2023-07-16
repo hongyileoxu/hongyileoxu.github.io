@@ -92,7 +92,7 @@ loc.item  <- function(x, # filing
           
         } ## updated July 16, 2023  
         
-        if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
+        if (item_id1 == item_id2 & !is.na(item_id2)) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
           item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[2]
         }
         
