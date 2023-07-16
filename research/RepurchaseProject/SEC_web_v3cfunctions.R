@@ -381,7 +381,7 @@ filing.item <- function(x, # filing
 
         ## <table unit information>
         ## extract the unit information ## updated July 15, 2023 ----
-        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9c]+\\)")
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c]+\\)")
         
         ## <text info excl. table>
         ## extract item text and exclude the table. 
@@ -603,7 +603,7 @@ item2_html_table <- function(item_html, filing_qrt) { ## updated July 15, 2023
           
           ## <table unit information>
           ## extract the unit information ## updated July 15, 2023 ----
-          item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\(in\\s*[^()0-9c]+\\)")
+          item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c]+\\)")
           
           ## <text info excl. table>
           ## extract item text and exclude the table. 
