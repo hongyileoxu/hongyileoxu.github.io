@@ -74,10 +74,21 @@ loc.item  <- function(x, # filing
       if (!grepl('#', item_id1)) {
         item_id <- rep(NA, 2)
       } else {
-        item_id2 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href"), value = T)[1]
-        if (!grepl('#', item_id2)) { # check whether it is a valid href -> if no then replace with the next valid one 
-          item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T)[1] ## updated July 16, 2023
-        }
+        ### check whether the ToC has multiple components ## updated July 16, 2023 
+        if (toc_row_id == length(toc_row)) {
+          #### find the tables for the ToC
+          toc_tbl_ids <- which(grepl(pattern = ">Part.+I|SIGNATURE", x = toc_tbl, ignore.case = T) )
+          #### record all id(s) in the ToC
+          item_id_all <- unique(grep("#", html_attr(html_nodes(toc_tbl[toc_tbl_ids], "a"), "href"), value = T))
+          #### 
+          item_id2 <- item_id_all[match(item_id1, item_id_all)+1] 
+        } else {
+          item_id2 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href"), value = T)[1]
+          if (!grepl('#', item_id2)) { # check whether it is a valid href -> if no then replace with the next valid one 
+            item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T)[1] ## updated July 16, 2023 
+          }
+          
+        } ## updated July 16, 2023
         
         if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
           item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[2]
