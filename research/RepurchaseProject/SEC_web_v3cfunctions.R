@@ -433,7 +433,7 @@ filing.cleaned <- function(loc_file, # name of the filing
         x_close_tagid[which(diff(x_close_tagid) >= 1)], # guess the location of a potential paragraph/term 
         length(filing)
       )
-      x_para_id <- cbind(head(x_para_id+1, -1), x_para_id[-1])
+      x_para_id <- rbind(rep(1, 2), cbind(head(x_para_id+1, -1), x_para_id[-1])) 
       filing <- apply(X = x_para_id, MARGIN = 1, FUN = function(x) paste(filing[x[1]:x[2]], collapse = " "))
     }
     
