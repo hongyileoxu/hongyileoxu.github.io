@@ -76,7 +76,7 @@ loc.item  <- function(x, # filing
       } else {
         item_id2 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id+1], "a"), "href"), value = T)[1]
         if (!grepl('#', item_id2)) { # check whether it is a valid href -> if no then replace with the next valid one 
-          item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T, fixed = T)[1]
+          item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T)[1] ## updated July 16, 2023
         }
         
         if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
@@ -407,17 +407,27 @@ filing.cleaned <- function(loc_file, # name of the filing
                              table = info[1:max(grep("mail", info[,1], ignore.case = T)[1]-1, nrow(info), na.rm = T),1]), 2] # all info before section "MAIL ADDRESS:"
   
   ## clean the document to improve parsing accuracy. 
-  x_close_tagid <- grep(pattern = "</\\w+>$", filing) # identify the ending tag 
-  ### only do this if the element in the vector is not too small. 
-  if (length(x_close_tagid)/length(filing) < 0.6 & length(filing) > 800) { ## *updated July 15, 2023 ----
-    x_para_id <- c(
-      grep(x = filing, pattern = "</SEC")[1], # the start of the doc 
-      x_close_tagid[which(diff(x_close_tagid) != 1)], # guess the location of a potential paragraph/term 
-      length(filing) 
-    )
-    x_para_id <- cbind(head(x_para_id+1, -1), x_para_id[-1])
-    filing <- apply(X = x_para_id, MARGIN = 1, FUN = function(x) paste(filing[x[1]:x[2]], collapse = " "))
-  }
+  ## updated July 16, 2023 
+  x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body
+  if (any(is.na(x_text_id))) { ## if containing NA 
+    filing <- filing[x_text_id[1]]
+    
+  } else {
+    filing <- filing[x_text_id[1]:x_text_id[2]] ## keep only the text component
+    x_close_tagid <- grep(pattern = "</\\w+>$|<text>", filing, ignore.case = T) # identify the ending tag 
+    
+    ### only do this if the element in the vector is not too small. 
+    if (length(x_close_tagid)/length(filing) < 0.6 & length(filing) > 800) { ## updated July 15, 2023
+      x_para_id <- c(
+        grep(x = filing, pattern = "</SEC")[1], # the start of the doc 
+        x_close_tagid[which(diff(x_close_tagid) >= 1)], # guess the location of a potential paragraph/term 
+        length(filing)
+      )
+      x_para_id <- cbind(head(x_para_id+1, -1), x_para_id[-1])
+      filing <- apply(X = x_para_id, MARGIN = 1, FUN = function(x) paste(filing[x[1]:x[2]], collapse = " "))
+    }
+    
+  }  ## July 16, 2023 
   
   ## store item location
   loc_item2 <- loc.item(x = filing, filing_type = substr(info[2,2], start = 1, stop = 4) )
