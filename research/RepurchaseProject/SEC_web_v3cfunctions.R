@@ -43,12 +43,12 @@ filing.toc <- function(x, # filing
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
                       regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s+(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
-                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(The|THE|the)?\\s*(Registrant|REGISTRANT|registrant|Re|re|RE)") # item header
+                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(The|THE|the)?\\s*(Registrant|REGISTRANT|registrant|Re|re|RE)") # item header ## July 14, 2023 ----
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
   ## > item 5 in 10-K: "Market for Registrant&rsquo;s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities" ;
-
+  
   regex1 <- regex_item[filing_type == c("10-Q", "10-K")] # identify the regex 
   regex2 <- c("[>](Item|ITEM)[^0-9]+2\\.", "[>](Item|ITEM)[^0-9]+5\\.")[filing_type == c("10-Q", "10-K")] # identify the regex for item
   
@@ -68,7 +68,7 @@ loc.item  <- function(x, # filing
       .[grep(pattern = "^(Item|ITEM|\\d)", x = html_text(., trim = T), ignore.case = T)]
     toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T)[1] # separate and identify the row
     
-    ## find the id for the item 
+    ## find the id for the item  ## updated July 16, 2023
     if (!is.na(toc_row_id)) { # if this item exists in the toc 
       item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[1]
       if (!grepl('#', item_id1)) {
@@ -88,7 +88,7 @@ loc.item  <- function(x, # filing
             item_id2 <- grep('#.+', html_attr(html_nodes(toc_row[-(1:toc_row_id)], "a"), "href"), value = T)[1] ## updated July 16, 2023 
           }
           
-        } ## updated July 16, 2023
+        } ## updated July 16, 2023  
         
         if (item_id1 == item_id2) { # for some wired errors for instance: <https://www.sec.gov/Archives/edgar/data/858655/000155837017000308/hayn-20161231x10q.htm#Toc>
           item_id1 <- grep("#.+", html_attr(html_nodes(toc_row[toc_row_id], "a"), "href"), value = T)[2]
@@ -103,10 +103,10 @@ loc.item  <- function(x, # filing
   } else {
     item_id <- rep(NA, 2)
   }
-
+  
   ## <What if no url is found.>  
   if ( ifelse(any(is.na(item_id)), FALSE, item_id[1] != item_id[2]) ) { # locate the item if item_id(url) is found ## updated July 15, 2023 ----
-  
+    
     if (any(nchar(item_id) >= 3)) {
       ## if the id is in the acceptable length
       loc_item <- vapply(X = item_id,
@@ -128,9 +128,10 @@ loc.item  <- function(x, # filing
       ## find the paragraph containing matched id(s) 
       loc_item <- sapply(item_id, FUN = function(id) which(sapply(x_text_attr, FUN = function(x) any(grepl(pattern = paste("^", id, "$", sep = "")[1], x))))[1]) + x_text_id[1] - 1
     }
-
+    
     ## if they are wrongly directed to the same element in `filing / x`. > searching with brutal force: 
     if ( ifelse(any(is.na(loc_item)), TRUE, diff(loc_item) <= 0 & nchar(x[loc_item[1]]) < 5000) ) { ## updated July 15, 2023 ----
+    
       ## this part is exactly the same as the following part > brutal force
       ## look for all the items 
       loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
@@ -138,37 +139,6 @@ loc.item  <- function(x, # filing
       # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
       ## check whether the 1st location is found
       if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
-        if (loc_item1 == length(x)) {
-          loc_item <- rep(loc_item1, 2)
-        } else {
-          # if (loc_item1 >= loc_item1_check) { # if the place is correct 
-          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
-                            x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                            ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-          
-          if (is.na(loc_item2)) { # if it returns NA
-            loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
-                              x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
-                              ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
-          }
-        
-          ## have a second try if `loc_item2` is NA. 
-          ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
-        }
-        
-      } else { # if the first is not identified
-        loc_item <- rep(NA, 2)
-      }
-    }
-                                                                  
-    
-  } else { # if no url or link/identifier is found
-    ## look for all the items 
-    loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
-                           x = x, ignore.case = F), 1)  # find the match
-    # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
-    ## check whether the 1st location is found
-    if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0
         # if (loc_item1 >= loc_item1_check) { # if the place is correct 
         loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
                           x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
@@ -187,6 +157,37 @@ loc.item  <- function(x, # filing
       } else { # if the first is not identified
         loc_item <- rep(NA, 2)
       }
+    }
+    
+    
+  } else { # if no url or link/identifier is found
+    ## look for all the items 
+    loc_item1 <- tail(grep(pattern = regex1, # paste("(", regex1, "|", regex2, ")", sep = "")[1],
+                           x = x, ignore.case = F), 1)  # find the match
+    # loc_item1_check <- tail(grep(pattern = ">Part.+\\bII\\b", x = x, ignore.case = T), 1) # record the Part II section in the filing
+    ## check whether the 1st location is found
+    if (length(loc_item1) > 0 ) { # if the first is identified # & length(loc_item1_check) > 0 ## updated July 16, 2023
+      if (loc_item1 == length(x)) {
+        loc_item <- rep(loc_item1, 2)
+      } else {
+        # if (loc_item1 >= loc_item1_check) { # if the place is correct 
+        loc_item2 <- grep(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}[.]",
+                          x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                          ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+        
+        if (is.na(loc_item2)) { # if it returns NA
+          loc_item2 <- grep(pattern = "(>)?(Item|ITEM)",
+                            x = x[(loc_item1+1):grep(pattern = '<text>|</text>', x = x, ignore.case = T)[2]],
+                            ignore.case = T)[1] + loc_item1 # absorb the case without '>'. 
+          }
+        
+        ## have a second try if `loc_item2` is NA. 
+        ifelse(is.na(loc_item2), loc_item <- rep(loc_item1, 2), loc_item <- c(loc_item1, loc_item2))
+      } 
+      
+    } else { # if the first is not identified
+      loc_item <- rep(NA, 2)
+    }
   }
   
   ## return the location, id, and item number (i.e. item 2 or 5)
