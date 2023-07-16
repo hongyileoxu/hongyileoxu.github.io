@@ -78,8 +78,10 @@ loc.item  <- function(x, # filing
         if (toc_row_id == length(toc_row)) {
           #### find the tables for the ToC
           toc_tbl_ids <- which(grepl(pattern = ">Part.+I|SIGNATURE", x = toc_tbl, ignore.case = T) )
-          #### record all id(s) in the ToC
-          item_id_all <- unique(grep("#", html_attr(html_nodes(toc_tbl[toc_tbl_ids], "a"), "href"), value = T))
+          #### record all id(s) in the ToC ## *updated July 16, 2023 ----
+          toc_row_all <- html_nodes(toc_tbl[toc_tbl_ids], "tr") %>% # separate each row
+            .[grep(pattern = "^(Item|ITEM|\\d)", x = html_text(., trim = T), ignore.case = T)]
+          item_id_all <- unique(grep("#", html_attr(html_nodes(toc_row_all, "a"), "href"), value = T)) 
           #### 
           item_id2 <- item_id_all[match(item_id1, item_id_all)+1] 
         } else {
