@@ -652,7 +652,12 @@ filing.cleaned_errorid <- function(cleaned_dt) { # the cleaned data after the `p
 # b. filing.cleaned_parts(): extract correct cleaned data > the `$filing_info` section ---- 
 filing.cleaned_parts <- function(cleaned_dt) {
   # remove the entries with errors 
-  dt_errorfree <- cleaned_dt[-filing.cleaned_errorid(cleaned_dt)]
+  error_id <- filing.cleaned_errorid(cleaned_dt)
+  if (length(error_id) != 0) {
+    dt_errorfree <- cleaned_dt[-error_id]
+  } else {
+    dt_errorfree <- cleaned_dt
+  }
   info_matrix <- do.call(rbind, lapply(dt_errorfree, function(x) x$filing_info))
   
   # record empty tables
