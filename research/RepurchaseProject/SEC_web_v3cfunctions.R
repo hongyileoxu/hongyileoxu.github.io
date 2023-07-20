@@ -123,7 +123,7 @@ loc.item  <- function(x, # filing
       ## if the id is in the acceptable length
       loc_item <- vapply(X = item_id,
                          FUN = function(p) {
-                           loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", p, "(\"|\')", sep = "")[1], x = x)
+                           loc_item0 <- grep(pattern = paste("[<].+=(\"|\')", gsub("\\W", "\\\\\\W", p), "(\"|\')", sep = "")[1], x = x)
                            return(ifelse(length(loc_item0) != 1, loc_item0[2], loc_item0[1]))
                          },
                          FUN.VALUE = numeric(1))
