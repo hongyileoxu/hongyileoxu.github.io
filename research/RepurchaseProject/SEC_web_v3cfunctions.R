@@ -444,7 +444,7 @@ filing.cleaned <- function(loc_file, # name of the filing
     x_close_tagid <- grep(pattern = "</\\w+>$|<text>", filing, ignore.case = T) # identify the ending tag 
     
     ### only do this if the element in the vector is not too small. 
-    if (length(x_close_tagid)/length(filing) < 0.6 & length(filing) > 800) { ## updated July 15, 2023
+    if (length(x_close_tagid)/length(filing) < 0.7 & length(filing) > 800) { ## updated July 15, 2023
       x_para_id <- c(
         x_close_tagid[which(diff(x_close_tagid) >= 1)], # guess the location of a potential paragraph/term 
         length(filing)
