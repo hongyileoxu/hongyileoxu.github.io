@@ -475,7 +475,7 @@ filing.cleaned <- function(loc_file, # name of the filing
     if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
       x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
       ## search in the tables and store the outputs 
-      item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = "")), 
+      item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = ""), options = c("HUGE", "NSCLEAN")), 
                                               filing_qrt = info_cleaned[4]) ## updated July 15, 2023
       if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
         item2_cleaned <- item2_cleaned_alter 
