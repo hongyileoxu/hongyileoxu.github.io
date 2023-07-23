@@ -18,3 +18,6 @@ Econometrics:
 Data and Topics
 -   Private Equity and Venture Capital: 
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
+
+Other Nice Sources: 
+-  A collection from Xuanli Zhu: [Guide2EconRA](README.md)
