@@ -20,4 +20,4 @@ Data and Topics
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
 
 Other Nice Sources: 
--  A collection from Xuanli Zhu: [Guide2EconRA]([README.md](https://github.com/hongyileoxu/Guide2EconRA_update/blob/7a12be4d321be6ea318c39096703fbcfdb0b6cd6/README.md)https://github.com/hongyileoxu/Guide2EconRA_update/blob/7a12be4d321be6ea318c39096703fbcfdb0b6cd6/README.md)
+-  A collection from Xuanli Zhu: [Guide2EconRA](https://github.com/hongyileoxu/Guide2EconRA_update/blob/7a12be4d321be6ea318c39096703fbcfdb0b6cd6/README.md)
