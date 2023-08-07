@@ -209,7 +209,7 @@ loc.item  <- function(x, # filing
 # d. (INACTIVE) tbl.rowkeep(): sub-function for `filing.item` for table row cleaning ---- 
 tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
                         row_name, # the name of each row
-                        filing_qrt # the filing quarter 
+                        reporting_qrt # the filing quarter 
 ) {
   # identify the rows that match the regex_row
   tbl_periods_id <- grep(pattern = regex_row, row_name, ignore.case = T) # id_row for the periods
@@ -225,7 +225,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
       # create the `period` column 
       tbl_periods <- rep(row_name[tbl_periods_id], time = tbl_periods_times)
       if (grepl(pattern = '[Total]{5}', x = tail(tbl_periods, 1), ignore.case = T)) {
-        tbl_periods[length(tbl_periods)] <- filing_qrt # entering the filing quarter
+        tbl_periods[length(tbl_periods)] <- reporting_qrt # entering the filing quarter
       }
       
     } else {
@@ -279,7 +279,7 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[
    item_id = loc_item2$item_id
    item = loc_item2$item
    text_break_node = text_break_node
-   filing_qrt = info_cleaned[4] ## updated July 16, 2023 
+   reporting_qrt = info_cleaned[4] ## updated July 16, 2023 
    parts = "footnote"
 }
 ## ================================================================================================================
@@ -287,7 +287,7 @@ filing.item0 <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
                         item, # the regex for the item (item number./ item name)
-                        filing_qrt, # the quarter the filing was made 
+                        reporting_qrt, # the quarter the filing was made 
                         text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
                         parts = c("footnote") # the parts of information that you want 
@@ -364,7 +364,7 @@ filing.item0 <- function(x, # filing
         unique.matrix(MARGIN = 2) 
       
       ### identify the rows to keep
-      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
+      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], reporting_qrt = reporting_qrt)
       
       if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
         ## no actual table can be identified 
@@ -678,14 +678,14 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  item_id = loc_item2$item_id,
                                  item = loc_item2$item,
                                  text_break_node = text_break_node, 
-                                 filing_qrt = info_cleaned[4],
+                                 reporting_qrt = info_cleaned[4],
                                  parts = "footnote")
     
     if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
       x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
       ## search in the tables and store the outputs 
       item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = ""), options = c("HUGE", "NSCLEAN")), 
-                                              filing_qrt = info_cleaned[4]) ## updated July 15, 2023
+                                              reporting_qrt = info_cleaned[4]) ## updated July 15, 2023
       if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
         item2_cleaned <- item2_cleaned_alter 
       }
@@ -732,7 +732,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
 }
 
 # h. item2_html_table(): extract the table of interest directly from the filing ----
-item2_html_table <- function(item_html, filing_qrt) { ## updated July 15, 2023 
+item2_html_table <- function(item_html, reporting_qrt) { ## updated July 15, 2023 
   ## normally put the whole filing in html format in the function
   item_tbls <- html_nodes(item_html, "table")
   ## check for tables 
@@ -763,7 +763,7 @@ item2_html_table <- function(item_html, filing_qrt) { ## updated July 15, 2023
       
       if (length(unique(item_table[1,])) >= 4) {
         ### identify the rows to keep
-        tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], filing_qrt = filing_qrt)
+        tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], reporting_qrt = reporting_qrt)
         
         if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
           ## no actual table can be identified 
