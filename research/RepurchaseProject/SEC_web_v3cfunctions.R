@@ -655,17 +655,19 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  text_break_node = text_break_node, 
                                  reporting_qrt = info_cleaned[4],
                                  parts = "footnote")
-    
-    if (all(is.na(item2_cleaned$table))) { ## updated July 15, 2023 ---- 
-      x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
-      ## search in the tables and store the outputs 
-      item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = ""), options = c("HUGE", "NSCLEAN")), 
-                                              reporting_qrt = info_cleaned[4]) ## updated July 15, 2023
-      if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
-        item2_cleaned <- item2_cleaned_alter 
+
+    ## re-search the whole document 
+    if (0 == 1) { # I hide this component
+      if (all(is.na(item2_cleaned$table))) { ## updated July 16, 2023 
+        x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body 
+        ## search in the tables and store the outputs 
+        item2_cleaned_alter <- item2_html_table(item_html = read_html(paste(filing[x_text_id[1]:x_text_id[2]], collapse = ""), options = c("HUGE", "NSCLEAN")), 
+                                                reporting_qrt = info_cleaned[4]) ## updated July 15, 2023
+        if (!is.na(item2_cleaned_alter$parts)) { # only replace the old one if the new output is valid. 
+          item2_cleaned <- item2_cleaned_alter 
+        }
       }
     }
-    
   }
 
                     
