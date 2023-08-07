@@ -271,170 +271,9 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table ----
+# e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table 
 ## ================================================================================================================
-filing.item0 <- function(x, # filing
-                        loc_item, # the location of the item of interest
-                        item_id, # the identifier from 'href' for the section 
-                        item, # the regex for the item (item number./ item name)
-                        reporting_qrt, # the quarter the filing was made 
-                        text_break_node, # the xml to replace the identified table
-                        table = TRUE, # whether to scrap the table numbers 
-                        parts = c("footnote") # the parts of information that you want 
-) { 
-  # extract info from the section/item 
-  if (loc_item[1] == loc_item[2]) {
-    # print("same loc_item")
-    if (any(is.na(item_id)) == TRUE) {
-      # print("no item_id")
-      item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
-      item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) 
-    } else {
-      
-      if (any(nchar(item_id) >= 3)) { # the id is long enough
-        # print("Yes! item_id")
-        item_parse <- sub(pattern = paste(".*(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
-        
-        ## check if the item_parse contains the correct item info 
-        if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}(.)?.+[A-Z]\\w+\\s+[A-Z]", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 15, 2023
-          item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-        } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
-          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F) # updated July 15, 2023
-          item_txt <- sub(pattern = "(>|)(Item|ITEM)[^_].*", "", item_parse) 
-        }
-        
-      } else { # if the id is NOT long enough 
-        # print("Yes! item_id")
-        item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
-        item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) ## July 14, 2023 
-      }
-      
-    }
-  } else {
-    # the full item 
-    item_txt <- x[loc_item[1]:loc_item[2]] 
-  }
-  
-  # find the table(s) 
-  # res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
-  res <- try(item_html <- read_html(paste("<text>", paste(str_squish(item_txt), collapse = ""), "</text>", collapse = "")), silent = T)
-  if (inherits(res, "try-error")) {
-    if (nchar(x[loc_item[1]]) > 300) {
-      item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", paste(item_txt, collapse = " "), ignore.case = T) ## July 14, 2023 
-      item_txt <- sub(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}.*", "", item_parse)
-      res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
-    }
-    res2 <- try(item_html <- read_html(paste('<p>', item_txt, '</p>', collapse = "")), silent = T)
-  } 
-  
-  item_tbls <- html_nodes(item_html, "table")
-  if (length(item_tbls) == 0) { # if no table found in the item 
-    print("No Table!")
-    return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                parts = "No Table!", # html_text(item_html, trim = T),  
-                table_unit = NA))
-  } else { # if there are tables! ## * updated July 20, 2023 ---- 
-    item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
-    str_count(string = as.character(item_tbls), pattern = "/td") / str_count(string = as.character(item_tbls), pattern = "/tr") >= 6 & # number of columns >= 6
-    grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T))[1] # identify the correct table
-    
-    ## extract the table 
-    if (ifelse(is.na(item_tbl_id), 
-               FALSE, # if no table is identified
-               grepl(pattern = "total.*number.*of|Average.*Price.*Paid",
-                     x = html_text(item_tbls[[item_tbl_id]]),
-                     ignore.case = T) # check again the table is correct
-    )
-    ) { 
-      ### <Tables starts here!>
-      ### clean the table 
-      item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
-        .[which(rowSums(is.na(.)) == min(rowSums(is.na(.)))), , drop=F] %>% # exclude the mostly empty line. 
-        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% 
-        unique.matrix(MARGIN = 2) 
-      
-      ### identify the rows to keep
-      tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], reporting_qrt = reporting_qrt)
-      
-      if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
-        ## no actual table can be identified 
-        return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                    parts = html_text(item_html, trim = T),  
-                    table_unit = NA ))
-      } else { 
-        ## Continue for a valid table      
-        tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
-        tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
-        
-        ### clean rows in the table 
-        if (tbl_rowkeep[1]-1 == 0) {
-          tbl_numbers <- item_table %>% # remove the first(several) line(s) and keep only the numbers
-            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
-        } else {
-          tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),, drop = F] %>% # remove the first(several) line(s) and keep only the numbers
-            cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-            .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
-        }
-        
-        ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
-        ifelse((tbl_rowkeep[1]-1) == 1,
-               tbl_title0 <- item_table[1,-1],
-               tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
-                                   MARGIN = 2, 
-                                   FUN = function(name) paste0(name, collapse = " ")))
-        tbl_title <- c("item", tbl_title0, "period")
-        
-        ### store duplicated and non-duplicated column headers
-        tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
-        tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
-        #### check whether have duplicated columns 
-        if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
-          tbl_numbers_nondup <- tbl_numbers[, tbl_title_nonduplicated,drop=F] # non-duplicated columns 
-          tbl_numbers_dup <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
-            split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
-            sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
-                                                        tbl_numbers[, id[2]], # merge cells in the same row
-                                                        sep = ""), 
-                                                  pattern = "\\$|(\\s*?)\\(\\d\\)",
-                                                  replacement = ""))
-          if (is.matrix(tbl_numbers_dup)) {
-            tbl_numbers <- cbind(tbl_numbers_dup, tbl_numbers_nondup)
-          } else {
-            tbl_numbers <- cbind(matrix(tbl_numbers_dup, nrow = 1), tbl_numbers_nondup)
-          }  # cbind with non-duplicated headers. 
-        } ## otherwise just use the old tbl_numbers 
-        
-        #### append back the column headers
-        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
-        
-        ### return the cleaned table - from wide to long
-        tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
-        
-        ## <table unit information>
-        ## extract the unit information ## updated July 16, 2023
-        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")
-        
-        ## <text info excl. table>
-        ## extract item text and exclude the table. 
-        xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
-        filing_item2_txt <- html_text(item_html, trim = T) # store the txt excl. table
-        
-        # tbl_numbers_cleaned %>% View
-        return(list(table = as.matrix(tbl_numbers_cleaned), 
-                    parts = filing_item2_txt,
-                    table_unit = item_table_unit
-        ) )
-      }
-    } else { # if no table in the item 
-      return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = html_text(item_html, trim = T),  
-                  table_unit = NA ))
-    }
-  }
-}
-## ================================================================================================================
-#### e2. updated filing.item(): extract text (header and/or footnote), unit and cleaned table ---- ---- 
+#### e2. updated filing.item(): extract text (header and/or footnote), unit and cleaned table ---- 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
@@ -475,11 +314,15 @@ filing.item <- function(x, # filing
   } else {
     # the full item 
     item_txt <- x[loc_item[1]:loc_item[2]] 
+    # item_txt <-  paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = " ") %>% 
+    #   sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>%
+    #   sub(pattern = "(>|)(Item|ITEM).*", "", .) ## August 7, 2023 
   }
   
   # find the table(s) 
   # res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
   res <- try(item_html <- read_html(paste("<text>", paste(str_squish(item_txt), collapse = ""), "</text>", collapse = "")), silent = T)
+  # res <- try(item_html <- read_html(paste("<text>", item_txt, "</text>", collapse = "")), silent = T)
   if (inherits(res, "try-error")) {
     if (nchar(x[loc_item[1]]) > 300) {
       item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", paste(item_txt, collapse = " "), ignore.case = T) ## July 14, 2023 
@@ -493,7 +336,7 @@ filing.item <- function(x, # filing
   if (length(item_tbls) == 0) { # if no table found in the item 
     print("No Table!")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                parts = html_text(item_html, trim = T),  
+                parts = "No Table!" , # html_text(item_html, trim = T),  
                 table_unit = NA))
   } else { # if there are tables! ## * updated July 20, 2023 ---- 
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
@@ -511,8 +354,8 @@ filing.item <- function(x, # filing
       ### <Tables starts here!>
       ### clean the table 
       item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
+        .[-which(apply(., 1, FUN = function(r) sum(nchar(r), na.rm = T)) == 0), , drop=F] %>% # remove the empty rows and NAs
         .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
-        .[-which(apply(., 1, FUN = function(r) sum(nchar(r))) == 0), , drop=F] %>% # remove the empty rows
         unique.matrix(x = ., MARGIN = 2) # remove repeated columns 
       
       
@@ -567,7 +410,7 @@ filing.item <- function(x, # filing
         } ## otherwise just use the old tbl_numbers 
         
         #### append back the column headers
-        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
+        colnames(tbl_numbers) <- tbl_title[!duplicated(tbl_title_dupid)] 
         
         ### return the cleaned table - from wide to long
         tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
