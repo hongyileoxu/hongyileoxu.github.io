@@ -737,97 +737,90 @@ item2_html_table <- function(item_html, reporting_qrt) { ## updated July 15, 202
       ### <Tables starts here!>
       ### clean the table 
       item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
-        .[which(rowSums(is.na(.)) == min(rowSums(is.na(.)))), , drop=F] %>% # exclude the mostly empty line. 
-        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% 
-        unique.matrix(MARGIN = 2) 
+        .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
+        .[-which(apply(., 1, FUN = function(r) sum(nchar(r))) == 0), , drop=F] %>% # remove the empty rows
+        unique.matrix(x = ., MARGIN = 2) # remove repeated columns 
       
-      if (length(unique(item_table[1,])) >= 4) {
-        ### identify the rows to keep
-        tbl_rowkeep_info <- tbl.rowkeep(row_name = item_table[,1], reporting_qrt = reporting_qrt)
+      
+      ### identify the rows to keep
+      #### the header row 
+      item_table_headerid <- max(which(apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", x))) == max(apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", x)))))) ## record the number of cells with letters in each row 
+      #### the number rows (after removing the header row(s) )
+      item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+      #### the new `period` variable and rows to be kept 
+      tbl_rowkeep_info <- tbl.rowkeep2(row_name = item_table[,1], reporting_qrt = reporting_qrt)
+      
+      if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
+        ## no actual table can be identified 
+        return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                    parts = html_text(item_html, trim = T),  
+                    table_unit = NA ))
+      } else { 
+        ## Continue for a valid table      
+        tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+        tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
         
-        if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
-          ## no actual table can be identified 
-          return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                      parts = NA ,  
-                      table_unit = NA ))
-        } else { 
-          ## Continue for a valid table      
-          tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
-          tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
-          
-          ### clean rows in the table 
-          if (tbl_rowkeep[1]-1 == 0) {
-            tbl_numbers <- item_table %>% # remove the first(several) line(s) and keep only the numbers
-              cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-              .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
-          } else {
-            tbl_numbers <- item_table[-(1:(tbl_rowkeep[1]-1)),, drop = F] %>% # remove the first(several) line(s) and keep only the numbers
-              cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
-              .[tbl_rowkeep+1-tbl_rowkeep[1],, drop = F] # clean duplicated rows 
-          }
-          
-          ####  clean the main titles and store to tbl_title0 -> merge into tbl_title
-          ifelse((tbl_rowkeep[1]-1) == 1,
-                 tbl_title0 <- item_table[1,-1],
-                 tbl_title0 <- apply(X = item_table[(1:(tbl_rowkeep[1]-1)),-1, drop=F],
-                                     MARGIN = 2, 
-                                     FUN = function(name) paste0(name, collapse = " ")))
-          tbl_title <- c("item", tbl_title0, "period")
-          
-          ### store duplicated and non-duplicated column headers
-          tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
-          tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
-          #### check whether have duplicated columns 
-          if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
-            tbl_numbers_nondup <- tbl_numbers[, tbl_title_nonduplicated,drop=F] # non-duplicated columns 
-            tbl_numbers_dup <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
-              split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
-              sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
-                                                          tbl_numbers[, id[2]], # merge cells in the same row
-                                                          sep = ""), 
-                                                    pattern = "\\$|(\\s*?)\\(\\d\\)",
-                                                    replacement = ""))
-            if (is.matrix(tbl_numbers_dup)) {
-              tbl_numbers <- cbind(tbl_numbers_dup, tbl_numbers_nondup)
-            } else {
-              tbl_numbers <- cbind(matrix(tbl_numbers_dup, nrow = 1), tbl_numbers_nondup)
-            }  # cbind with non-duplicated headers. 
-          } ## otherwise just use the old tbl_numbers 
-          
-          #### append back the column headers
-          colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
-          
-          ### return the cleaned table - from wide to long
-          tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
-          
-          ## <table unit information>
-          ## extract the unit information ## updated July 15, 2023 ----
-          item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")
-          
-          ## <text info excl. table>
-          ## extract item text and exclude the table. 
-          xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
-          filing_item2_txt <- sub(pattern = paste(".*", html_text(text_break_node)[1], sep = ""), 
-                                  replacement = "", 
-                                  html_text(item_html, trim = T)) %>% # store the txt excl. table
-            sub(pattern = "(Item|ITEM|[A-Z]\\w+\\s[A-Z]\\w+\\s[A-Z]).*", replacement = "", x = .) 
-          
-          # tbl_numbers_cleaned %>% View
-          return(list(table = as.matrix(tbl_numbers_cleaned), 
-                      parts = filing_item2_txt, 
-                      table_unit = item_table_unit
-          ) )
+        ### clean rows in the table 
+        tbl_numbers <- item_table %>% .[tbl_rowkeep, ,drop=F] %>% # keep the rows after the headers
+          cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+          .[match(item_table_numbersid[item_table_numbersid >= (tbl_rowkeep)[1]], tbl_rowkeep), ,drop=F] # keep the rows with values 
+        
+        ### create the tbl_titles
+        if (item_table_headerid == 1) {
+          tbl_title0 <- item_table[item_table_headerid,-1,drop=T] %>% gsub(pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "", x = .)
+        } else {
+          tbl_title0 <- apply(item_table[1:item_table_headerid,-1,drop=F], MARGIN = 2,
+                              FUN = function(name) paste(name, collapse = " ") ) %>%
+            gsub(pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = " ", x = .)
         }
         
-      } else {
-        return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                    parts = NA, 
-                    table_unit = NA ))
+        tbl_title <- c("item", as.vector(tbl_title0), "period")
+        
+        
+        ### store duplicated and non-duplicated column headers
+        tbl_title_duplicated <- which(x = duplicated(tbl_title)) # duplicated
+        tbl_title_nonduplicated <- setdiff(1:length(tbl_title), c(tbl_title_duplicated-1, tbl_title_duplicated))
+        #### check whether have duplicated columns 
+        if (length(tbl_title_duplicated) > 0) { # if there are duplicated columns 
+          tbl_numbers_nondup <- tbl_numbers[, tbl_title_nonduplicated,drop=F] # non-duplicated columns 
+          tbl_numbers_dup <- cbind(tbl_title_duplicated - 1, tbl_title_duplicated) %>% # identify all duplicated ones 
+            split(., seq(nrow(.))) %>% # create a list recording the repeated headers in pairs <each element in the list contains a pair>
+            sapply(FUN = function(id) str_replace(paste(tbl_numbers[, id[1]],
+                                                        tbl_numbers[, id[2]], # merge cells in the same row
+                                                        sep = ""), 
+                                                  pattern = "\\$|(\\s*?)\\(\\d\\)",
+                                                  replacement = ""))
+          if (is.matrix(tbl_numbers_dup)) {
+            tbl_numbers <- cbind(tbl_numbers_dup, tbl_numbers_nondup)
+          } else {
+            tbl_numbers <- cbind(matrix(tbl_numbers_dup, nrow = 1), tbl_numbers_nondup)
+          }  # cbind with non-duplicated headers. 
+        } ## otherwise just use the old tbl_numbers 
+        
+        #### append back the column headers
+        colnames(tbl_numbers) <- tbl_title[c(tbl_title_duplicated, tbl_title_nonduplicated)] 
+        
+        ### return the cleaned table - from wide to long
+        tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+        
+        ## <table unit information>
+        ## extract the unit information ## updated July 16, 2023
+        item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")
+        
+        ## <text info excl. table>
+        ## extract item text and exclude the table. 
+        xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
+        filing_item2_txt <- html_text(item_html, trim = T) # store the txt excl. table
+        
+        # tbl_numbers_cleaned %>% View
+        return(list(table = as.matrix(tbl_numbers_cleaned), 
+                    parts = filing_item2_txt,
+                    table_unit = item_table_unit
+        ) )
       }
-      
     } else { # if no table in the item 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = NA, 
+                  parts = html_text(item_html, trim = T),  
                   table_unit = NA ))
     }
   }
