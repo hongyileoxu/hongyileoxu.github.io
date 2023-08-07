@@ -273,16 +273,6 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[
 
 # e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table ----
 ## ================================================================================================================
-{
-   x = filing
-   loc_item = loc_item2$loc_item
-   item_id = loc_item2$item_id
-   item = loc_item2$item
-   text_break_node = text_break_node
-   reporting_qrt = info_cleaned[4] ## updated July 16, 2023 
-   parts = "footnote"
-}
-## ================================================================================================================
 filing.item0 <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
@@ -445,16 +435,6 @@ filing.item0 <- function(x, # filing
 }
 ## ================================================================================================================
 #### e2. updated filing.item(): extract text (header and/or footnote), unit and cleaned table ---- ---- 
-{
-  x = filing
-  loc_item = loc_item2$loc_item
-  item_id = loc_item2$item_id
-  item = loc_item2$item
-  text_break_node = text_break_node
-  reporting_qrt = info_cleaned[4] ## updated July 16, 2023 
-  parts = "footnote"
-}
-#### e2. updated filing.item() function 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
