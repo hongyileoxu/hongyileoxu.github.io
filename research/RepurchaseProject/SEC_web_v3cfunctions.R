@@ -361,7 +361,8 @@ filing.item <- function(x, # filing
       
       ### identify the rows to keep
       #### the header row 
-      item_table_headerid <- max(which(apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", x))) == max(apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", x)))))) ## record the number of cells with letters in each row 
+      item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
+      item_table_headerid <- max(which(item_table_headercount == max(item_table_headercount))) ## record the number of cells with letters in each row 
       #### the number rows (after removing the header row(s) )
       item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
       #### the new `period` variable and rows to be kept 
