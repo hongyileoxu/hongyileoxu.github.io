@@ -364,9 +364,9 @@ filing.item <- function(x, # filing
       item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
       item_table_headerid <- max(which(item_table_headercount == max(item_table_headercount))) ## record the number of cells with letters in each row 
       #### the number rows (after removing the header row(s) )
-      item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+      item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1,drop=F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
       #### the first column with other info 
-      tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Total", x = x, ignore.case = T))) > 0)[1]
+      tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Total|Number", x = x, ignore.case = T))) > 0)[1]
       if (tbl_colkeep_info != 2) { # if multiple first columns 
         item_table <- cbind(
           as.matrix(apply(item_table[,1:(tbl_colkeep_info-1)], 1, FUN = function(x) paste(unique(x), collapse = ""))), 
