@@ -334,7 +334,7 @@ filing.item <- function(x, # filing
   
   item_tbls <- html_nodes(item_html, "table")
   if (length(item_tbls) == 0) { # if no table found in the item 
-    print("No Table!")
+    # print("No Table!")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = "No Table!" , # html_text(item_html, trim = T),  
                 table_unit = NA))
