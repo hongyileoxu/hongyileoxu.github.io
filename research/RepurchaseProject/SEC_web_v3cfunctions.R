@@ -251,7 +251,7 @@ tbl.rowkeep <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-
 }
 
 # d2. updated tbl.rowkeep2() function 
-tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-]|\\d+\\/\\d+\\/\\d+)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)', # the regex for the kept row(s)
+tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[-]|\\d+\\/\\d+\\/\\d+)|((Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\b)', # the regex for the kept row(s)
                          row_name, # the name of each row
                          reporting_qrt # the reporting quarter 
 ) {
@@ -277,8 +277,7 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[
 
 # e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table 
 ## ================================================================================================================
-#### e2. updated filing.item(): extract text (header and/or footnote), unit and cleaned table ---- 
-#### e2. updated filing.item() function 
+# e2. updated filing.item() function 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
@@ -368,22 +367,28 @@ filing.item <- function(x, # filing
     )
     ) { 
       ### <Tables starts here!>
-      ### clean the table 
-      item_table1 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) # 1. store in a matrix 
+      ### clean the table ## *updated August 8, 2023 
+      item_table0 <- as.matrix(html_table(item_tbls[[item_tbl_id]]))
+      if ( sum(item_table0[1,] %in% month.name) > 0 ) { # for the case: "0001144204-17-014104"
+        item_table0 <- item_table0 %>%
+          .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
+          t(.)
+      }  
+      item_table1 <- unique.matrix(item_table0, MARGIN = 1) # 1. store in a matrix 
       item_table2 <- item_table1[(apply(item_table1, 1, FUN = function(r) sum(nchar(r), na.rm = T)) != 0), , drop=F] # remove the empty rows and NAs
       item_table <- item_table2 %>% 
         .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
         unique.matrix(x = ., MARGIN = 2) # remove repeated columns 
       
       ### identify the rows to keep
-      #### the header row 
-      item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
+      #### the header row ## *updated August 8, 2023 
+      item_table_headercount <- apply(item_table[, ncol(item_table) + (-4:-1)], 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
       item_table_headerid <- max(which(item_table_headercount == max(item_table_headercount))) ## record the number of cells with letters in each row 
       #### the number rows (after removing the header row(s) )
       item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
       #### the first column with other info 
-      tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Number|Share", x = x, ignore.case = T))) > 0)[1]
-      if (tbl_colkeep_info != 2) { # if multiple first columns 
+      tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Total|Number|Share", x = x, ignore.case = T))) > 0)[1]
+      if (tbl_colkeep_info > 2) { # if multiple first columns 
         item_table <- cbind(
           as.matrix(apply(item_table[,1:(tbl_colkeep_info-1)], 1, FUN = function(x) paste(unique(x), collapse = ""))), 
           item_table[,-(1:(tbl_colkeep_info-1)), drop=F] 
@@ -456,9 +461,9 @@ filing.item <- function(x, # filing
                     table_unit = item_table_unit
         ) )
       }
-    } else { # if no table in the item 
+    } else { # if no table in the item ## *updated August 8, 2023 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = html_text(item_html, trim = T),  
+                  parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
                   table_unit = NA ))
     }
   }
