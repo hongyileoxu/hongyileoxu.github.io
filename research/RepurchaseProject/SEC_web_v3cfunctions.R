@@ -107,6 +107,10 @@ loc.item  <- function(x, # filing
         }
         
         item_id <-  sub(pattern = '#', replacement = '', x = c(item_id1, item_id2))
+
+        ## add a backup id ## updated August 8, 2023 
+        item_id_backup <- grep('#.+', html_attr(html_nodes(toc_row[-(1:(toc_row_id))], "a"), "href"), value = T)[2:3] %>% ## updated August 8, 2023 
+          sub(pattern = '#', replacement = '', x = .) 
       }
     } else {
       item_id <- rep(NA, 2)
@@ -278,6 +282,7 @@ filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
                         item, # the regex for the item (item number./ item name)
+                        item_id_backup = loc_item2$item_id_backup, # two backup ids ## updated August 8, 2023 
                         reporting_qrt, # the quarter the filing was made 
                         text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
@@ -300,8 +305,12 @@ filing.item <- function(x, # filing
         if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}(.)?.+[A-Z]\\w+\\s+[A-Z]", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 15, 2023
           if (grepl(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", sep=""), x = item_parse) ) {
             item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-          } else {
-            item_txt <- sub(pattern = "(>|)(Item|ITEM)[^_].*", "", item_parse) 
+          } else { ## updated August 8, 2023 
+            item_txt <- ifelse(
+              (grepl(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", sep=""), x = item_parse) ), 
+              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", ".*", sep=""), "", item_parse),
+              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+            )
           }
           
         } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
@@ -509,6 +518,7 @@ filing.cleaned <- function(loc_file, # name of the filing
                                  loc_item = loc_item2$loc_item,
                                  item_id = loc_item2$item_id,
                                  item = loc_item2$item,
+                                 item_id_backup = loc_item2$item_id_backup, ## updated August 8, 2023 
                                  text_break_node = text_break_node, 
                                  reporting_qrt = info_cleaned[4],
                                  parts = "footnote")
