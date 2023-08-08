@@ -356,7 +356,7 @@ filing.item <- function(x, # filing
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") / str_count(string = as.character(item_tbls), pattern = "/tr") >= 6 & # number of columns >= 6
                            grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T) & 
-                           grepl(pattern = "program", x = item_tbls, ignore.case = T))[1] # identify the correct table
+                           grepl(pattern = "program|price|plan", x = item_tbls, ignore.case = T))[1] # identify the correct table
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
