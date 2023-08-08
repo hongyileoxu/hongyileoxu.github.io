@@ -278,11 +278,12 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|to|[
 # e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table 
 ## ================================================================================================================
 #### e2. updated filing.item(): extract text (header and/or footnote), unit and cleaned table ---- 
+#### e2. updated filing.item() function 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
                         item, # the regex for the item (item number./ item name)
-                        item_id_backup = loc_item2$item_id_backup, # two backup ids ## updated August 8, 2023 
+                        item_id_backup = loc_item2$item_id_backup, # a backup id ## *August 8, 2023 
                         reporting_qrt, # the quarter the filing was made 
                         text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
@@ -305,7 +306,7 @@ filing.item <- function(x, # filing
         if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}(.)?.+[A-Z]\\w+\\s+[A-Z]", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 15, 2023
           if (grepl(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", sep=""), x = item_parse) ) {
             item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-          } else { ## updated August 8, 2023 
+          } else { ## *August 8, 2023 
             item_txt <- ifelse(
               (grepl(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", sep=""), x = item_parse) ), 
               sub(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", ".*", sep=""), "", item_parse),
@@ -352,11 +353,11 @@ filing.item <- function(x, # filing
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = "No Table!" , # html_text(item_html, trim = T),  
                 table_unit = NA))
-  } else { # if there are tables! ## * updated July 20, 2023 ---- 
+  } else { # if there are tables! ## updated August 8, 2023 
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") / str_count(string = as.character(item_tbls), pattern = "/tr") >= 6 & # number of columns >= 6
                            grepl(pattern = "Total.*Number|purchase|repurchase|[^(consolid)]", x = item_tbls, ignore.case = T) & 
-                           grepl(pattern = "program", x = item_tbls, ignore.case = T))[1] # identify the correct table 
+                           grepl(pattern = "program", x = item_tbls, ignore.case = T))[1] # identify the correct table
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
@@ -379,15 +380,16 @@ filing.item <- function(x, # filing
       item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
       item_table_headerid <- max(which(item_table_headercount == max(item_table_headercount))) ## record the number of cells with letters in each row 
       #### the number rows (after removing the header row(s) )
-      item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1,drop=F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+      item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
       #### the first column with other info 
       tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Number|Share", x = x, ignore.case = T))) > 0)[1]
       if (tbl_colkeep_info != 2) { # if multiple first columns 
         item_table <- cbind(
           as.matrix(apply(item_table[,1:(tbl_colkeep_info-1)], 1, FUN = function(x) paste(unique(x), collapse = ""))), 
-          item_table[,-(1:(tbl_colkeep_info-1))] 
+          item_table[,-(1:(tbl_colkeep_info-1)), drop=F] 
         )
       }
+      
       #### the new `period` variable and rows to be kept 
       tbl_rowkeep_info <- tbl.rowkeep2(row_name = item_table[,1], reporting_qrt = reporting_qrt)
       
@@ -456,11 +458,12 @@ filing.item <- function(x, # filing
       }
     } else { # if no table in the item 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = "No Table!", # html_text(item_html, trim = T),  
+                  parts = html_text(item_html, trim = T),  
                   table_unit = NA ))
     }
   }
 }
+
 
 ## ================================================================================================================
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
