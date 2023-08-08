@@ -432,7 +432,7 @@ filing.item <- function(x, # filing
       }
     } else { # if no table in the item 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
-                  parts = html_text(item_html, trim = T),  
+                  parts = "No Table!", # html_text(item_html, trim = T),  
                   table_unit = NA ))
     }
   }
