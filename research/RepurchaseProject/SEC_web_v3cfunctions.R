@@ -283,7 +283,7 @@ filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
                         item, # the regex for the item (item number./ item name)
-                        item_id_backup = loc_item2$item_id_backup, # a backup id ## *August 8, 2023 
+                        item_id_backup, # a backup id ## *August 8, 2023 
                         reporting_qrt, # the quarter the filing was made 
                         text_break_node, # the xml to replace the identified table
                         table = TRUE, # whether to scrap the table numbers 
