@@ -353,8 +353,9 @@ filing.item <- function(x, # filing
     ) { 
       ### <Tables starts here!>
       ### clean the table 
-      item_table <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) %>% # 1. store in a matrix 
-        .[-which(apply(., 1, FUN = function(r) sum(nchar(r), na.rm = T)) == 0), , drop=F] %>% # remove the empty rows and NAs
+      item_table1 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]])), MARGIN = 1) # 1. store in a matrix 
+      item_table2 <- item_table1[(apply(item_table1, 1, FUN = function(r) sum(nchar(r), na.rm = T)) != 0), , drop=F] # remove the empty rows and NAs
+      item_table <- item_table2 %>% 
         .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
         unique.matrix(x = ., MARGIN = 2) # remove repeated columns 
       
