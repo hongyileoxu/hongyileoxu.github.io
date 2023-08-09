@@ -326,16 +326,26 @@ filing.item <- function(x, # filing
       
     }
   } else {
-    # the full item 
-    item_txt <- x[loc_item[1]:loc_item[2]] 
+    # the full item ## *updated August 9, 2023 
+    if (any(is.na(item_id))) {
+      item_txt <- x[loc_item[1]:loc_item[2]] %>%
+        paste(str_squish(.), collapse = "") %>% 
+        sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>% 
+        sub(pattern = "(>)?(Item|ITEM)(.){0,30}[6-9]\\b.*", "", .) ## *updated August 9, 2023 
+      
+    } else {
+      item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "")
+      
+    }
+    
     # item_txt <-  paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = " ") %>% 
     #   sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>%
     #   sub(pattern = "(>|)(Item|ITEM).*", "", .) ## August 7, 2023 
   }
   
-  # find the table(s) 
+  # find the table(s) ## *updated August 9, 2023 
   # res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
-  res <- try(item_html <- read_html(paste("<text>", paste(str_squish(item_txt), collapse = ""), "</text>", collapse = "")), silent = T)
+  res <- try(item_html <- read_html(paste("<text>", item_txt, "</text>", collapse = "")), silent = T)
   # res <- try(item_html <- read_html(paste("<text>", item_txt, "</text>", collapse = "")), silent = T)
   if (inherits(res, "try-error")) {
     if (nchar(x[loc_item[1]]) > 300) {
@@ -356,7 +366,8 @@ filing.item <- function(x, # filing
     item_tbl_id <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
                            str_count(string = as.character(item_tbls), pattern = "/td") / str_count(string = as.character(item_tbls), pattern = "/tr") >= 6 & # number of columns >= 6
                            grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T) & 
-                           grepl(pattern = "program|price|plan", x = item_tbls, ignore.case = T))[1] # identify the correct table
+                           grepl(pattern = "program|price|plan", x = item_tbls, ignore.case = T) & 
+                           grepl(pattern = "share", x = item_tbls, ignore.case = T))[1] # identify the correct table
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
@@ -369,32 +380,40 @@ filing.item <- function(x, # filing
       ### <Tables starts here!>
       ### clean the table ## *updated August 8, 2023 
       item_table0 <- as.matrix(html_table(item_tbls[[item_tbl_id]]))
-      if ( sum(item_table0[1,] %in% month.name) > 0 ) { # for the case: "0001144204-17-014104"
+      if ( any(grepl(pattern = "total.*number.*of|Average.*Price.*Paid|announce", x = item_table0[,1], ignore.case = T)) ) { # for the case: "0001144204-17-014104" ## sum(item_table0[1,] %in% month.name) > 0
         item_table0 <- item_table0 %>%
-          .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
-          t(.)
+          .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] # remove columns having only $ or NA 
+        item_table0 <- t(item_table0)
       }  
+      
+      # if (nrow(item_table0) == 36 & any(grepl("Fiscal 2009", item_table0))) 
+      
       item_table1 <- unique.matrix(item_table0, MARGIN = 1) # 1. store in a matrix 
       item_table2 <- item_table1[(apply(item_table1, 1, FUN = function(r) sum(nchar(r), na.rm = T)) != 0), , drop=F] # remove the empty rows and NAs
       item_table <- item_table2 %>% 
         .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] %>% # remove columns having only $ or NA 
         unique.matrix(x = ., MARGIN = 2) # remove repeated columns 
+        
+      
       
       ### identify the rows to keep
       #### the header row ## *updated August 8, 2023 
-      item_table_headercount <- apply(item_table[, ncol(item_table) + (-4:-1)], 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x))))
+      res_header <- try(item_table_headercount <- apply(item_table[, ncol(item_table) + (-4:-1)], 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x)))) )
+      if (inherits(res_header, "try-error")) {
+        item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl("[a-zA-Z]", unique(x)))) 
+      }
       item_table_headerid <- max(which(item_table_headercount == max(item_table_headercount))) ## record the number of cells with letters in each row 
       #### the number rows (after removing the header row(s) )
       item_table_numbersid <- item_table_headerid + which(apply(item_table[-(1:item_table_headerid), -1, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
       #### the first column with other info 
       tbl_colkeep_info <- which(apply(item_table[1:item_table_headerid,,drop=F], 2, FUN = function(x) sum(grepl(pattern = "Total|Number|Share", x = x, ignore.case = T))) > 0)[1]
+      
       if (tbl_colkeep_info > 2) { # if multiple first columns 
         item_table <- cbind(
           as.matrix(apply(item_table[,1:(tbl_colkeep_info-1)], 1, FUN = function(x) paste(unique(x), collapse = ""))), 
           item_table[,-(1:(tbl_colkeep_info-1)), drop=F] 
         )
       }
-      
       #### the new `period` variable and rows to be kept 
       tbl_rowkeep_info <- tbl.rowkeep2(row_name = item_table[,1], reporting_qrt = reporting_qrt)
       
