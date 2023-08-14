@@ -11,5 +11,6 @@
 ## Errors in Edgar Filing: 
 1. "0001193125-11-133527": wrong month name in the period column; 
 2. "0001193125-13-338522": 21st century fox > no column "total number under the program" ;
-3. "0000950123-11-019686": gives the column name "Cumulative Shares Repurchased Under The Program" ; > map to the `vars_id = 5`.
-4. 
+3. "0000950123-11-019686": gives the column name "Cumulative Shares Repurchased Under The Program" ; > map to `vars_id = 5`.
+4. "0001193125-11-050024": wired first column ; 
+5. 
