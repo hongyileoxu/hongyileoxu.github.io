@@ -28,3 +28,4 @@
 | 0001193125-11-003706 | did not report for each month | 
 | 0000318154-14-000004 | the total is given by the whole year rather than "total" |
 | cik: 1757898 | vars_id is incorrect | 
+| 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > cik: 0001102238 |
