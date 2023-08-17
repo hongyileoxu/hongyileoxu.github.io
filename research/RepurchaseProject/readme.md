@@ -26,4 +26,5 @@
 | 0001193125-11-133527 | wrong unit info -> not in thousands  | 
 | 0001193125-13-425259 | wrong units in all tables | 
 | 0001193125-11-003706 | did not report for each month | 
+| 0000318154-14-000004 | the total is given by the whole year rather than "total" |
 | cik: 1757898 | vars_id is incorrect | 
