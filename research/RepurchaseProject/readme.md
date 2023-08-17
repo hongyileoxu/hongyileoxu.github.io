@@ -2,7 +2,7 @@
 1. This folder contains the code for the 2023 summer project.
 2. A great source for the document: https://sraf.nd.edu/sec-edgar-data/cleaned-10x-files/
 3. IV?: [monthly edgar filing numbers](https://www.sec.gov/about/sec-docket.shtml) -> EDGAR Company Filings Indexes: [Daily](https://www.sec.gov/Archives/edgar/daily-index/) and [Quarterly](https://www.sec.gov/Archives/edgar/full-index/)
-4. Dataset: updated August 17, 2023 [link](https:/hongyileoxu.github.io/research/RepurchaseProject/ShaRep_AIA_merge_Aug17_2023.csv)
+4. Dataset: updated August 17, 2023 [[link]](https:/hongyileoxu.github.io/research/RepurchaseProject/ShaRep_AIA_merge_Aug17_2023.csv) / [[P0]](https:/hongyileoxu.github.io/research/RepurchaseProject/Repurchase_BBAIA_merge_v1b.html)
 
 
 
