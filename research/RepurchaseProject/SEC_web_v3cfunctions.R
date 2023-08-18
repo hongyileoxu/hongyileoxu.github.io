@@ -466,9 +466,12 @@ filing.item <- function(x, # filing
         tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
         
         ## <table unit information>
-        ## extract the unit information ## updated July 16, 2023
+        ## extract the unit information ## updated August 18, 2023
         item_table_unit <- str_extract(string = html_text(item_html, trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")
-        
+        if (is.na(item_table_unit)) { # check directly in the table if the `item_table_unit` returns NA 
+          item_table_unit <- grep(pattern = "in\\s*(hundred|thousand|million|billion)", x = item_table0, ignore.case = T, value = T)[1]
+        } 
+                                             
         ## <text info excl. table>
         ## extract item text and exclude the table. 
         xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
