@@ -326,12 +326,11 @@ filing.item <- function(x, # filing
       
     }
   } else {
-    # the full item ## *updated August 9, 2023 
+    # the full item ## *updated August 18, 2023 
     if (any(is.na(item_id))) {
-      item_txt <- x[loc_item[1]:loc_item[2]] %>%
-        paste(str_squish(.), collapse = "") %>% 
+      item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "") %>% 
         sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>% 
-        sub(pattern = "(>)?(Item|ITEM)(.){0,30}[6-9]\\b.*", "", .) ## *updated August 9, 2023 
+        sub(pattern = "(>)?(Item|ITEM)(.){0,30}[6-9]\\b.*", "", .) ## *updated August 18, 2023 
       
     } else {
       item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "")
