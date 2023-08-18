@@ -334,12 +334,7 @@ filing.item <- function(x, # filing
       
     } else {
       item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "")
-      
     }
-    
-    # item_txt <-  paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = " ") %>% 
-    #   sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>%
-    #   sub(pattern = "(>|)(Item|ITEM).*", "", .) ## August 7, 2023 
   }
   
   # find the table(s) ## *updated August 9, 2023 
