@@ -17,8 +17,8 @@
 5. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983); 
 
 
-| id | issue | 
-| :---:   | --- |
+| id | issue | Status | 
+| :---:   | --- |  :---: |
 | 0001193125-11-133527 | wrong month name in the period column  | 
 | 0001193125-13-338522 | 21st century fox > no column "total number under the program"  | 
 | 0000950123-11-019686 | gives the column name "Cumulative Shares Repurchased Under The Program" ; > map to `vars_id = 5`. | 
