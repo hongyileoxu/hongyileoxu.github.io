@@ -26,3 +26,4 @@
 | cik: 1757898 | vars_id is incorrect | ✔️ | 
 | 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > cik: 0001102238 | 0000950123-11-025185 | the last column is read twice -> 24.4 million$24.4 million | 
 | 0001047469-11-004635 | many cells are repeated twice when use `html_table` > need to solve this, urgent! ! 
+| [0000950123-11-025185](https://www.sec.gov/Archives/edgar/data/56679/000095012311025185/0000950123-11-025185.txt) | Column headers are in different rows and cells in the table. | 
