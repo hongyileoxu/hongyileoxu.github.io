@@ -10,11 +10,7 @@
 
 
 ## Errors in Edgar Filing: 
-1. "0001193125-11-133527": wrong month name in the period column; 
-2. "0001193125-13-338522": 21st century fox > no column "total number under the program" ;
-3. "0000950123-11-019686": gives the column name "Cumulative Shares Repurchased Under The Program" ; > map to `vars_id = 5`.
-4. "0001193125-11-050024": wired first column ; 
-5. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983); 
+1. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983); 
 
 
 | id | issue | Status | 
@@ -28,4 +24,5 @@
 | 0001193125-11-003706 | did not report for each month | 
 | 0000318154-14-000004 | the total is given by the whole year rather than "total" |
 | cik: 1757898 | vars_id is incorrect | ✔️ | 
-| 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > cik: 0001102238 |
+| 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > cik: 0001102238 | 0000950123-11-025185 | the last column is read twice -> 24.4 million$24.4 million | 
+| 0001047469-11-004635 | many cells are repeated twice when use `html_table` > need to solve this, urgent! ! 
