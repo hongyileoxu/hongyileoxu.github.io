@@ -29,7 +29,10 @@
 | 0001047469-11-004635 | many cells are repeated twice when use `html_table` > need to solve this, urgent! ! 
 | [0000950123-11-025185](https://www.sec.gov/Archives/edgar/data/56679/000095012311025185/0000950123-11-025185.txt) | Column headers are in different rows and cells in the table. | 
 | [0001144204-17-014104](https://www.sec.gov/Archives/edgar/data/1130144/000114420417014104/0001144204-17-014104.txt) | Need to transpose the table at first | Double Check! | 
-| 
+| [0000950123-11-018714](https://www.sec.gov/Archives/edgar/data/917273/000095012311018714/0000950123-11-018714.txt) | Did not cover the full colname (e.g. return only "Average") | 
+
+
+
 
 
 
