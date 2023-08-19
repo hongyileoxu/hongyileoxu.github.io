@@ -10,7 +10,8 @@
 
 
 ## Errors in Edgar Filing: 
-1. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983); 
+1. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983);
+2. ["0000950123-11-000744"](https://www.sec.gov/Archives/edgar/data/5133/000095012311000744/0000950123-11-000744.txt) : Dual Class and the Table is not well formatted; 
 
 
 | id | issue | Status | 
