@@ -23,13 +23,14 @@
 | 0001193125-13-425259 | wrong units in all tables | 
 | 0001193125-11-003706 | did not report for each month | 
 | 0000318154-14-000004 | the total is given by the whole year rather than "total" |
-| cik: 1757898 | vars_id is incorrect | ✔️ | 
-| 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > cik: 0001102238 |
+| CIK: 1757898 | vars_id is incorrect | ✔️ | 
+| 0001193125-11-084825 | the third column gives the cumulative number repurchased rather than the monthly repurchase amount. > CIK: 0001102238 |
 | 0000950123-11-025185 | the last column is read twice -> 24.4 million$24.4 million | 
 | 0001047469-11-004635 | many cells are repeated twice when use `html_table` > need to solve this, urgent! ! 
 | [0000950123-11-025185](https://www.sec.gov/Archives/edgar/data/56679/000095012311025185/0000950123-11-025185.txt) | Column headers are in different rows and cells in the table. | 
 | [0001144204-17-014104](https://www.sec.gov/Archives/edgar/data/1130144/000114420417014104/0001144204-17-014104.txt) | Need to transpose the table at first | Double Check! | 
 | [0000950123-11-018714](https://www.sec.gov/Archives/edgar/data/917273/000095012311018714/0000950123-11-018714.txt) | Did not cover the full colname (e.g. return only "Average") | 
+| [0001299709-11-000007](https://www.sec.gov/Archives/edgar/data/1299709/000129970911000007/0001299709-11-000007.txt) | Cumulative/Balance Rather than the monthly repurchase amount. THis issue seems to disappear afterwods. > `CIK 0001299709` | 
 
 
 
