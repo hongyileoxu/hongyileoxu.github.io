@@ -379,7 +379,7 @@ filing.item <- function(x, # filing
       ### <Tables starts here!>
       ### clean the table ## *updated August 8, 2023 
       item_table0 <- as.matrix(html_table(item_tbls[[item_tbl_id]]))
-      if ( any(grepl(pattern = "total.*number.*of|Average.*Price.*Paid|public", x = item_table0[,1], ignore.case = T)) ) { 
+      if ( any(grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = item_table0[,1], ignore.case = T)) ) { 
         # for the case: "0001144204-17-014104" ## sum(item_table0[1,] %in% month.name) > 0
         item_table0 <- item_table0 %>%
           .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] # remove columns having only $ or NA 
