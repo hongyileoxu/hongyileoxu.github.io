@@ -2,7 +2,10 @@
 
 - “The overall conclusion from our results is that firms should be regarded as large and patient investors when they buy back their own stock.” ([Hillert et al., 2016, p. 187](zotero://select/library/items/Z52BYGPS)) ([pdf](zotero://open-pdf/library/items/NLTNGQJT?page=2&annotation=P6GL3KHS))
 - “a large literature seeks to understand whether firms provide or demand liquidity when they repurchase shares” ([Hillert et al., 2016, p. 186](zotero://select/library/items/Z52BYGPS)) ([pdf](zotero://open-pdf/library/items/NLTNGQJT?page=1&annotation=6YP2T9X5)) \> the key here is that whether the market thinks the sellers are selling for liquidity or information reason.
-- “Following Foucault, Kadan, and Kandel (2005), we conceive of limit order markets as markets for immediacy, in which traders can either demand immediacy, e.g. through placing market orders, or supply immediacy through placing limit orders” ([Hillert et al., 2016, p. 187](zotero://select/library/items/Z52BYGPS)) ([pdf](zotero://open-pdf/library/items/NLTNGQJT?page=2&annotation=UPVD9Y3F)) (types of orders: market order, limit order and stop order)
+- “Following Foucault, Kadan, and Kandel (2005), we conceive of limit order markets as markets for immediacy, in which traders can either demand immediacy, e.g. through placing market orders, or supply immediacy through placing limit orders” ([Hillert et al., 2016, p. 187](zotero://select/library/items/Z52BYGPS)) ([pdf](zotero://open-pdf/library/items/NLTNGQJT?page=2&annotation=UPVD9Y3F)) 
+
+	- types of orders: market order, limit order and stop order. 
+
 - Data:
     
     - 2004 - 2010;
