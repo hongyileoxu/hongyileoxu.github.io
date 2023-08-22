@@ -277,7 +277,6 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|[^a-
 
 # e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table 
 ## ================================================================================================================
-# e2. updated filing.item() function 
 #### e2. updated filing.item() function 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
@@ -380,20 +379,25 @@ filing.item <- function(x, # filing
     )
     ) { 
       ### <Tables starts here!>
-      ### clean the table ## *updated August 8, 2023 
+      ### clean the table ## *updated August 22, 2023 
       item_table0 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]], header = F)), MARGIN = 2) %>% 
         .[,colSums(is.na(.)) != nrow(.),drop=F]
+      item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "") %>% trimws)
       if (nrow(item_table0) > 6) {
         item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
           table(x, exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
         }), FUN = function(x) {
           if (length(x) == 1) {
             output <- as.logical(x > ncol(item_table0)/2)
-          } else {
-            output <- FALSE
+          } else { # id "0000732717-14-000110.txt" ## *updated August 22, 2023 
+            if (length(x) == 2) {
+              output <- as.logical(x[which.max(x)] > ncol(item_table0)/2)
+            } else {
+              output <- FALSE
+            }
           }
           return(output)
-        })
+        }) 
         item_table0_footnotesid <- which((item_table0_footnotes +
                                             dplyr::lead(item_table0_footnotes, default = 1) + 
                                             dplyr::lead(item_table0_footnotes, 2, default = 1)) == 3)[1]
