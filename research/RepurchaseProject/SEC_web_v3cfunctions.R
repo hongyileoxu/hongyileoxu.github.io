@@ -515,7 +515,8 @@ filing.item <- function(x, # filing
         ## no actual table can be identified 
         return(list(table = matrix(NA, nrow = 1, ncol = 4),
                     parts = html_text(item_html, trim = T),  
-                    table_unit = NA ))
+                    table_unit = NA, 
+                    table_html_code = NA ))
       } else { 
         ## Continue for a valid table      
         tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
@@ -574,8 +575,9 @@ filing.item <- function(x, # filing
           item_table_unit <- grep(pattern = "in\\s*(hundred|thousand|million|billion)", x = item_table0, ignore.case = T, value = T)[1]
         } 
         
-        ## <text info excl. table> ## *updated August 19, 2023 (issues)
-        ## extract item text and exclude the table. 
+        ## <text info excl. table> ## *updated August 22, 2023 (issues)
+        ## extract item text and exclude the table. ## *updated August 22, 2023 ----- 
+        table_html_code <- as.character(item_tbls[[item_tbl_id]]) # store the raw html code for the table 
         xml_replace(.x = item_tbls[[item_tbl_id]], .value = text_break_node) # replace the identified table
         filing_item2_txt <- html_text(item_html, trim = T) # store the txt excl. table
         if (is.na(item_table_unit)) { # if no unit info inside the table
@@ -587,13 +589,15 @@ filing.item <- function(x, # filing
         # tbl_numbers_cleaned %>% View
         return(list(table = as.matrix(tbl_numbers_cleaned), 
                     parts = filing_item2_txt,
-                    table_unit = item_table_unit
+                    table_unit = item_table_unit, 
+                    table_html_code = table_html_code
         ) )
       }
-    } else { # if no table in the item ## *updated August 8, 2023 
+    } else { # if no table in the item ## *updated August 22, 2023 
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
                   parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
-                  table_unit = NA ))
+                  table_unit = NA,
+                  table_html_code = NA ))
     }
   }
 }
@@ -706,7 +710,7 @@ filing.cleaned_parallel <- function(loc_file, zip_file, text_break_node, errors 
     } else {
       ## store table data 
       return(list(
-        filing_info = c(filing_cleaned$info[1:26], filing_cleaned$table_unit, filing_cleaned$parts), 
+        filing_info = c(filing_cleaned$info[1:26], filing_cleaned$table_unit, filing_cleaned$parts, filing_cleaned$table_html_code), 
         repurchase_tbl = filing_cleaned$table
       ))
     }
