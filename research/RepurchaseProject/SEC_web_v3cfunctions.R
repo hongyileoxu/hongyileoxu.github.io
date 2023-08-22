@@ -359,7 +359,7 @@ filing.item <- function(x, # filing
   item_tbls <- html_nodes(item_html, "table")
   if (length(item_tbls) == 0) { # if no table found in the item 
     # print("No Table!")
-    print("k5")
+    ## print("k5")
     return(list(table = matrix(NA, nrow = 1, ncol = 4),
                 parts = "No Table!" , # html_text(item_html, trim = T),  
                 table_unit = NA,
@@ -516,7 +516,7 @@ filing.item <- function(x, # filing
       
       if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
         ## no actual table can be identified 
-        print("k3")
+        ## print("k3")
         return(list(table = matrix(NA, nrow = 1, ncol = 4),
                     parts = html_text(item_html, trim = T),  
                     table_unit = NA, 
@@ -591,7 +591,7 @@ filing.item <- function(x, # filing
         }
         
         # tbl_numbers_cleaned %>% View
-        print("k2")
+        ## print("k2")
         return(list(table = as.matrix(tbl_numbers_cleaned), 
                     parts = filing_item2_txt,
                     table_unit = item_table_unit, 
@@ -599,7 +599,7 @@ filing.item <- function(x, # filing
         ) )
       }
     } else { # if no table in the item ## *updated August 22, 2023 
-      print("k1")
+      ## print("k1")
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
                   parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
                   table_unit = NA,
