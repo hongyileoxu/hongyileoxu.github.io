@@ -278,6 +278,7 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|[^a-
 # e. (INACTIVE) filing.item0(): extract text (header and/or footnote), unit and cleaned table 
 ## ================================================================================================================
 # e2. updated filing.item() function 
+#### e2. updated filing.item() function 
 filing.item <- function(x, # filing
                         loc_item, # the location of the item of interest
                         item_id, # the identifier from 'href' for the section 
@@ -367,7 +368,8 @@ filing.item <- function(x, # filing
                            grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T) & 
                            grepl(pattern = "program|price|plan", x = item_tbls, ignore.case = T) & 
                            grepl(pattern = "share", x = item_tbls, ignore.case = T) & 
-                           !grepl(pattern = "issuance|revenue|income", x = item_tbls, ignore.case = T) )[1] # identify the correct table
+                           !grepl(pattern = "issuance|revenue|income|conversion|(purchase price of common)", x = item_tbls, ignore.case = T) )[1] # identify the correct table
+          ## id: "0001403475-21-000015"
     
     ## extract the table 
     if (ifelse(is.na(item_tbl_id), 
@@ -379,7 +381,8 @@ filing.item <- function(x, # filing
     ) { 
       ### <Tables starts here!>
       ### clean the table ## *updated August 8, 2023 
-      item_table0 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]], header = F)), MARGIN = 2)
+      item_table0 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]], header = F)), MARGIN = 2) %>% 
+        .[,colSums(is.na(.)) != nrow(.),drop=F]
       if (nrow(item_table0) > 6) {
         item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
           table(x, exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
@@ -392,9 +395,11 @@ filing.item <- function(x, # filing
           return(output)
         })
         item_table0_footnotesid <- which((item_table0_footnotes +
-                                            dplyr::lead(item_table0_footnotes) + 
-                                            dplyr::lead(item_table0_footnotes, 2)) == 3)[1]
-        if (!is.na(item_table0_footnotesid)) { # if the footnote is identified 
+                                            dplyr::lead(item_table0_footnotes, default = 1) + 
+                                            dplyr::lead(item_table0_footnotes, 2, default = 1)) == 3)[1]
+        item_table0_head <- which(apply(item_table0, MARGIN = 1,
+                    FUN = function(x) sum({grepl(pattern = "total|number|average|price", x, ignore.case = T)}, na.rm = T) ) > 0)[1]
+        if (!is.na(item_table0_footnotesid) & (item_table0_footnotesid > item_table0_head) ) { # if the footnote is identified 
           item_table0 <- item_table0[1:max(1,item_table0_footnotesid-1),,drop=F]
         }
       }
@@ -432,17 +437,31 @@ filing.item <- function(x, # filing
         .[apply(., MARGIN = 1, FUN = function(x) length((unique(x)))) != 1,,drop=F] %>% # remove merged rows 
         .[,apply(., MARGIN = 2, FUN = function(x) sum(nchar(x, type = "width"))) != 0,drop=F] # remove zero width columns 
         
-      ### identify the rows to keep
-      #### the header row ## *updated August 19, 2023 
+      ### identify the rows to keep ## *updated August 22, 2023 
+      # item_table_headerid <- 0; item_table_headerid0 <- 100
+      # while ((item_table_headerid0 != item_table_headerid) & !any(grepl(pattern = "///", x = item_table, fixed = T))) {
+      
+      #### the header row ## *updated August 22, 2023 
       item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl(pattern = "plan|program|purchased", x = x, ignore.case = T)))
       if (max(item_table_headercount) == 0 ) { # id "0001217234-21-000046"
         item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl(pattern = "price|number|total", x = x, ignore.case = T)))
       } 
-      #### 
-      potential_header_idcheck <- apply(item_table[(item_table_headercount > 0),,drop=F], MARGIN = 1, FUN = function(x) {
-        sum(!duplicated(grep(pattern = "[a-zA-Z]", x = x, value = T))) #unique number of row cells with words 
-      }) 
-      item_table_headerid <- which(item_table_headercount>0)[which.max(potential_header_idcheck)] ## record the number of cells with letters in each row 
+      ## *updated August 22, 2023 
+      potential_header_idcheck <- sapply(X = which(item_table_headercount > 0), FUN = function(x) {
+        # get the full header up to a row: from row 2 to row `x`
+        headername <- apply(item_table[2:x,,drop=F], MARGIN = 2, FUN = function(y) paste(y, collapse = "") ) # get the full header up to a row
+        ## count the unique (non empty) headers there  
+        uniq_headername <- grep(pattern = "[a-zA-Z]", x = unique(headername), value = T) %>% length() 
+        # get the row text and count the unique items in each row (for the case that footnotes cannot be fully removed)
+        headername_row <- grep(pattern = "[a-zA-Z]", x = unique(item_table[x,,drop=T]), value = T) %>% length() 
+        uniq_headername[(headername_row == 1)] <- 0
+        return(uniq_headername) # return the number 
+      })
+      
+      #### following code explanation: `item_table_headerid` ## *updated August 22, 2023 
+      #### (1) [.] > identify the rows with the most number of unique items 
+      #### (2) max(.) > find the row number of the qualified rows and choose the last row among them 
+      item_table_headerid <- max(which(item_table_headercount>0)[which(potential_header_idcheck == max(potential_header_idcheck))]) ## record the number of cells with letters in each row 
         item_table_headerid0 <- max(which(item_table_headercount == max(item_table_headercount))) 
       if (item_table_headerid0 != item_table_headerid) {
         new_row <- item_table[item_table_headerid0,]
@@ -454,7 +473,8 @@ filing.item <- function(x, # filing
           item_table[item_table_headerid0,] <- ""
         }
       }
-      
+        # if (item_table_headerid0 == item_table_headerid) {break} 
+      # }
       
       ### record the column ids for rownames (row-headers) ## *updated August 19, 2023 
       item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase", ignore.case = T, 
@@ -469,8 +489,13 @@ filing.item <- function(x, # filing
       item_table <- apply(item_table, MARGIN = 2, FUN = function(x) replace_na(x, "N/A"))
       
       #### the number rows to keep (after removing the header row(s) )
-      item_table_numbersid <- item_table_headerid + 
-        which(apply(item_table[-(1:item_table_headerid), -item_table_colheaders, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+      if (nrow(item_table[-(1:item_table_headerid), -item_table_colheaders, drop = F]) > 4) {
+        item_table_numbersid <- item_table_headerid + 
+          which(apply(item_table[-(1:item_table_headerid), -item_table_colheaders, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+      } else {
+        item_table_numbersid <- (item_table_headerid+1):nrow(item_table)  
+      }
+      
       #### the first column with row info ## *updated August 19, 2023 
       if (length(item_table_colheaders) > 1) { # if multiple first columns
         item_table <- cbind(
@@ -517,7 +542,7 @@ filing.item <- function(x, # filing
         
         if (max(tbl_title_dupid) < length(tbl_title)) { # if there are duplicated headers
           tbl_numbers <- sapply(X = 1:max(tbl_title_dupid), FUN = function(x) {
-            apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(x, collapse = " ")) %>% 
+            apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = " ")) %>% 
               str_replace_all(pattern = "\\$|(\\s*?)\\([12ab]\\)", replacement = "")
           })
           
@@ -525,8 +550,10 @@ filing.item <- function(x, # filing
             tbl_numbers <- matrix(tbl_numbers, nrow = 1)
           }
           ## clean the wired values (id "0001039684-11-000029")
-          tbl_numbers[,c(-1, -ncol(tbl_numbers))] <- apply(tbl_numbers[,c(-1, -ncol(tbl_numbers)), drop=F], MARGIN = 2,
-                FUN = function(x) str_replace_all(string = x, pattern = paste(tbl_numbers[,1], collapse = "|"), replacement = ""))
+          if (sum(str_count(tbl_numbers[,1], pattern = "[a-zA-Z]") == str_count(tbl_numbers[,2], pattern = "[a-zA-Z]")) > nrow(tbl_numbers)/2 ) {
+            tbl_numbers[,c(-1, -ncol(tbl_numbers))] <- apply(tbl_numbers[,c(-1, -ncol(tbl_numbers)), drop=F], MARGIN = 2,
+                  FUN = function(x) str_replace_all(string = x, pattern = paste(tbl_numbers[,1], collapse = "|"), replacement = ""))
+          }
           
         } ## otherwise just use the old tbl_numbers 
         
