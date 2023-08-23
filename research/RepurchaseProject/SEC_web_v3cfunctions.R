@@ -962,8 +962,9 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   } 
   ## *updated August 23, 2023 
   potential_header_idcheck <- sapply(X = which(item_table_headercount > 0), FUN = function(x) {
+    start <- ifelse(sum((max(2, x-2):x) %in% which(item_table_headercount > 0)) > 1, x-1, x-2)
     # get the full header up to a row: from row 2 to row `x`
-    headername <- apply(item_table[max(2, x-1):x,,drop=F], MARGIN = 2, FUN = function(y) paste(y[nchar(y, type = "chars") > 5], collapse = "") ) # get the full header up to a row
+    headername <- apply(item_table[max(2, start):x,,drop=F], MARGIN = 2, FUN = function(y) paste(y[nchar(y, type = "chars") > 5], collapse = "") ) # get the full header up to a row
     ## count the unique (non empty) headers there  
     uniq_headername <- grep(pattern = "[a-zA-Z]", x = unique(headername), value = T) %>% length() 
     # get the row text and count the unique items in each row (for the case that footnotes cannot be fully removed)
