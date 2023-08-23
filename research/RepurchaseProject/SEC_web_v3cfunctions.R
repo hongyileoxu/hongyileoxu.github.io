@@ -385,7 +385,7 @@ filing.item <- function(x, # filing
       ### clean the table ## *updated August 22, 2023 
       item_table0 <- unique.matrix(as.matrix(html_table(item_tbls[[item_tbl_id]], header = F)), MARGIN = 2) %>% 
         .[,colSums(is.na(.)) != nrow(.),drop=F]
-      item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "") %>% trimws)
+      item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) gsub(x = x, pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "") %>% trimws)
       if (nrow(item_table0) > 6) {
         item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
           table(x[nchar(x, type = "width") >= 3], exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
@@ -892,7 +892,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   ### clean the table ## *updated August 23, 2023 
   item_table0 <- unique.matrix(as.matrix(html_table(html_nodes(read_html(id_table_raw), "table")[[1]], header = F)), MARGIN = 2) %>% 
     .[,colSums(is.na(.)) != nrow(.),drop=F]
-  item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)|[\r\n]", replacement = "") %>% trimws)
+  item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) gsub(x = x, pattern = "\\([a-zA-Z0-9]{1}\\)|[\r\n]", replacement = "") %>% trimws)
   if (nrow(item_table0) > 6) {
     item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
       table(x[nchar(x, type = "width") >= 3], exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
