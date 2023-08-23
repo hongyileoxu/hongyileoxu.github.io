@@ -1,0 +1,102 @@
+<SEC-DOCUMENT>0001193125-20-307086.txt : 20201201
+<SEC-HEADER>0001193125-20-307086.hdr.sgml : 20201201
+<ACCEPTANCE-DATETIME>20201201161612
+ACCESSION NUMBER:		0001193125-20-307086
+CONFORMED SUBMISSION TYPE:	10-K
+PUBLIC DOCUMENT COUNT:		77
+CONFORMED PERIOD OF REPORT:	20200930
+FILED AS OF DATE:		20201201
+DATE AS OF CHANGE:		20201201
+
+FILER:
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			HENNESSY ADVISORS INC
+		CENTRAL INDEX KEY:			0001145255
+		STANDARD INDUSTRIAL CLASSIFICATION:	INVESTMENT ADVICE [6282]
+		IRS NUMBER:				680176227
+		FISCAL YEAR END:			0930
+
+	FILING VALUES:
+		FORM TYPE:		10-K
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36423
+		FILM NUMBER:		201361036
+
+	BUSINESS ADDRESS:	
+		STREET 1:		7250 REDWOOD BLVD.
+		STREET 2:		SUITE 200
+		CITY:			NOVATO
+		STATE:			CA
+		ZIP:			94945
+		BUSINESS PHONE:		415-899-1555
+
+	MAIL ADDRESS:	
+		STREET 1:		7250 REDWOOD BLVD.
+		STREET 2:		SUITE 200
+		CITY:			NOVATO
+		STATE:			CA
+		ZIP:			94945
+</SEC-HEADER>
+
+"x"
+"1" "<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Period</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Total Number ofShares Purchased</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Total Number ofShares Purchased</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Average Price Paidper Share</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Average Price Paidper Share</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Total Number of SharesPurchased as Part ofPublicly AnnouncedPlans or Programs</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Maximum Number ofShares that May YetBe Purchased Underthe Plans orPrograms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: center;'>July 1-31, 2020</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>$</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>596,368</td>
+</tr>
+<tr>
+<td style='text-align: center;'>August 1-31, 2020</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>596,368</td>
+</tr>
+<tr>
+<td style='text-align: center;'>September 1-30, 2020</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>34,887</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>9.01</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>596,368</td>
+</tr>
+<tr>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Total</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>34,887</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>$</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>9.01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>596,368</td>
+</tr>
+</tbody>
+</table>"
