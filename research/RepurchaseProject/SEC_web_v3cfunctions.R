@@ -884,4 +884,210 @@ filing.cleaned_parts <- function(cleaned_dt) {
   ))
 }
 
+# ====================================================================================================================
+# c. table.cleaned() : from table raw html to cleaned table (part of the filing.item() function) -----
+## Used to directly formulate the cleaned table from the table_html_code. 
+table.cleaned <- function(id_table_raw, text_break_node) {
+  ### <Tables starts here!>
+  ### clean the table ## *updated August 23, 2023 
+  item_table0 <- unique.matrix(as.matrix(html_table(html_nodes(read_html(id_table_raw), "table")[[1]], header = F)), MARGIN = 2) %>% 
+    .[,colSums(is.na(.)) != nrow(.),drop=F]
+  item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)|[\r\n]", replacement = "") %>% trimws)
+  if (nrow(item_table0) > 6) {
+    item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
+      table(x, exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
+    }), FUN = function(x) {
+      if (length(x) == 1) {
+        output <- as.logical(x > ncol(item_table0)/2)
+      } else { # id "0000732717-14-000110.txt" ## *updated August 22, 2023 
+        if (length(x) == 2) {
+          output <- as.logical(x[which.max(x)] > ncol(item_table0)/2)
+        } else {
+          output <- FALSE
+        }
+      }
+      return(output)
+    }) 
+    item_table0_footnotesid <- which((item_table0_footnotes +
+                                        dplyr::lead(item_table0_footnotes, default = 1) + 
+                                        dplyr::lead(item_table0_footnotes, 2, default = 1)) == 3)[1]
+    item_table0_head <- which(apply(item_table0, MARGIN = 1,
+                                    FUN = function(x) sum({grepl(pattern = "total|number|average|price", x, ignore.case = T)}, na.rm = T) ) > 0)[1]
+    if (!is.na(item_table0_footnotesid) & (item_table0_footnotesid > item_table0_head) ) { # if the footnote is identified 
+      item_table0 <- item_table0[1:max(1,item_table0_footnotesid-1),,drop=F]
+    }
+  }
+  
+  ### remove rows with all same elements 
+  if ( sum(grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = item_table0[,1], ignore.case = T)) > 1 ) { 
+    # for the case: "0001144204-17-014104" ## sum(item_table0[1,] %in% month.name) > 0
+    item_table0 <- item_table0 %>%
+      .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] # remove columns having only $ or NA 
+    item_table0 <- t(item_table0)
+  }  
+  ## (abandoned*) grepl(pattern = "border-bottom", html_nodes(item_tbls[[item_tbl_id]], "tr")) # try to identify the header row
+  ### check empty rows and remove them 
+  if ( length(which(apply(item_table0, MARGIN = 1, FUN = function(x) sum(nchar(na.omit(x)), na.rm = T)) == 0)) > 0 ) {
+    item_table2 <- item_table0[-which(apply(item_table0, MARGIN = 1, FUN = function(x) sum(nchar(x), na.rm = T)) == 0),,drop=F] # remove empty rows
+    
+  } else {
+    item_table2 <- item_table0
+  } ## *updated August 19, 2023 
+  
+  
+  ## whether has `$`: ## *updated August 18, 2023 
+  item_table_dollar <- rep("", ncol(item_table2))
+  item_table_dollar[which(colSums(item_table2 == "$", na.rm = T) > 0) + 1] <- "D$-" # record the column that is in dollar ($)
+  # item_table2[1,] <- paste(item_table_dollar, item_table2[1,,drop=F], sep = "") # replace the old column headers by the new ones with ($)
+  
+  item_table3 <- item_table2 %>% 
+    rbind(item_table_dollar, ., deparse.level = 0) %>% # add the symbol ($) info in the first row 
+    .[, colSums(. == "$", na.rm = T) == 0 & colSums(is.na(item_table2)) != nrow(item_table2), drop=F] %>% # remove columns having only $ or NA (past code: <!is.na(colSums(. == "$"))> )
+    unique.matrix(x = ., MARGIN = 2)  # remove repeated columns 
+  # if (any(is.na(item_table3))) { # if there still exists NA elements -> replace it by dash 
+  #   item_table3[is.na(item_table3)] <- "NA"
+  # }
+  item_table <- item_table3 %>% 
+    .[apply(., MARGIN = 1, FUN = function(x) length((unique(x)))) != 1,,drop=F] %>% # remove merged rows 
+    .[,apply(., MARGIN = 2, FUN = function(x) sum(nchar(x, type = "width"))) != 0,drop=F] # remove zero width columns 
+  
+  ### identify the rows to keep ## *updated August 22, 2023 
+  # item_table_headerid <- 0; item_table_headerid0 <- 100
+  # while ((item_table_headerid0 != item_table_headerid) & !any(grepl(pattern = "///", x = item_table, fixed = T))) {
+  
+  #### the header row ## *updated August 22, 2023 
+  item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl(pattern = "plan|program|purchased", x = x, ignore.case = T)))
+  if (max(item_table_headercount) == 0 ) { # id "0001217234-21-000046"
+    item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl(pattern = "price|number|total", x = x, ignore.case = T)))
+  } 
+  ## *updated August 23, 2023 
+  potential_header_idcheck <- sapply(X = which(item_table_headercount > 0), FUN = function(x) {
+    # get the full header up to a row: from row 2 to row `x`
+    headername <- apply(item_table[max(2, x-2):x,,drop=F], MARGIN = 2, FUN = function(y) paste(y, collapse = "") ) # get the full header up to a row
+    ## count the unique (non empty) headers there  
+    uniq_headername <- grep(pattern = "[a-zA-Z]", x = unique(headername), value = T) %>% length() 
+    # get the row text and count the unique items in each row (for the case that footnotes cannot be fully removed)
+    headername_row <- grep(pattern = "[a-zA-Z]", x = unique(item_table[x,,drop=T]), value = T) %>% length() 
+    uniq_headername[(headername_row == 1)] <- 0
+    return(uniq_headername) # return the number 
+  })
+  
+  #### following code explanation: `item_table_headerid` ## *updated August 22, 2023 
+  #### (1) [.] > identify the rows with the most number of unique items 
+  #### (2) max(.) > find the row number of the qualified rows and choose the last row among them 
+  item_table_headerid <- max(which(item_table_headercount>0)[which(potential_header_idcheck == max(potential_header_idcheck))]) ## record the number of cells with letters in each row 
+  item_table_headerid0 <- max(which(item_table_headercount == max(item_table_headercount))) 
+  if (item_table_headerid0 != item_table_headerid) {
+    new_row <- item_table[item_table_headerid0,]
+    if (item_table_headerid0 < item_table_headerid) {
+      new_row[nchar(new_row, type = "width") != 0] <- gsub(pattern = "$", "///", new_row[nchar(new_row, type = "width") != 0] )
+      # sub("///.*", "", new_row) # to extract the info afterwards 
+      item_table[item_table_headerid0,] <- new_row
+    } else {
+      item_table[item_table_headerid0,] <- ""
+    }
+  }
+  # if (item_table_headerid0 == item_table_headerid) {break} 
+  # }
+  
+  ### record the column ids for rownames (row-headers) ## *updated August 19, 2023 
+  item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase", ignore.case = T, 
+                                              x = apply(item_table[min(2, item_table_headerid):item_table_headerid,,drop=F], # pick the header rows 
+                                                        MARGIN = 2, FUN = function(x) paste(x, collapse = " ")) ) )  == 0 )
+  if (length(item_table_colheaders) == 0) { # e.g. "0001564590-21-004296" 
+    item_table_colheaders <- which(cumsum((!duplicated(apply(item_table[min(2, item_table_headerid):item_table_headerid,,drop=F], # pick the header rows
+                                                             MARGIN = 2, FUN = function(x) paste(x, collapse = " ")) ) ) ) == 1 )
+  }
+  
+  #### replace the NA in the matrix entry
+  item_table <- apply(item_table, MARGIN = 2, FUN = function(x) replace_na(x, "N/A"))
+  
+  #### the number rows to keep (after removing the header row(s) )
+  if (nrow(item_table[-(1:item_table_headerid), -item_table_colheaders, drop = F]) > 4) {
+    item_table_numbersid <- item_table_headerid + 
+      which(apply(item_table[-(1:item_table_headerid), -item_table_colheaders, drop = F], 1, FUN = function(x) sum(grepl("\\W|\\w", x))) != 0)
+  } else {
+    item_table_numbersid <- (item_table_headerid+1):nrow(item_table)  
+  }
+  
+  #### the first column with row info ## *updated August 19, 2023 
+  if (length(item_table_colheaders) > 1) { # if multiple first columns
+    item_table <- cbind(
+      as.matrix(apply(item_table[,item_table_colheaders,drop=F], 1, FUN = function(x) paste(unique(x[nchar(x, type = "width") != 0]), collapse = " - "))), 
+      item_table[,-item_table_colheaders, drop=F] 
+    )
+  } 
+  
+  #### the new `period` variable and rows to be kept 
+  tbl_rowkeep_info <- tbl.rowkeep2(row_name = item_table[,1], reporting_qrt = reporting_qrt)
+  
+  if (NA %in% tbl_rowkeep_info) { # IF THE TABLE IS NOT VALID
+    ## no actual table can be identified 
+    ## print("k3")
+    return(list(table = matrix(NA, nrow = 1, ncol = 4)
+                # parts = html_text(item_html, trim = T),  
+                # table_unit = NA, 
+                # table_html_code = NA 
+                ))
+  } else { 
+    ## Continue for a valid table      
+    tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
+    tbl_rowkeep <- tbl_rowkeep_info$rowkeep # identify the rows to be kept in `item_table`
+    
+    ### clean rows in the table 
+    tbl_numbers <- item_table %>% .[tbl_rowkeep, ,drop=F] %>% # keep the rows after the headers
+      cbind(., `length<-`(tbl_periods, nrow(.))) %>%  # add 'period' column 
+      .[match(item_table_numbersid[item_table_numbersid >= (tbl_rowkeep)[1]], tbl_rowkeep), ,drop=F] # keep the rows with values 
+    
+    ### create the tbl_titles
+    if (item_table_headerid == 1) {
+      tbl_title0 <- item_table[item_table_headerid,-1,drop=T] %>%
+        gsub(pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "", x = .) %>% 
+        trimws %>% as.vector
+    } else {
+      tbl_title0 <- apply(item_table[1:item_table_headerid,-1,drop=F], MARGIN = 2,
+                          FUN = function(name) paste(name, collapse = " ") ) %>%
+        gsub(pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "", x = .) %>%
+        trimws %>% as.vector
+    }
+    ### to impute missing headers
+    tbl_title0[which(nchar(tbl_title0, type = "width") == 0)] <- tbl_title0[which(nchar(tbl_title0, type = "width") == 0)-1]
+    tbl_title <- c("item", (tbl_title0), "period") ## final headers 
+    
+    ### store duplicated and non-duplicated column headers
+    tbl_title_dupid <- cumsum(!duplicated(gsub("D\\$-|\\s", "", tbl_title)))
+    
+    if (max(tbl_title_dupid) < length(tbl_title)) { # if there are duplicated headers
+      tbl_numbers <- sapply(X = 1:max(tbl_title_dupid), FUN = function(x) {
+        apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = " ")) %>% 
+          str_replace_all(pattern = "\\$|(\\s*?)\\([12ab]\\)", replacement = "")
+      })
+      
+      if (is.null(dim(tbl_numbers))) {
+        tbl_numbers <- matrix(tbl_numbers, nrow = 1)
+      }
+      ## clean the wired values (id "0001039684-11-000029")
+      if (sum(str_count(tbl_numbers[,1], pattern = "[a-zA-Z]") == str_count(tbl_numbers[,2], pattern = "[a-zA-Z]")) > nrow(tbl_numbers)/2 ) {
+        tbl_numbers[,c(-1, -ncol(tbl_numbers))] <- apply(tbl_numbers[,c(-1, -ncol(tbl_numbers)), drop=F], MARGIN = 2,
+                                                         FUN = function(x) str_replace_all(string = x, pattern = paste(tbl_numbers[,1], collapse = "|"), replacement = ""))
+      }
+      
+    } ## otherwise just use the old tbl_numbers 
+    
+    #### append back the column headers
+    colnames(tbl_numbers) <- tbl_title[!duplicated(tbl_title_dupid)] 
+    
+    ### return the cleaned table - from wide to long
+    tbl_numbers_cleaned <- melt(as.data.frame(tbl_numbers), id.vars = c("item", "period")) 
+    
+    # tbl_numbers_cleaned %>% View
+    ## print("k2")
+    return(list(table = as.matrix(tbl_numbers_cleaned)
+                # parts = filing_item2_txt,
+                # table_unit = item_table_unit, 
+                # table_html_code = table_html_code
+    ) )
+  }
+}
+
 
