@@ -484,7 +484,7 @@ filing.item <- function(x, # filing
       # }
       
       ### record the column ids for rownames (row-headers) ## *updated August 19, 2023 
-      item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase", ignore.case = T, 
+      item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase|average", ignore.case = T, 
                                      x = apply(item_table[min(2, item_table_headerid):item_table_headerid,,drop=F], # pick the header rows 
                                      MARGIN = 2, FUN = function(x) paste(x, collapse = " ")) ) )  == 0 )
       if (length(item_table_colheaders) == 0) { # e.g. "0001564590-21-004296" 
@@ -991,8 +991,8 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   # if (item_table_headerid0 == item_table_headerid) {break} 
   # }
   
-  ### record the column ids for rownames (row-headers) ## *updated August 19, 2023 
-  item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase", ignore.case = T, 
+  ### record the column ids for rownames (row-headers) ## *updated August 23, 2023 
+  item_table_colheaders <- which(cumsum(grepl(pattern = "total|number|purchase|average", ignore.case = T, 
                                               x = apply(item_table[min(2, item_table_headerid):item_table_headerid,,drop=F], # pick the header rows 
                                                         MARGIN = 2, FUN = function(x) paste(x, collapse = " ")) ) )  == 0 )
   if (length(item_table_colheaders) == 0) { # e.g. "0001564590-21-004296" 
