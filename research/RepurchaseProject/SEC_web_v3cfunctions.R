@@ -453,10 +453,10 @@ filing.item <- function(x, # filing
       if (max(item_table_headercount) == 0 ) { # id "0001217234-21-000046"
         item_table_headercount <- apply(item_table, 1, FUN = function(x) sum(grepl(pattern = "price|number|total", x = x, ignore.case = T)))
       } 
-      ## *updated August 22, 2023 
+      ## *updated August 23, 2023 
       potential_header_idcheck <- sapply(X = which(item_table_headercount > 0), FUN = function(x) {
         # get the full header up to a row: from row 2 to row `x`
-        headername <- apply(item_table[2:x,,drop=F], MARGIN = 2, FUN = function(y) paste(y, collapse = "") ) # get the full header up to a row
+        headername <- apply(item_table[max(2, x-2):x,,drop=F], MARGIN = 2, FUN = function(y) paste(y, collapse = "") ) # get the full header up to a row
         ## count the unique (non empty) headers there  
         uniq_headername <- grep(pattern = "[a-zA-Z]", x = unique(headername), value = T) %>% length() 
         # get the row text and count the unique items in each row (for the case that footnotes cannot be fully removed)
