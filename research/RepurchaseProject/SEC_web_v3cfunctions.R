@@ -866,10 +866,18 @@ filing.cleaned_parts <- function(cleaned_dt) {
   
   # record empty tables
   dt_errorfree_na_id <- which(sapply(dt_errorfree, function(x) {NA %in% x$repurchase_tbl}))
-  repurchase_matrix <- do.call(rbind, lapply(dt_errorfree[-dt_errorfree_na_id],
-                                             function(x) cbind(id = x$filing_info[1],
-                                                               cik = x$filing_info[10],
-                                                               x$repurchase_tbl) ))
+  if (length(dt_errorfree_na_id) != 0) {
+    repurchase_matrix <- do.call(rbind, lapply(dt_errorfree[-dt_errorfree_na_id],
+                                               function(x) cbind(id = x$filing_info[1],
+                                                                 cik = x$filing_info[10],
+                                                                 x$repurchase_tbl) ))
+  } else {
+    repurchase_matrix <- do.call(rbind, lapply(dt_errorfree,
+                                               function(x) cbind(id = x$filing_info[1],
+                                                                 cik = x$filing_info[10],
+                                                                 x$repurchase_tbl) ))
+  }
+
   return(list(
     info_matrix = info_matrix, 
     repurchase_matrix = repurchase_matrix
