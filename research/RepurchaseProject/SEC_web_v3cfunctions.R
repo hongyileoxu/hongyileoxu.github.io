@@ -388,7 +388,7 @@ filing.item <- function(x, # filing
       item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "") %>% trimws)
       if (nrow(item_table0) > 6) {
         item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
-          table(x, exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
+          table(x[nchar(x, type = "width") >= 3], exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
         }), FUN = function(x) {
           if (length(x) == 1) {
             output <- as.logical(x > ncol(item_table0)/2)
@@ -895,7 +895,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) str_replace(string = x, pattern = "\\([a-zA-Z0-9]{1}\\)|[\r\n]", replacement = "") %>% trimws)
   if (nrow(item_table0) > 6) {
     item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
-      table(x, exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
+      table(x[nchar(x, type = "width") >= 3], exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
     }), FUN = function(x) {
       if (length(x) == 1) {
         output <- as.logical(x > ncol(item_table0)/2)
