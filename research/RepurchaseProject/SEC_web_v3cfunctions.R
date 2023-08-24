@@ -1277,9 +1277,9 @@ filing.item_multiple <- function(x, # filing
                               ignore.case = T) # check whether each table fits 
     }
     
-    if (any(isTRUE(item_tbl_check))) { # 
-      ## Extract the Table Info 
-      tbl_numbers_cleaned <- lapply(X = item_tbl_id_cand, FUN = function(x) {
+    if (any((item_tbl_check == T))) { # 
+      ## Extract the Table Info  ## *updated August 24, 2023 
+      tbl_numbers_cleaned <- lapply(X = item_tbl_id_cand[item_tbl_check], FUN = function(x) {
         table.cleaned(id_table_raw = as.character(item_tbls[[x]]), text_break_node = text_break_node )$table
       }) %>% 
         do.call(rbind, .)
@@ -1306,6 +1306,7 @@ filing.item_multiple <- function(x, # filing
                   table_unit = item_table_unit #, 
                   # table_html_code = table_html_code
       ) )
+      
     } else {
       return(list(table = matrix(NA, nrow = 1, ncol = 4),
                   # parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
@@ -1313,7 +1314,6 @@ filing.item_multiple <- function(x, # filing
                   # table_html_code = NA 
       ))
     }
-    
   }
 }
-                        
+
