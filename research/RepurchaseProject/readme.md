@@ -12,7 +12,8 @@
 ## Errors in Edgar Filing: 
 1. "0001564590-20-020599": Dual Class Share Firms: BERKSHIRE HATHAWAY INC (BRK-B, BRK-A) (CIK 0001067983);
 2. ["0000950123-11-000744"](https://www.sec.gov/Archives/edgar/data/5133/000095012311000744/0000950123-11-000744.txt) : Dual Class and the Table is not well formatted; > Need to add another indicator `dualclass` with `regex = 'class'`.
-3. ["0001020710-21-000094"](https://www.sec.gov/Archives/edgar/data/1020710/000102071021000094/0001020710-21-000094.txt) : **A threat to my story: (potentially driven by the start of the repurchase program)** > Need to double check by identifying the active program, program start and ending time. > While ["0000095052-13-000014.txt"](https://www.sec.gov/Archives/edgar/data/95052/000009505213000014/0000095052-13-000014.txt) may tell a different story that variation in the repurchase amount that is not at the beginning or end of the program or the extension time of the program. 
+3. ["0001020710-21-000094"](https://www.sec.gov/Archives/edgar/data/1020710/000102071021000094/0001020710-21-000094.txt) : **A threat to my story: (potentially driven by the start of the repurchase program)** > Need to double check by identifying the active program, program start and ending time. > While ["0000095052-13-000014.txt"](https://www.sec.gov/Archives/edgar/data/95052/000009505213000014/0000095052-13-000014.txt) may tell a different story that variation in the repurchase amount that is not at the beginning or end of the program or the extension time of the program.
+4. ["0000831641-20-000154"] : contains multiple tables and cannot be used correctly identified. > `CIK 0000831641`
 
 
 | id | issue | Status | 
