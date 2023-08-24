@@ -1100,4 +1100,148 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   }
 }
 
-
+## d. filing.item_multiple(): deal with multiple outputs ---- 
+filing.item_multiple <- function(x, # filing
+                        loc_item, # the location of the item of interest
+                        item_id, # the identifier from 'href' for the section 
+                        item, # the regex for the item (item number./ item name)
+                        item_id_backup, # a backup id ## *August 8, 2023 
+                        reporting_qrt, # the quarter the filing was made 
+                        text_break_node, # the xml to replace the identified table
+                        table = TRUE, # whether to scrap the table numbers 
+                        parts = c("footnote") # the parts of information that you want 
+) { 
+  # extract info from the section/item 
+  if (loc_item[1] == loc_item[2]) {
+    # print("same loc_item")
+    if (any(is.na(item_id)) == TRUE) {
+      # print("no item_id")
+      item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+      item_txt <- sub(pattern = "(>|)(Item|ITEM|Signature|SIGNATURE).*", "", item_parse) ## *updated August 18, 2023 
+    } else {
+      
+      if (any(nchar(item_id) >= 3)) { # the id is long enough
+        # print("Yes! item_id")
+        item_parse <- sub(pattern = paste(".*(\"|\'|[^#])", item_id[1], "(\"|\'|)", sep = "")[1], "", x[loc_item[1]])
+        
+        ## check if the item_parse contains the correct item info 
+        if (grepl(paste(item[1], "|(Item|ITEM).+[36]{1}(.)?.+[A-Z]\\w+\\s+[A-Z]", sep = ""), substr(html_text(read_html(item_parse)), 1, 1500), ignore.case = F)) { ## July 15, 2023
+          if (grepl(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", sep=""), x = item_parse) ) {
+            item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+          } else { ## *August 8, 2023 
+            item_txt <- ifelse(
+              (grepl(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", sep=""), x = item_parse) ), 
+              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", ".*", sep=""), "", item_parse),
+              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
+            )
+          }
+          
+        } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
+          item_parse <- sub(pattern = paste(".*", item[1], sep = "")[1], "", x[loc_item[1]], ignore.case = F) # updated July 15, 2023
+          item_txt <- sub(pattern = "(>|)(Item|ITEM)[^_].*", "", item_parse) 
+        }
+        
+      } else { # if the id is NOT long enough 
+        # print("Yes! item_id")
+        item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", x[loc_item[1]], ignore.case = F)
+        item_txt <- sub(pattern = "(>|)(Item|ITEM).*", "", item_parse) ## July 14, 2023 
+      }
+      
+    }
+  } else {
+    # the full item ## *updated August 18, 2023 
+    if (any(is.na(item_id))) { 
+      item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "") %>% 
+        sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>% 
+        sub(pattern = "(>)?(Item|ITEM)(.){0,30}[6-9]\\b.*", "", .) ## *updated August 18, 2023 
+      
+    } else {
+      item_txt <- paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = "")
+      
+    }
+    
+    # item_txt <-  paste(str_squish(x[loc_item[1]:loc_item[2]]), collapse = " ") %>% 
+    #   sub(pattern = paste(".*", item[2], sep = "")[1], "", ., ignore.case = F) %>%
+    #   sub(pattern = "(>|)(Item|ITEM).*", "", .) ## August 7, 2023 
+  }
+  
+  # find the table(s) ## *updated August 9, 2023 
+  # res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
+  res <- try(item_html <- read_html(paste("<text>", item_txt, "</text>", collapse = "")), silent = T)
+  # res <- try(item_html <- read_html(paste("<text>", item_txt, "</text>", collapse = "")), silent = T)
+  if (inherits(res, "try-error")) {
+    if (nchar(x[loc_item[1]]) > 300) {
+      item_parse <- sub(pattern = paste(".*", item[2], sep = "")[1], "", paste(item_txt, collapse = " "), ignore.case = T) ## July 14, 2023 
+      item_txt <- sub(pattern = "(>)?(Item|ITEM)[^0-9]+\\d{1}.*", "", item_parse)
+      res <- try(item_html <- read_html(paste(item_txt, collapse = "")), silent = T)
+    }
+    res2 <- try(item_html <- read_html(paste('<p>', item_txt, '</p>', collapse = "")), silent = T)
+  } 
+  
+  item_tbls <- html_nodes(item_html, "table")
+  if (length(item_tbls) == 0) { # if no table found in the item 
+    # print("No Table!")
+    print("k5")
+    return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                parts = "No Table!" , # html_text(item_html, trim = T),  
+                table_unit = NA,
+                table_html_code = NA ))
+  } else { # if there are tables! ## updated August 8, 2023 
+    item_tbl_id_cand <- which(str_count(string = as.character(item_tbls), pattern = "/tr") > 1 & # number of rows > 1
+                                str_count(string = as.character(item_tbls), pattern = "/td") / str_count(string = as.character(item_tbls), pattern = "/tr") >= 6 & # number of columns >= 6
+                                grepl(pattern = "Total.*Number|purchase|repurchase", x = item_tbls, ignore.case = T) & 
+                                grepl(pattern = "program|price|plan", x = item_tbls, ignore.case = T) & 
+                                grepl(pattern = "share", x = item_tbls, ignore.case = T) & 
+                                !grepl(pattern = "issuance|revenue|income|conversion|(purchase price of common)", x = item_tbls, ignore.case = T) ) # identify the correct table
+    
+    
+    if (length(item_tbl_id_cand) == 0) {
+      item_tbl_check <- FALSE # if no table is found
+    } else {
+      if (length(item_tbl_id_cand) > 2) { # if more than two tables 
+        item_tbl_id_cand <- item_tbl_id_cand[1:2] # choose the first two tables 
+      }
+      item_tbl_check <- grepl(pattern = "total.*number.*of|Average.*Price.*Paid",
+            x = html_text(item_tbls[item_tbl_id_cand]),
+            ignore.case = T) # check whether each table fits 
+    }
+    
+    if (any(isTRUE(item_tbl_check))) { # 
+      ## Extract the Table Info 
+      tbl_numbers_cleaned <- lapply(X = item_tbl_id_cand, FUN = function(x) {
+        table.cleaned(id_table_raw = as.character(item_tbls[[x]]), text_break_node = text_break_node )$table
+      }) %>% 
+        do.call(rbind, .)
+      
+      ## <table unit information>
+      ## extract the unit information from the table ## updated July 16, 2023
+      item_table_unit <- str_extract(string = html_text(item_tbls[item_tbl_id_cand], trim = T), pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")[1]
+      if (is.na(item_table_unit)) { # check directly in the table if the `item_table_unit` returns NA 
+        item_table_unit <- grep(pattern = "in\\s*(hundred|thousand|million|billion)|(hundred|thousand|million|billion)", x = item_table0, ignore.case = T, value = T)[1]
+      } 
+      
+      ## <text info excl. table> ## *updated August 22, 2023 (issues)
+      ## extract item text and exclude the table. ## *updated August 22, 2023 ----- 
+      # table_html_code <- as.character(item_tbls[item_tbl_id_cand]) # store the raw html code for the table 
+      # xml_replace(.x = item_tbls[item_tbl_id_cand], .value = text_break_node) # replace the identified table
+      # filing_item2_txt <- html_text(item_html, trim = T) # store the txt excl. table
+      # if (is.na(item_table_unit)) { # if no unit info inside the table
+      #   ## search in the text before the table 
+      #   item_table_unit <- str_extract(string = sub(pattern = "<footnote>.*", replacement = "", x = filing_item2_txt),
+      #                                  pattern = "\\((I|i)(N|n)\\s*[^()0-9c][^()0-9]+\\)")
+      # }
+      return(list(table = as.matrix(tbl_numbers_cleaned), 
+                  # parts = filing_item2_txt,
+                  table_unit = item_table_unit #, 
+                  # table_html_code = table_html_code
+      ) )
+    } else {
+      return(list(table = matrix(NA, nrow = 1, ncol = 4),
+                  # parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
+                  table_unit = NA # ,
+                  # table_html_code = NA 
+                  ))
+    }
+    
+  }
+}
