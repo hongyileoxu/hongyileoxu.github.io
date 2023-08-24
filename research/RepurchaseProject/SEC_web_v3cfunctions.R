@@ -412,7 +412,7 @@ filing.item <- function(x, # filing
       }
       
       ### remove rows with all same elements 
-      if ( sum(grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = item_table0[,1], ignore.case = T)) > 1 ) { 
+      if ( sum(grepl(pattern = "total.*number.*of|Average.*Price.*(Paid)?|Maximum.*number", x = item_table0[,1], ignore.case = T)) > 1 ) { 
         # for the case: "0001144204-17-014104" ## sum(item_table0[1,] %in% month.name) > 0
         item_table0 <- item_table0 %>%
           .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] # remove columns having only $ or NA 
@@ -919,7 +919,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   }
   
   ### remove rows with all same elements 
-  if ( sum(grepl(pattern = "total.*number.*of|Average.*Price.*Paid", x = item_table0[,1], ignore.case = T)) > 1 ) { 
+  if ( sum(grepl(pattern = "total.*number.*of|Average.*Price.*(Paid)?|Maximum.*number", x = item_table0[,1], ignore.case = T)) > 1 ) { 
     # for the case: "0001144204-17-014104" ## sum(item_table0[1,] %in% month.name) > 0
     item_table0 <- item_table0 %>%
       .[, colSums(. == "$") == 0 & !is.na(colSums(. == "$")), drop=F] # remove columns having only $ or NA 
