@@ -1051,8 +1051,9 @@ table.cleaned <- function(id_table_raw, text_break_node) {
         gsub(pattern = "\\([a-zA-Z0-9]{1}\\)", replacement = "", x = .) %>%
         trimws %>% as.vector
     }
-    ### to impute missing headers
-    tbl_title0[which(nchar(tbl_title0, type = "width") == 0)] <- tbl_title0[which(nchar(tbl_title0, type = "width") == 0)-1]
+    ### to impute missing headers ## *updated August 24, 2023 
+    tbl_title0[which(nchar(gsub(pattern = "D$- ", "" ,tbl_title0, fixed = T), type = "width") < 5)] <- tbl_title0[which(nchar(gsub(pattern = "D$- ", "" ,tbl_title0, fixed = T), type = "width") < 5)-1]                          
+    # tbl_title0[which(nchar(tbl_title0, type = "width") == 0)] <- tbl_title0[which(nchar(tbl_title0, type = "width") == 0)-1]
     tbl_title <- c("item", (tbl_title0), "period") ## final headers 
     
     ### store duplicated and non-duplicated column headers
