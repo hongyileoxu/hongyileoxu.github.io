@@ -892,7 +892,15 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   ### clean the table ## *updated August 23, 2023 
   item_table0 <- unique.matrix(as.matrix(html_table(html_nodes(read_html(id_table_raw), "table")[[1]], header = F)), MARGIN = 2) %>% 
     .[,colSums(is.na(.)) != nrow(.),drop=F]
+  second_table <- which(apply(item_table0, MARGIN = 1, FUN = function(x) any(grepl('Company repurchases of the warrants', x = x, ignore.case = T)) ))
+  if (length(second_table) != 0) { # id: "0000072971-13-000576" 
+    item_table0 <- item_table0[1:second_table,,drop=F]
+  }
   item_table0 <- apply(item_table0, MARGIN = 2, FUN = function(x) gsub(x = x, pattern = "\\([a-zA-Z0-9]{1}\\)|[\r\n]", replacement = "") %>% trimws)
+  empty_row_id <- which(apply(item_table0, MARGIN = 1, FUN = function(x) sum(nchar(x), na.rm = T)) == 0)
+  if (length(empty_row_id) != 0) {
+    item_table0 <- item_table0[-empty_row_id,,drop=F] # remove empty rows 
+  }
   if (nrow(item_table0) > 6) {
     item_table0_footnotes <- sapply(apply(item_table0, MARGIN = 1, FUN = function(x) {
       table(x[nchar(x, type = "width") >= 3], exclude = "") # exclude "" elements > collect the frequency of appearance in each row  
@@ -1029,7 +1037,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
                 # parts = html_text(item_html, trim = T),  
                 # table_unit = NA, 
                 # table_html_code = NA 
-                ))
+    ))
   } else { 
     ## Continue for a valid table      
     tbl_periods <- tbl_rowkeep_info$period # return the period for each column 
