@@ -38,6 +38,7 @@
 | [0001144204-11-060090](https://www.sec.gov/Archives/edgar/data/1301611/000114420411060090/0001144204-11-060090.txt) | Several tables and only the last one is for the monthly repurchase amount | Cannot be solved | 
 | [0000897101-11-000818](https://www.sec.gov/Archives/edgar/data/875355/000089710111000818/0000897101-11-000818.txt) | Multiple Tables and include different monthly info | Cannot be solved | 
 | 0001047469-14-000555 | multiple over-headers | Unsolved | 
+| 0000914025-11-000013 | Check the number in this filing | 
 
 
 
