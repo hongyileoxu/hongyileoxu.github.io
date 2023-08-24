@@ -551,7 +551,7 @@ filing.item <- function(x, # filing
         
         if (max(tbl_title_dupid) < length(tbl_title)) { # if there are duplicated headers
           tbl_numbers <- sapply(X = 1:max(tbl_title_dupid), FUN = function(x) {
-            apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = "   ")) %>% 
+            apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = " ")) %>% 
               str_replace_all(pattern = "\\$|(\\s*?)\\([12ab]\\)", replacement = "")
           })
           
@@ -1061,7 +1061,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
     
     if (max(tbl_title_dupid) < length(tbl_title)) { # if there are duplicated headers
       tbl_numbers <- sapply(X = 1:max(tbl_title_dupid), FUN = function(x) {
-        apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = "   ")) %>% 
+        apply(tbl_numbers[, which(tbl_title_dupid == x),drop=F], MARGIN = 1, FUN = function(x) paste(unique(x), collapse = " ")) %>% 
           str_replace_all(pattern = "\\$|(\\s*?)\\([12ab]\\)", replacement = "")
       })
       
