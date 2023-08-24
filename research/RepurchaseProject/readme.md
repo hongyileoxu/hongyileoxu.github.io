@@ -36,6 +36,7 @@
 | [0001193125-20-307086](https://www.sec.gov/Archives/edgar/data/1145255/000119312520307086/0001193125-20-307086.txt) | Wired table, maybe caused by `header = F` in `html_table` function. | [Updated Cleaned File](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/3971fa1dcf41da6f542e61aa3552b9e1999e54c6/research/RepurchaseProject/0001193125-20-307086_updated.txt) | 
 | [0001144204-11-060090](https://www.sec.gov/Archives/edgar/data/1301611/000114420411060090/0001144204-11-060090.txt) | Several tables and only the last one is for the monthly repurchase amount | Cannot be solved | 
 | [0000897101-11-000818](https://www.sec.gov/Archives/edgar/data/875355/000089710111000818/0000897101-11-000818.txt) | Multiple Tables and include different monthly info | Cannot be solved | 
+| 0001047469-14-000555 | multiple over-headers | Unsolved | 
 
 
 
