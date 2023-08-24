@@ -1100,16 +1100,87 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   }
 }
 
-## d. filing.item_multiple(): deal with multiple outputs ---- 
+                                                         
+# f. filing.cleaned_multiple(): the aggregate function function ----
+## this function returns the cleaned header info, table, table_unit and parts (header and footnote in the item)
+filing.cleaned_multiple <- function(loc_file, # name of the filing
+                           zip_file, # name of the zipped file 
+                           text_break_node # xml text to replace the identified table 
+) { 
+  {
+    ## import the txt filing 
+    if (!is.null(zip_file)) {
+      filing <- readLines(archive_read(zip_file, loc_file))
+    } else {
+      filing <- readLines(loc_file)
+    }
+    
+    ## store header info 
+    {  
+      info <- filing.header(x = filing) 
+      selected_headers <- c('ACCESSION NUMBER','CONFORMED SUBMISSION TYPE','PUBLIC DOCUMENT COUNT','CONFORMED PERIOD OF REPORT','FILED AS OF DATE','DATE AS OF CHANGE','FILER:','COMPANY DATA:','COMPANY CONFORMED NAME','CENTRAL INDEX KEY','STANDARD INDUSTRIAL CLASSIFICATION','IRS NUMBER','STATE OF INCORPORATION','FISCAL YEAR END','FILING VALUES:','FORM TYPE','SEC ACT','SEC FILE NUMBER','FILM NUMBER','BUSINESS ADDRESS:','STREET 1','STREET 2','CITY','STATE','ZIP','BUSINESS PHONE')
+      info_cleaned <- info[match(selected_headers, 
+                                 table = info[1:max(grep("mail", info[,1], ignore.case = T)[1]-1, nrow(info), na.rm = T),1]), 2] # all info before section "MAIL ADDRESS:"
+    } 
+    
+    ## clean the document to improve parsing accuracy. 
+    ## updated July 16, 2023 ---- 
+    x_text_id <- grep(pattern = '<text>|</text>', x = filing, ignore.case = T)[1:2] # identify the main body
+    if (any(is.na(x_text_id))) { ## if containing NA 
+      filing <- filing[x_text_id[1]]
+      
+    } else {
+      filing <- filing[x_text_id[1]:x_text_id[2]] ## keep only the text component
+      x_close_tagid <- grep(pattern = "</\\w+>$|<text>", filing, ignore.case = T) # identify the ending tag 
+      
+      ### only do this if the element in the vector is not too small.  ## updated July 16, 2023
+      if (length(x_close_tagid)/length(filing) < 0.7 & length(filing) > 800) { ## < length(x_close_tagid) > 10 >
+        x_para_id <- c(
+          x_close_tagid[which(diff(x_close_tagid) > 1)], # guess the location of a potential paragraph/term 
+          length(filing)
+        )
+        x_para_id <- rbind(rep(1, 2), cbind(head(x_para_id+1, -1), x_para_id[-1]))
+        filing <- apply(X = x_para_id, MARGIN = 1, FUN = function(x) paste(filing[x[1]:x[2]], collapse = " "))
+      }
+      
+    }
+    
+    ## store item location
+    loc_item2 <- loc.item(x = filing, filing_type = substr(info[2,2], start = 1, stop = 4) )
+  }
+  if (all(is.na(loc_item2$loc_item))) { 
+    ## check whether the item is in the document
+    item2_cleaned <- list(table = matrix(NA, nrow = 1, ncol = 4),
+                          parts = NA,  
+                          table_unit = NA, 
+                          table_html_code = NA )
+  } else {
+    ## generate cleaned info 
+    item2_cleaned <- filing.item_multiple(x = filing,
+                                 loc_item = loc_item2$loc_item,
+                                 item_id = loc_item2$item_id,
+                                 item_id_backup = loc_item2$item_id_backup, ## *August 8, 2023 
+                                 item = loc_item2$item,
+                                 text_break_node = text_break_node, 
+                                 reporting_qrt = info_cleaned[4], # reporting 
+                                 parts = "footnote")
+  }
+  
+  ## return output 
+  return(c(list(info = info_cleaned), # store header info
+           item2_cleaned)) # combine info with cleaned table 
+} 
+
+# g. filing.item_multiple(): deal with multiple outputs ---- 
 filing.item_multiple <- function(x, # filing
-                        loc_item, # the location of the item of interest
-                        item_id, # the identifier from 'href' for the section 
-                        item, # the regex for the item (item number./ item name)
-                        item_id_backup, # a backup id ## *August 8, 2023 
-                        reporting_qrt, # the quarter the filing was made 
-                        text_break_node, # the xml to replace the identified table
-                        table = TRUE, # whether to scrap the table numbers 
-                        parts = c("footnote") # the parts of information that you want 
+                                 loc_item, # the location of the item of interest
+                                 item_id, # the identifier from 'href' for the section 
+                                 item, # the regex for the item (item number./ item name)
+                                 item_id_backup, # a backup id ## *August 8, 2023 
+                                 reporting_qrt, # the quarter the filing was made 
+                                 text_break_node, # the xml to replace the identified table
+                                 table = TRUE, # whether to scrap the table numbers 
+                                 parts = c("footnote") # the parts of information that you want 
 ) { 
   # extract info from the section/item 
   if (loc_item[1] == loc_item[2]) {
@@ -1202,8 +1273,8 @@ filing.item_multiple <- function(x, # filing
         item_tbl_id_cand <- item_tbl_id_cand[1:2] # choose the first two tables 
       }
       item_tbl_check <- grepl(pattern = "total.*number.*of|Average.*Price.*Paid",
-            x = html_text(item_tbls[item_tbl_id_cand]),
-            ignore.case = T) # check whether each table fits 
+                              x = html_text(item_tbls[item_tbl_id_cand]),
+                              ignore.case = T) # check whether each table fits 
     }
     
     if (any(isTRUE(item_tbl_check))) { # 
@@ -1240,8 +1311,9 @@ filing.item_multiple <- function(x, # filing
                   # parts = substr(html_text(item_html, trim = T), 1, 5000), # keep only the first 5000 char
                   table_unit = NA # ,
                   # table_html_code = NA 
-                  ))
+      ))
     }
     
   }
 }
+                        
