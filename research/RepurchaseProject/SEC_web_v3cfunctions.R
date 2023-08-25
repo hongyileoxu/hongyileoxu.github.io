@@ -892,7 +892,7 @@ table.cleaned <- function(id_table_raw, text_break_node) {
   ### clean the table ## *updated August 23, 2023 
   item_table0 <- unique.matrix(as.matrix(html_table(html_nodes(read_html(id_table_raw), "table")[[1]], header = F)), MARGIN = 2) %>% 
     .[,colSums(is.na(.)) != nrow(.),drop=F]
-  second_table <- which(apply(item_table0, MARGIN = 1, FUN = function(x) any(grepl('Company repurchases of the warrants', x = x, ignore.case = T)) ))
+  second_table <- which(apply(item_table0, MARGIN = 1, FUN = function(x) any(grepl('Company repurchases of the warrants|Advisor', x = x, ignore.case = T)) ))
   if (length(second_table) != 0) { # id: "0000072971-13-000576" 
     item_table0 <- item_table0[1:second_table,,drop=F]
   }
