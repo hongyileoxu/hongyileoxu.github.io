@@ -49,7 +49,7 @@
 | [0000796343-11-000006] | negative value for the maximu amount > actually, the total cost of repurchase. | 
 | [0000020212-12-000019] | wired period expression `4/1/12-4/30/2012` | 
 | [0000020212-13-000039](https://www.sec.gov/Archives/edgar/data/20212/000002021213000039/0000020212-13-000039.txt) | Need to impute missing values | manually checked. | 
-
+| [0001084869-11-000004](https://www.sec.gov/Archives/edgar/data/1084869/000108486911000004/0001084869-11-000004.txt) | Meed to check again both the unit and column values | Manually corrected | 
 
 
 
