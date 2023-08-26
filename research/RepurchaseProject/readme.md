@@ -47,6 +47,7 @@
 | [0000950123-11-029301] | No value for the maximum amount | 
 | [0001022408-11-000019] | Value = ` - (13)` > `regex = str_count(string = value, pattern = "\\d") > 2 | 
 | [0000796343-11-000006] | negative value for the maximu amount > actually, the total cost of repurchase. | 
+| [0000020212-12-000019] | wired period expression `4/1/12-4/30/2012` | 
 
 
 
