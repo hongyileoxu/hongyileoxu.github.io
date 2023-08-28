@@ -43,7 +43,7 @@
 | [0000897101-11-000818](https://www.sec.gov/Archives/edgar/data/875355/000089710111000818/0000897101-11-000818.txt) | Multiple Tables and include different monthly info | Can be solved using the new  `filing.cleaned_multiple` function. | 
 | 0001047469-14-000555 | multiple over-headers | Unsolved | 
 | 0000914025-11-000013 | Check the number in this filing | 
-| [0000950123-11-038128](https://www.sec.gov/Archives/edgar/data/48898/000095012311038128/0000950123-11-038128.txt) | DIfferent unit information in two columns and may not be captured. potential variations: `(000\u0092s); (in 000's); (000's); ($000) ; (000s)` | Solution: `grepl(pattern = "\\((in\\s*|\\$)?0{3}", x = c("(000\u0092s)", "(in 000's)", "(000's)", "($000)","(000s)", "(in  000"))` | 
+| [0000950123-11-038128](https://www.sec.gov/Archives/edgar/data/48898/000095012311038128/0000950123-11-038128.txt) | DIfferent unit information in two columns and may not be captured. potential variations: `(000\u0092s); (in 000's); (000's); ($000) ; (000s)` | Solution: grepl(pattern = "\\((in\\s*|\\$)?0{3}", x = c("(000\u0092s)", "(in 000's)", "(000's)", "($000)","(000s)", "(in  000")) | 
 | [0000950123-11-029301] | No value for the maximum amount | 
 | [0001022408-11-000019] | Value = ` - (13)` > `regex = str_count(string = value, pattern = "\\d") > 2 | 
 | [0000796343-11-000006] | negative value for the maximu amount > actually, the total cost of repurchase. | 
