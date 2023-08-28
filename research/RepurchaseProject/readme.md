@@ -18,7 +18,7 @@
 6. "0001193125-11-131657" : unregular headers > [Solved]
 7. "0001104659-12-073995" : unregular headers > [Solved]
 8. "0001193125-12-026335" : dual class shares and numbers are collapsed together. > Needs manual checking. 
-9. "UFP INDUSTRIES INC (UFPI) (CIK 0000912767)" : wired table format in which the header rows are not specified. 
+9. ["UFP INDUSTRIES INC (UFPI) (CIK 0000912767)"](https://www.sec.gov/edgar/search/#/dateRange=custom&category=custom&ciks=0000912767&entityName=UFP%2520INDUSTRIES%2520INC%2520(UFPI)%2520(CIK%25200000912767)&startdt=2010-01-01&enddt=2023-08-18&forms=10-K%252C10-KT%252C10-Q%252C10-QT) : wired table format in which the header rows are not specified. 
 
 | id | issue | Status | 
 | :---:   | --- |  :---: |
