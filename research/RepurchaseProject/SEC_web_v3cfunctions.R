@@ -307,11 +307,7 @@ filing.item <- function(x, # filing
           if (grepl(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", sep=""), x = item_parse) ) {
             item_txt <- sub(pattern = paste("(\"|\'|[^#])", item_id[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
           } else { ## *August 8, 2023 
-            item_txt <- ifelse(
-              (grepl(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", sep=""), x = item_parse) ), 
-              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[1], "(\"|\'|)", ".*", sep=""), "", item_parse),
-              sub(pattern = paste("(\"|\'|[^#])", item_id_backup[2], "(\"|\'|)", ".*", sep=""), "", item_parse)
-            )
+            item_txt <- sub(pattern = "(>|)(Item|ITEM)\\s*[678].*", "", item_parse) ## August 29, 2023 
           }
           
         } else { # if not, then use brutal force to search for ">Item 2." or ">Item 5."
