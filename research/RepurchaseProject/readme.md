@@ -52,6 +52,7 @@
 | [0001084869-11-000004](https://www.sec.gov/Archives/edgar/data/1084869/000108486911000004/0001084869-11-000004.txt) | Meed to check again both the unit and column values | Manually corrected | 
 | [0000310354-16-000097] | The dollar sign is missing for `vars_id == 4`. | 
 | [0001564590-20-033611](https://www.sec.gov/Archives/edgar/data/110621/000156459020033611/0001564590-20-033611.txt) | Suspend the OMR in respone to the pandamic | 
+| [0000920148-17-000018](https://www.sec.gov/Archives/edgar/data/0000920148/000092014817000018/0000920148-17-000018-index.html) | Unit is expressed in `(dollar amounts in millions)` in the text and many similar expression exists. | The unit identification regex needs to be updated (to be done!) | 
 
 
 
