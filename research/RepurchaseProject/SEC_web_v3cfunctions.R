@@ -256,6 +256,7 @@ tbl.rowkeep2 <- function(regex_row = '(\\w+(\\s+?)\\d{1,2},\\s+\\d{4}|Total|[^a-
                          reporting_qrt # the reporting quarter 
 ) {
   # identify the rows that match the regex_row
+  row_name[str_detect(row_name, 'ASR')] <- 'ASR'
   tbl_periods_id <- grep(pattern = regex_row, row_name, ignore.case = T) # id_row for the periods
   
   if (length(tbl_periods_id) > 0) {
