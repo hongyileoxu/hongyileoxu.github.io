@@ -14,6 +14,7 @@ Econometrics:
     -   Instrumental variable with Difference-in-Difference: [DDIV](https://uc9a1fdd2a4ef078d3a743935269.dl.dropboxusercontent.com/cd/0/inline2/Buxh7i39n3OLjplKoFQSiSPr9WKLc8TIWS8b_9TlRBSlyw6oDvtCI_OIlOjEs3A211xKW6BtQ-edFn8PTqUeJV2AorcRaY96skPoQ2w5GFR165PzHmMgbP2Z0oixA1ksuHw2RS8X-BiqzYxDyXQYcr5XFY2EVOtDEh6xoXtz89rHQHjTZZR1KLQlvRnBdHd-kz2vzJoSTkivWZtrTdOh0Au8XZ-lxCsoBShWzd4BdaTimeUuRJJHL-YIKDg0J5JclieygH8ItxYJg8iR_SFPfUYkzpJTD7a5jEFzk1cYCiJECb4vNL_bkYOvH-AVNhrtUQQjQCWNCQBU9haIOKC-X_Y5GXrd8TxN2vnPL6dl3-oCyu5yDmoRWsXeNt2bhqt_YrDw_NA70FEGsj_L65D5YPaXNPcMPeq7iXFsD0R5vsy8xw/file#)/ [Duflo, 2001](https://www.jstor.org/stable/2677813)/ [Stata](https://www.stata.com/manuals13/xtxtivreg.pdf)
     -   
 
+-	[RE vs FE](https://libguides.princeton.edu/R-Panel#:~:text=To%20decide%20between%20fixed%20or,the%20alternative%20the%20fixed%20effects.)
 
 Data and Topics
 -   Private Equity and Venture Capital: 
