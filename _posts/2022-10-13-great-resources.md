@@ -16,6 +16,7 @@ Econometrics:
 
 -	[RE vs FE](https://libguides.princeton.edu/R-Panel#:~:text=To%20decide%20between%20fixed%20or,the%20alternative%20the%20fixed%20effects.)
 
+-	[Empirical IO](https://github.com/kohei-kawaguchi/EmpiricalIO.git) 
 Data and Topics
 -   Private Equity and Venture Capital: 
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
