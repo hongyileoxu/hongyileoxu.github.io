@@ -48,6 +48,7 @@ Projects in Progress:
 - EDGAR 10-Q/K Parsing Repurchase Info. [[HTML]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3afunctions.html)/[[R]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3cfunctions.R) / 
 	
 	- [Aug 17, 2023 Update](https://hongyileoxu.github.io/research/RepurchaseProject/Repurchase_BBAIA_merge_v1b.html)
-  	- [Oct 17, 2023 Presentation](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/e1543fc897f3dccc468e325c09c73b51be6f68a0/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / [Slides](https://hongyileoxu.github.io/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) 
+    - [Oct 17, 2023 Presentation](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/e1543fc897f3dccc468e325c09c73b51be6f68a0/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / [Slides](https://hongyileoxu.github.io/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) 
+    - 
 
 Thank You! 
