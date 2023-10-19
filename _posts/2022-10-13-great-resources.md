@@ -16,7 +16,9 @@ Econometrics:
 
 -	[RE vs FE](https://libguides.princeton.edu/R-Panel#:~:text=To%20decide%20between%20fixed%20or,the%20alternative%20the%20fixed%20effects.)
 
--	[Empirical IO](https://github.com/kohei-kawaguchi/EmpiricalIO.git) 
+-	[Empirical IO](https://github.com/kohei-kawaguchi/EmpiricalIO.git)  
+
+-	[Structual estimation](https://github.com/drewvankuiken/drewvankuiken.github.io/tree/66e4f3174774fa3dc966473d31e1053a29b2efa4/files/helpful_materials/lyman_slides/Re%20_Choosing_classes) 
 
 
 Data and Topics
