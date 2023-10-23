@@ -20,7 +20,7 @@ Econometrics:
 
 -	[Structual estimation](https://github.com/drewvankuiken/drewvankuiken.github.io/tree/66e4f3174774fa3dc966473d31e1053a29b2efa4/files/helpful_materials/lyman_slides/Re%20_Choosing_classes) and also [ResEcon703](https://github.com/woerman/ResEcon703/blob/70d8332c30cfa7c6654ab19a5821137f0865e1d9/readme.md) 
 
-—	[Literature on Recent Advances in Applied Micro Methods](https://christinecai.github.io/PublicGoods/applied_micro_methods.pdf)
+-	[Literature on Recent Advances in Applied Micro Methods](https://christinecai.github.io/PublicGoods/applied_micro_methods.pdf)
 
 Data and Topics
 -   Private Equity and Venture Capital: 
