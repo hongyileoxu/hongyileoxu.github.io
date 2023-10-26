@@ -57,7 +57,7 @@
 | [0001628280-15-007764](https://www.sec.gov/Archives/edgar/data/0001032033/000162828015007764/0001628280-15-007764-index.html) | The column. `3` is recorded even though no OMR at this stage. | Will. dilute the effect we find. |
 | [0001437749-20-019622](https://www.sec.gov/Archives/edgar/data/0001084869/000143774920019622/0001437749-20-019622-index.html) | Wrong unit measure | manually corrected. 
 | [0001193125-14-383437](https://www.sec.gov/Archives/edgar/data/320193/000119312514383437/0001193125-14-383437.txt) | Apple: unconventional unit info: (in millions, except number of shares, which are reflected in thousands, and per share amounts): | needs to update for all observations. | 
-
+| [0001193125-14-157311](https://www.sec.gov/Archives/edgar/data/320193/000119312514157311/0001193125-14-157311-index.html) | Apple: March info is missing. | 
 
 
 
