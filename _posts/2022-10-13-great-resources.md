@@ -29,4 +29,12 @@ Data and Topics
 Other Nice Sources: 
 -  A collection from Xuanli Zhu: [Guide2EconRA](https://github.com/hongyileoxu/Guide2EconRA_update/blob/7a12be4d321be6ea318c39096703fbcfdb0b6cd6/README.md)
 
--  Theory talk guidance: [How to give an economic theory talk]（https://drive.google.com/file/d/1SHiJs6Uz1wDBOSMRb8rPvu4UkqfJUjSF/view) 
+-  Theory talk guidance: [How to give an economic theory talk](https://drive.google.com/file/d/1SHiJs6Uz1wDBOSMRb8rPvu4UkqfJUjSF/view) 
+
+
+
+
+
+
+
+
