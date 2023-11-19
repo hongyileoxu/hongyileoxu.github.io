@@ -24,6 +24,9 @@ Econometrics:
 
 -	[Literature on Recent Advances in Applied Micro Methods](https://christinecai.github.io/PublicGoods/applied_micro_methods.pdf)
 
+-   [Contract theory](https://sites.google.com/site/danielbarronecon/contract-theory)
+
+
 Data and Topics
 -   Private Equity and Venture Capital: 
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
