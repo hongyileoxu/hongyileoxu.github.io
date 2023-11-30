@@ -36,7 +36,7 @@ Other Nice Sources:
 
 -  Theory talk guidance: [How to give an economic theory talk](https://drive.google.com/file/d/1SHiJs6Uz1wDBOSMRb8rPvu4UkqfJUjSF/view) 
 
-
+-  [Macro Finance](https://initiative.princeton.edu) & [2023](https://youtube.com/playlist?list=PLPKR-Xs1slgSRm8PtH49H5G1Zr7eiEl0Q&si=kdfn_2BLH7OskABr) / [2022](https://youtube.com/playlist?list=PLPKR-Xs1slgRvgQO0aqLhnW3Z8gq4bdSp&si=OZH8WHVHmbVmGuUb) / 
 
 
 
