@@ -38,6 +38,7 @@ Other Nice Sources:
 
 -  [Macro Finance](https://initiative.princeton.edu) & [2023](https://youtube.com/playlist?list=PLPKR-Xs1slgSRm8PtH49H5G1Zr7eiEl0Q&si=kdfn_2BLH7OskABr) / [2022](https://youtube.com/playlist?list=PLPKR-Xs1slgRvgQO0aqLhnW3Z8gq4bdSp&si=OZH8WHVHmbVmGuUb) / 
 
+-  [Data Science for Econ](https://github.com/uo-ec607/lectures.git) 
 
 
 
