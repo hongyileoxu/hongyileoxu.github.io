@@ -28,6 +28,7 @@ Econometrics:
 
 -   [Contract theory](https://sites.google.com/site/danielbarronecon/contract-theory)
 
+-   [Empirical Method in IO](http://www.its.caltech.edu/~mshum/gradio/ioclass.html)
 
 Data and Topics
 -   Private Equity and Venture Capital: 
