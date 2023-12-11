@@ -42,6 +42,8 @@ Other Nice Sources:
 
 -  [Data Science for Econ](https://github.com/uo-ec607/lectures.git) 
 
+-  [Macro etc. by Prof Chris Edmond](http://www.chrisedmond.net/teaching.html) 
+
 
 
 
