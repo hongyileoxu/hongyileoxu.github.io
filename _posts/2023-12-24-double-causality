@@ -1,0 +1,8 @@
+---
+layout: post
+title: "Does Causality Only Stay in the Local Environment"
+date: 2023-12-24
+---
+
+When we have two variables of interest, $X$ and $Y$, and want to do some preliminary analysis, 
+we normally use the correlation between the two variables. i.e. $$
