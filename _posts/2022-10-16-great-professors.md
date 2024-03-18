@@ -9,3 +9,4 @@ An inconclusive list:
 -       [Good topics for a 2nd-year paper](https://www.ivo-welch.info/teaching/start-economics.html) by Professor Ivo Welch
 -       [Shareholder & Governance](https://www.nmalenko.com/lecture-notes) by Prefessor Nadya Malenko
 -       [Advanced Econometrics Course](https://jblevins.org/courses/) by Professor Jason Blevins 
+-		[Innovation and Firm Dynamics](http://www.ufukakcigit.com) by Professor Ufuk Akcigit - Economics of Creative Destruction. 
