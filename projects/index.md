@@ -34,7 +34,10 @@ Projects in Progress:
         + | [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_bm3.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_op3.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_inv3.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_mom3.html) |
     - Double-sorted Size-Characteristic Terciles from the expanded universe 
         + | [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleTercile/Xu_2022_v4.0_Allfirms_SizeBM.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleTercile/Xu_2022_v4.0_Allfirms_SizeOp.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleTercile/Xu_2022_v4.0_Allfirms_SizeInv.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleTercile/Xu_2022_v4.0_Allfirms_SizeMom.html) |
-          
+    - Reproduced Results 2024:
+    	+ CRSP universe: [Monthly]() | [Quarterly]() | [Annual - Dec]() | 
+     	+ NYSE universe: [Monthly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_monthly.html) | [Quarterly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_quarterly.html) | [Annual - Dec](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualDec.html) | [Annual - July](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualJuly.html) |	 
+	  
 
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Corporate_Spinoff_v2.pdf)  
 
