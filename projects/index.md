@@ -34,7 +34,7 @@ Projects in Progress:
     - Double-sorted Size-Characteristic Quintiles from the expanded universe
     	- [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_bm3.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_op3.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_inv3.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_mom3.html)   
     
-    - Reproduced Results 2024 
+    - Reproduced Results 2024 		
     	- CRSP universe: [Monthly](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_monthly.html) | [Quarterly](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_quarterly.html) | [Annual - Dec](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_annual.html)   
      	- NYSE universe: [Monthly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_monthly.html) | [Quarterly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_quarterly.html) | [Annual - Dec](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualDec.html) | [Annual - July](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualJuly.html) 	  
 	  
