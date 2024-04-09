@@ -1,0 +1,2 @@
+This is the file constructed from the "R&R2_JEF_Other_Characteristics_Mar29_2024" folder for portfolios constructed by stocks' market capitalisation, book-to-market ratio, investment, and operating profits. 
+Data are provided by Professor Dean Katselas. 
