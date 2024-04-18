@@ -19,14 +19,17 @@
 	- Delaware’s procreditor Asset-Backed Securities Facilitation Act (ABSFA). 
 	- The court decisions thus represented a relative strengthening of creditor rights for patenting firms incorporated in Delaware. 
 	- a ==difference-in-difference== that examines the evolution of financing and investment for Delaware- relative to non Delaware-incorporated firms around the dates of the four court decisions. 
-- Findings： 
-	- Treated firms increase their debt-to-asset ratio by roughly 4% (average debt-to-asset ratio is 0.27), or $25 million debt given the average book assets of $2.6 billion. $\Rightarrow$ This shows that stronger creditor protection in default increases the patent collateral value to creditors, thus facilitating firms’ financing. 
+- #Findings Findings
+	- Treated firms increase their debt-to-asset ratio by roughly 4% (average debt-to-asset ratio is 0.27), or \$25 million debt given the average book assets of \$2.6 billion. $\Rightarrow$ This shows that stronger creditor protection in default increases the patent collateral value to creditors, thus facilitating firms’ financing. 
 	- Treated firms also increase their R&D spending. 
 	- ==**CapEx**==: a traditional measure of investment. **has no effect**. 
 	- results for firms with different level of financial constraints: 
 		1. the firms relying on patent collateral face significant financial constraints. 
 		2. an increase in the collateral value of their important intangible assets increased their ability to raise capital and invest it. 
+- #Note
+	- [ ] The focus is more on the long-term debts and what about the short-term debt and debt renegotiation? 
 ## Descriptive 
+- about 15% from a given vintage are pledged as collateral within five years of being granted, a number that has also risen steadily over the past three decades.
 - Patents are used as collateral in low tangibility industries that are important to aggregate corporate research investment. 
 	![[Pasted image 20240405141616.png]]
 - Table 3 shows that companies pledging patents as collateral feature significantly higher total debt as a fraction of total assets. 
