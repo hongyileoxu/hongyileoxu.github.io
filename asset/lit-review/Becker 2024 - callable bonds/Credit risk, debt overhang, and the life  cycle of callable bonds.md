@@ -8,7 +8,7 @@
 	- The conventional view of callable feature is an interest rate option (exercised when the interest rate drops) + bond. 
 - ”credit view”: more on the change in the firm-specific credit condition. Versus the “interest-rate view”: on the change in the macro environment - the risk-free rate changes. 
 	- Diamond and He (2014) show that callability reduces problems associated with debt overhang and that firm deci sions are shaped by the ability to call debt early. 
-- #Summary: 
+- [ ] #Findings : 
 	1. Issuers are more likely to call  their bonds after issuer-specific credit improvements. 
 	2. call rights reduce agency costs of debt. 
 	3. callable bonds increase the likelihood that a firm will be the target of a bid and reduce  the merger gains that flow to target debtholders, consistent with a reduction of debt overhang from target debt. 
@@ -82,3 +82,6 @@
 - Find that firms with more callable bonds are willing to invest more when experiencing favorable investment opportunities. 
 	- The callable bond can further increase the payoff to the shareholders in the upside by granting them the right to exercise the option ex-post. This resolves/mitigates the underinvestment problem from debt overhang and risk-shifting from the investment.
 - also less payout when the investment opportunity arises for firms with (more) active callable bonds. 
+- [ ] #concern What if callable bonds only present as a signal that the firm is in good quality? however, the reality that bonds are not called back means that *the manager might be incompetent*. Therefore, these firms, still having a large amount of callable debt outstanding, are more likely to be acquired. The subsequent investment $\uparrow$  & payout $\downarrow$ may also be the result of mismanagement. 
+	- [ ] So, I conjecture that some time-varying top management behavior may be the unobserved confounders in this relationship. Also, investment inputs and outputs are two distinct aspects and should also be studied. 
+
