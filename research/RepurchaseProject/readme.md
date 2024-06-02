@@ -1,3 +1,7 @@
+## Additional Data: 
+1. [disclose firm-day social media sentiment and attention series from 2012-2021, drawn from the PC1 across Twitter, Seeking Alpha and StockTwits subgroups.](https://data.mendeley.com/datasets/xffyybvw4j/1) by Cookson et al. (2024) 
+
+
 ## Notes: 
 1. This folder contains the code for the 2023 summer project.
 2. A great source for the document: https://sraf.nd.edu/sec-edgar-data/cleaned-10x-files/
