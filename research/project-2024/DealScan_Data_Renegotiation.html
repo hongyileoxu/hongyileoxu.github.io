@@ -98,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
 </div>
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -175,7 +175,7 @@ pre {
 <h2 class="anchored" data-anchor-id="sec-s2.-data-sources">S2. Data sources</h2>
 <p><span style="color: red;">LPC DealScan</span> from WRDS.</p>
 </section>
-<section id="sec-s3.-dealscan-data-preview" class="level2">
+<section id="sec-s3.-dealscan-data-preview" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="sec-s3.-dealscan-data-preview">S3. DealScan Data Preview</h2>
 <section id="sec-s3.1-deal-purposes" class="level3">
 <h3 class="anchored" data-anchor-id="sec-s3.1-deal-purposes">s3.1 Deal Purposes</h3>
@@ -818,32 +818,31 @@ Deal_Change_Freq     36     36 5.24    47.79   0.00</code></pre>
 <p><strong>Heads up!</strong> However, one thing to be noted is <a href="##sec-s3.2-amendaments-and-refinancing" class="alert-link">the renegotiation with the good or bad news are not distinguished</a> in the above statistics..</p>
 </div>
 </section>
-<section id="s3.3-follow-roberts-2015" class="level3">
+<section id="s3.3-follow-roberts-2015" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="s3.3-follow-roberts-2015">s3.3 Follow Roberts (2015)</h3>
 <p>For Table B1, I extract the loan information and path for Aeroflex Inc.&nbsp;(<code>Borrower_Id</code> = 8532) from the dataset <code>DealScan_borrower</code>. <a href="https://www.sec.gov/edgar/browse/?CIK=0000002601">Company SEC Filings</a></p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="ot">&lt;-</span> DealScan_borrower <span class="sc">%&gt;%</span> </span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Borrower_Id <span class="sc">==</span> <span class="dv">8532</span>)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| column: page</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="at">pattern =</span> <span class="st">"Orig"</span>, <span class="at">x =</span> Tranche_O_A, <span class="at">ignore.case =</span> F)) <span class="sc">%&gt;%</span> <span class="co"># keep only observations at origination </span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date, Tranche_Active_Date, Tranche_Maturity_Date) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Aeroflex Inc. Deal Originations"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>) ),</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="at">pattern =</span> <span class="st">"Orig"</span>, <span class="at">x =</span> Tranche_O_A, <span class="at">ignore.case =</span> F)) <span class="sc">%&gt;%</span> <span class="co"># keep only observations at origination </span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date, Tranche_Active_Date, Tranche_Maturity_Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Panel A: Aeroflex Inc. Deal Originations"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>) ),</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
+<div class="cell-output-display column-page">
 
 <div id="table_id" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#table_id table {
@@ -1288,7 +1287,7 @@ Deal_Change_Freq     36     36 5.24    47.79   0.00</code></pre>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_heading">
-      <td colspan="17" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Aeroflex Inc. Deal Originations</td>
+      <td colspan="17" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Table 1. Panel A: Aeroflex Inc. Deal Originations</td>
     </tr>
     
     <tr class="gt_col_headings">
@@ -1936,8 +1935,20 @@ Who initiates the renegotiation process?
 <li>The syndicte has four banks and the cost of renegotiation might be small? &amp; What is usually the fees/expenses for renegotiations?</li>
 </ul></li>
 </ul>
-<p>::: {#tip-syndicate .callout-tip} ## How to detect the relationsip lending? One tip to detect such lending relationship might be a scrap and search for the person and his/her title along the loan path and also for a single firm’s loan pool. :::</p>
-<p>Different types of term loans:</p>
+
+<div class="no-row-height column-margin column-container"><div id="tip-syndicate" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How to detect the relationship lending?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One tip to detect such lending relationship might be a scrap and search for the person and his/her title along the loan path and also for a single firm’s loan pool.</p>
+</div>
+</div></div><p>Different types of term loans:</p>
 <ul>
 <li>Term loan (also Term Loan A): This layer of debt is typically amortized evenly over 5 to 7 years. Just like a mortgage.</li>
 <li>Term loan B (also TLB): This layer of debt usually involves nominal amortization (repayment) over 5 to 8 years, with a large bullet payment in the last year. Term Loan B allows borrowers to defer repayment of a large portion of the loan, but is more costly to borrowers than Term Loan A.
@@ -1956,9 +1967,9 @@ Who initiates the renegotiation process?
 </ul></li>
 <li>Revolver/Line: Revolving Credit Facility, which is basically a credit card for the borrower. There are two costs associated with revolving lines of credit: (1) the interest rate charged on the revolver’s drawn balance, and (2) an undrawn commitment fee.</li>
 </ul>
-<section id="q-what-happens-to-the-loan-path" class="level4">
+<section id="q-what-happens-to-the-loan-path" class="level4 page-columns page-full">
 <h4 class="anchored" data-anchor-id="q-what-happens-to-the-loan-path">Q: What happens to the loan path?</h4>
-<div class="cell">
+<div class="cell page-columns page-full">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
@@ -1975,7 +1986,7 @@ Who initiates the renegotiation process?
 <span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>, <span class="at">groupname_col =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Deal_ID"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Aeroflex Inc. Deal-Tranche Level Loan Path"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Panel B: Aeroflex Inc. Deal-Tranche Level Loan Path"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
 <span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
 <span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>)),</span>
@@ -1987,9 +1998,10 @@ Who initiates the renegotiation process?
 <span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Tranche_ID"</span>, </span>
 <span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span>  <span class="st">`</span><span class="at">Amend</span><span class="sc">\n</span><span class="at">Flag_check</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span></span>
 <span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_hide</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"Tranche</span><span class="sc">\n</span><span class="st">O_A_round"</span>, <span class="st">"Amend</span><span class="sc">\n</span><span class="st">Flag_check"</span>) ) <span class="co"># hide columns </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
+<div class="cell-output-display column-page">
 
 <div id="table_id" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#table_id table {
@@ -2434,7 +2446,7 @@ Who initiates the renegotiation process?
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_heading">
-      <td colspan="18" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Aeroflex Inc. Deal-Tranche Level Loan Path</td>
+      <td colspan="16" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Table 1. Panel B: Aeroflex Inc. Deal-Tranche Level Loan Path</td>
     </tr>
     
     <tr class="gt_col_headings">
@@ -2486,17 +2498,11 @@ Type</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Deal
 Purpose">Deal
 Purpose</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Tranche
-O_A_round">Tranche
-O_A_round</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Amend
-Flag_check">Amend
-Flag_check</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 128721">Deal: 128721</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 128721">Deal: 128721</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 128721  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">224767</td>
@@ -2529,11 +2535,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">1996-03-15</td>
 <td headers="Deal: 128721  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan</td>
 <td headers="Deal: 128721  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td>
-<td headers="Deal: 128721  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 128721  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td></tr>
     <tr><td headers="Deal: 128721  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">273100</td>
 <td headers="Deal: 128721  Deal
@@ -2565,13 +2567,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">1996-03-15</td>
 <td headers="Deal: 128721  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 128721  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td>
-<td headers="Deal: 128721  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 128721  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 143473">Deal: 143473</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 143473">Deal: 143473</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 143473  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">185023</td>
@@ -2604,11 +2602,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">1999-02-25</td>
 <td headers="Deal: 143473  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan</td>
 <td headers="Deal: 143473  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td>
-<td headers="Deal: 143473  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 143473  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td></tr>
     <tr><td headers="Deal: 143473  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">186036</td>
 <td headers="Deal: 143473  Deal
@@ -2640,11 +2634,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">1999-02-25</td>
 <td headers="Deal: 143473  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 143473  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td>
-<td headers="Deal: 143473  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 143473  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td></tr>
     <tr><td headers="Deal: 143473  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">278055</td>
 <td headers="Deal: 143473  Deal
@@ -2676,13 +2666,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">1999-02-25</td>
 <td headers="Deal: 143473  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 143473  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td>
-<td headers="Deal: 143473  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 143473  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose/Refinance</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 42818">Deal: 42818</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 42818">Deal: 42818</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 42818  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">83949</td>
@@ -2715,11 +2701,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2003-02-14</td>
 <td headers="Deal: 42818  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan</td>
 <td headers="Deal: 42818  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td>
-<td headers="Deal: 42818  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 42818  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td></tr>
     <tr><td headers="Deal: 42818  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">98794</td>
 <td headers="Deal: 42818  Deal
@@ -2751,13 +2733,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2003-02-14</td>
 <td headers="Deal: 42818  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 42818  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td>
-<td headers="Deal: 42818  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 42818  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 151556">Deal: 151556</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 151556">Deal: 151556</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 151556  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">197238</td>
@@ -2790,11 +2768,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2006-03-21</td>
 <td headers="Deal: 151556  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 151556  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td>
-<td headers="Deal: 151556  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 151556  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td></tr>
     <tr><td headers="Deal: 151556  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">197238</td>
 <td headers="Deal: 151556  Deal
@@ -2826,13 +2800,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2006-08-28</td>
 <td headers="Deal: 151556  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 151556  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td>
-<td headers="Deal: 151556  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">1</td>
-<td headers="Deal: 151556  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Working capital</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 57853">Deal: 57853</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 57853">Deal: 57853</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 57853  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">108980</td>
@@ -2865,11 +2835,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-04-13</td>
 <td headers="Deal: 57853  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan</td>
 <td headers="Deal: 57853  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 57853  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 57853  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr><td headers="Deal: 57853  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">230824</td>
 <td headers="Deal: 57853  Deal
@@ -2901,11 +2867,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-04-13</td>
 <td headers="Deal: 57853  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan B</td>
 <td headers="Deal: 57853  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 57853  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 57853  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr><td headers="Deal: 57853  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">98546</td>
 <td headers="Deal: 57853  Deal
@@ -2937,13 +2899,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-04-13</td>
 <td headers="Deal: 57853  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 57853  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 57853  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 57853  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 16163">Deal: 16163</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 16163">Deal: 16163</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 16163  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">35910</td>
@@ -2976,11 +2934,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-08-15</td>
 <td headers="Deal: 16163  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 16163  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 16163  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 16163  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr><td headers="Deal: 16163  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">35911</td>
 <td headers="Deal: 16163  Deal
@@ -3012,11 +2966,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-08-15</td>
 <td headers="Deal: 16163  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan B</td>
 <td headers="Deal: 16163  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 16163  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 16163  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr><td headers="Deal: 16163  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px;">36226</td>
 <td headers="Deal: 16163  Deal
@@ -3048,13 +2998,9 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2007-08-15</td>
 <td headers="Deal: 16163  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan C</td>
 <td headers="Deal: 16163  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td>
-<td headers="Deal: 16163  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 16163  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">FALSE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">Leveraged Buyout</td></tr>
     <tr class="gt_group_heading_row">
-      <th colspan="18" class="gt_group_heading" scope="colgroup" id="Deal: 16164">Deal: 16164</th>
+      <th colspan="16" class="gt_group_heading" scope="colgroup" id="Deal: 16164">Deal: 16164</th>
     </tr>
     <tr class="gt_row_group_first"><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43063</td>
@@ -3087,11 +3033,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2011-05-09</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
     <tr><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43063</td>
 <td headers="Deal: 16164  Deal
@@ -3123,11 +3065,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2012-05-25</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">1</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
     <tr><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43063</td>
 <td headers="Deal: 16164  Deal
@@ -3159,11 +3097,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2013-05-28</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Revolver/Line &gt;= 1 Yr.</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">2</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
     <tr><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43064</td>
 <td headers="Deal: 16164  Deal
@@ -3195,11 +3129,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2011-05-09</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan B</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">0</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
     <tr><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43064</td>
 <td headers="Deal: 16164  Deal
@@ -3231,11 +3161,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2012-05-25</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan B</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">1</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
     <tr><td headers="Deal: 16164  LPC
 Tranche_ID" class="gt_row gt_right" style="font-size: 10px; color: #FF0000; font-style: italic;">43064</td>
 <td headers="Deal: 16164  Deal
@@ -3267,11 +3193,7 @@ Active_Date" class="gt_row gt_center" style="font-size: 10px;">2013-05-28</td>
 <td headers="Deal: 16164  Tranche
 Type" class="gt_row gt_left" style="font-size: 10px;">Term Loan B</td>
 <td headers="Deal: 16164  Deal
-Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td>
-<td headers="Deal: 16164  Tranche
-O_A_round" class="gt_row gt_right" style="font-size: 10px;">2</td>
-<td headers="Deal: 16164  Amend
-Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
+Purpose" class="gt_row gt_left" style="font-size: 10px;">General Purpose</td></tr>
   </tbody>
   
   
@@ -3279,6 +3201,7 @@ Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
 </div>
 </div>
 </div>
+<p>Consistent with Table B1 Panel B in Roberts (2015), most of the deal-tranches in the DealScan database are not consistent with what is in the</p>
 </section>
 </section>
 <section id="definitions" class="level3">
@@ -3295,6 +3218,7 @@ Flag_check" class="gt_row gt_center" style="font-size: 10px;">TRUE</td></tr>
 <li><a href="https://quarto.org/docs/output-formats/html-themes.html#dark-mode">HTML Themes</a>
 <ul>
 <li><a href="https://quarto.org/docs/authoring/callouts.html">Callout Blocks</a> &gt; e.g. <span class="citation" data-cites="imp-amend">@imp-amend</span></li>
+<li><a href="https://quarto.org/docs/authoring/article-layout.html">Layout</a></li>
 </ul></li>
 <li><a href="https://gt.albert-rapp.de/styling#sec-theming"><code>gt()</code> Cell Style</a></li>
 </ul>
@@ -4131,153 +4055,163 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb48-524"><a href="#cb48-524" aria-hidden="true" tabindex="-1"></a>For Table B1, I extract the loan information and path for Aeroflex Inc. (<span class="in">`Borrower_Id`</span> = 8532) from the dataset <span class="in">`DealScan_borrower`</span>. <span class="co">[</span><span class="ot">Company SEC Filings</span><span class="co">](https://www.sec.gov/edgar/browse/?CIK=0000002601)</span></span>
 <span id="cb48-525"><a href="#cb48-525" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-526"><a href="#cb48-526" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roberts_2015_B1_PanelA, echo=TRUE, size=0.5}</span></span>
-<span id="cb48-527"><a href="#cb48-527" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="ot">&lt;-</span> DealScan_borrower <span class="sc">%&gt;%</span> </span>
-<span id="cb48-528"><a href="#cb48-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Borrower_Id <span class="sc">==</span> <span class="dv">8532</span>)</span>
-<span id="cb48-529"><a href="#cb48-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-530"><a href="#cb48-530" aria-hidden="true" tabindex="-1"></a><span class="co">#| column: page</span></span>
-<span id="cb48-531"><a href="#cb48-531" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
-<span id="cb48-532"><a href="#cb48-532" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-533"><a href="#cb48-533" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb48-534"><a href="#cb48-534" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="at">pattern =</span> <span class="st">"Orig"</span>, <span class="at">x =</span> Tranche_O_A, <span class="at">ignore.case =</span> F)) <span class="sc">%&gt;%</span> <span class="co"># keep only observations at origination </span></span>
-<span id="cb48-535"><a href="#cb48-535" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date, Tranche_Active_Date, Tranche_Maturity_Date) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-536"><a href="#cb48-536" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb48-537"><a href="#cb48-537" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-538"><a href="#cb48-538" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
-<span id="cb48-539"><a href="#cb48-539" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Aeroflex Inc. Deal Originations"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-540"><a href="#cb48-540" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-541"><a href="#cb48-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
-<span id="cb48-542"><a href="#cb48-542" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>) ),</span>
-<span id="cb48-543"><a href="#cb48-543" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb48-544"><a href="#cb48-544" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb48-545"><a href="#cb48-545" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb48-546"><a href="#cb48-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-547"><a href="#cb48-547" aria-hidden="true" tabindex="-1"></a>This table is consistent with Table B1 Panel A in Roberts (2015):</span>
-<span id="cb48-548"><a href="#cb48-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-549"><a href="#cb48-549" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The identifier <span class="in">`(LPC_Deal_ID, LPC_Tranche_ID)`</span> maps to <span class="in">`(Package ID, Facility ID)`</span>.</span>
-<span id="cb48-550"><a href="#cb48-550" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The identifier <span class="in">`Tranche_Type`</span> maps to <span class="in">`Loan type`</span>.</span>
-<span id="cb48-551"><a href="#cb48-551" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The date information - <span class="in">`Deal_Active_Date`</span> maps to <span class="in">`Event date`</span>.</span>
-<span id="cb48-552"><a href="#cb48-552" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_Maturity_Date`</span> maps to <span class="in">`Maturity date`</span>.</span>
-<span id="cb48-553"><a href="#cb48-553" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_Amount`</span> maps to <span class="in">`Amount (millions)`</span>.</span>
-<span id="cb48-554"><a href="#cb48-554" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_O_A`</span> maps to <span class="in">`Event`</span>. </span>
-<span id="cb48-555"><a href="#cb48-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-556"><a href="#cb48-556" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Start the work: June 6, 2024 --&gt;</span></span>
-<span id="cb48-557"><a href="#cb48-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-558"><a href="#cb48-558" aria-hidden="true" tabindex="-1"></a>The next step is to construct the life-cycle / loan path as in Table B1 Panel B.</span>
-<span id="cb48-559"><a href="#cb48-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-560"><a href="#cb48-560" aria-hidden="true" tabindex="-1"></a>E.g. This deal (<span class="in">`LPC_Deal_ID`</span> = 151556, <span class="in">`LPC_Tranche_ID`</span> = 197238) can be found in <span class="co">[</span><span class="ot">this filing</span><span class="co">](https://www.sec.gov/Archives/edgar/data/2601/000093221406000138/0000932214-06-000138.txt)</span>.</span>
-<span id="cb48-561"><a href="#cb48-561" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-562"><a href="#cb48-562" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This <span class="co">[</span><span class="ot">deal</span><span class="co">](https://www.sec.gov/Archives/edgar/data/2601/000093221406000138/0000932214-06-000138.txt)</span> is originated at March 21, 2006.</span>
-<span id="cb48-563"><a href="#cb48-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-564"><a href="#cb48-564" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">The amendment</span><span class="co">](https://www.sec.gov/edgar/search/?r=el#exhibit10-1.txt)</span> is made at August 28, 2006. The amended document says that</span>
-<span id="cb48-565"><a href="#cb48-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-566"><a href="#cb48-566" aria-hidden="true" tabindex="-1"></a><span class="at">    &gt; ... WHEREAS, </span><span class="kw">&lt;mark&gt;</span><span class="at">the Borrowers has requested an amendment to the Credit Agreement</span><span class="kw">&lt;/mark&gt;</span><span class="at">; and WHEREAS, the Lenders are willing to agree to such amendments, subject to the terms and conditions set forth herein; ...</span></span>
-<span id="cb48-567"><a href="#cb48-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-568"><a href="#cb48-568" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This seems that if the borrower request an amendment, it can be approved by the syndicate. </span>
-<span id="cb48-569"><a href="#cb48-569" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-570"><a href="#cb48-570" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This amendment happened in around 5 months after the loan origination.</span>
-<span id="cb48-571"><a href="#cb48-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-572"><a href="#cb48-572" aria-hidden="true" tabindex="-1"></a>    ::: {#imp-amend .callout-important}</span>
-<span id="cb48-573"><a href="#cb48-573" aria-hidden="true" tabindex="-1"></a>    ## Who initiates the renegotiation process? </span>
-<span id="cb48-574"><a href="#cb48-574" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-575"><a href="#cb48-575" aria-hidden="true" tabindex="-1"></a><span class="in">    I only observe the successful renegotiations and potentially can also identify who initiates this process. This may create selection bias in your analysis. Need to think about how will this issue create upward/downward bias in your results. </span></span>
-<span id="cb48-576"><a href="#cb48-576" aria-hidden="true" tabindex="-1"></a><span class="in">    :::</span></span>
-<span id="cb48-577"><a href="#cb48-577" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb48-578"><a href="#cb48-578" aria-hidden="true" tabindex="-1"></a><span class="in">    -   The syndicte has four banks and the cost of renegotiation might be small? &amp; What is usually the fees/expenses for renegotiations? </span></span>
-<span id="cb48-579"><a href="#cb48-579" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb48-580"><a href="#cb48-580" aria-hidden="true" tabindex="-1"></a>  ::: {#tip-syndicate .callout-tip}</span>
-<span id="cb48-581"><a href="#cb48-581" aria-hidden="true" tabindex="-1"></a>  ## How to detect the relationsip lending? </span>
-<span id="cb48-582"><a href="#cb48-582" aria-hidden="true" tabindex="-1"></a>  One tip to detect such lending relationship might be a scrap and search for the person and his/her title along the loan path and also for a single firm's loan pool. </span>
-<span id="cb48-583"><a href="#cb48-583" aria-hidden="true" tabindex="-1"></a>  ::: </span>
-<span id="cb48-584"><a href="#cb48-584" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-585"><a href="#cb48-585" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-586"><a href="#cb48-586" aria-hidden="true" tabindex="-1"></a>Different types of term loans: </span>
+<span id="cb48-527"><a href="#cb48-527" aria-hidden="true" tabindex="-1"></a><span class="co">#| column: page</span></span>
+<span id="cb48-528"><a href="#cb48-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-529"><a href="#cb48-529" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="ot">&lt;-</span> DealScan_borrower <span class="sc">%&gt;%</span> </span>
+<span id="cb48-530"><a href="#cb48-530" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Borrower_Id <span class="sc">==</span> <span class="dv">8532</span>)</span>
+<span id="cb48-531"><a href="#cb48-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-532"><a href="#cb48-532" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
+<span id="cb48-533"><a href="#cb48-533" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-534"><a href="#cb48-534" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb48-535"><a href="#cb48-535" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="at">pattern =</span> <span class="st">"Orig"</span>, <span class="at">x =</span> Tranche_O_A, <span class="at">ignore.case =</span> F)) <span class="sc">%&gt;%</span> <span class="co"># keep only observations at origination </span></span>
+<span id="cb48-536"><a href="#cb48-536" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date, Tranche_Active_Date, Tranche_Maturity_Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-537"><a href="#cb48-537" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb48-538"><a href="#cb48-538" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-539"><a href="#cb48-539" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
+<span id="cb48-540"><a href="#cb48-540" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Panel A: Aeroflex Inc. Deal Originations"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-541"><a href="#cb48-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-542"><a href="#cb48-542" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
+<span id="cb48-543"><a href="#cb48-543" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>) ),</span>
+<span id="cb48-544"><a href="#cb48-544" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb48-545"><a href="#cb48-545" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-546"><a href="#cb48-546" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb48-547"><a href="#cb48-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-548"><a href="#cb48-548" aria-hidden="true" tabindex="-1"></a>This table is consistent with Table B1 Panel A in Roberts (2015):</span>
+<span id="cb48-549"><a href="#cb48-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-550"><a href="#cb48-550" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The identifier <span class="in">`(LPC_Deal_ID, LPC_Tranche_ID)`</span> maps to <span class="in">`(Package ID, Facility ID)`</span>.</span>
+<span id="cb48-551"><a href="#cb48-551" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The identifier <span class="in">`Tranche_Type`</span> maps to <span class="in">`Loan type`</span>.</span>
+<span id="cb48-552"><a href="#cb48-552" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The date information - <span class="in">`Deal_Active_Date`</span> maps to <span class="in">`Event date`</span>.</span>
+<span id="cb48-553"><a href="#cb48-553" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_Maturity_Date`</span> maps to <span class="in">`Maturity date`</span>.</span>
+<span id="cb48-554"><a href="#cb48-554" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_Amount`</span> maps to <span class="in">`Amount (millions)`</span>.</span>
+<span id="cb48-555"><a href="#cb48-555" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Tranche_O_A`</span> maps to <span class="in">`Event`</span>. </span>
+<span id="cb48-556"><a href="#cb48-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-557"><a href="#cb48-557" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Start the work: June 6, 2024 --&gt;</span></span>
+<span id="cb48-558"><a href="#cb48-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-559"><a href="#cb48-559" aria-hidden="true" tabindex="-1"></a>The next step is to construct the life-cycle / loan path as in Table B1 Panel B.</span>
+<span id="cb48-560"><a href="#cb48-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-561"><a href="#cb48-561" aria-hidden="true" tabindex="-1"></a>E.g. This deal (<span class="in">`LPC_Deal_ID`</span> = 151556, <span class="in">`LPC_Tranche_ID`</span> = 197238) can be found in <span class="co">[</span><span class="ot">this filing</span><span class="co">](https://www.sec.gov/Archives/edgar/data/2601/000093221406000138/0000932214-06-000138.txt)</span>.</span>
+<span id="cb48-562"><a href="#cb48-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-563"><a href="#cb48-563" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This <span class="co">[</span><span class="ot">deal</span><span class="co">](https://www.sec.gov/Archives/edgar/data/2601/000093221406000138/0000932214-06-000138.txt)</span> is originated at March 21, 2006.</span>
+<span id="cb48-564"><a href="#cb48-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-565"><a href="#cb48-565" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">The amendment</span><span class="co">](https://www.sec.gov/edgar/search/?r=el#exhibit10-1.txt)</span> is made at August 28, 2006. The amended document says that</span>
+<span id="cb48-566"><a href="#cb48-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-567"><a href="#cb48-567" aria-hidden="true" tabindex="-1"></a><span class="at">    &gt; ... WHEREAS, </span><span class="kw">&lt;mark&gt;</span><span class="at">the Borrowers has requested an amendment to the Credit Agreement</span><span class="kw">&lt;/mark&gt;</span><span class="at">; and WHEREAS, the Lenders are willing to agree to such amendments, subject to the terms and conditions set forth herein; ...</span></span>
+<span id="cb48-568"><a href="#cb48-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-569"><a href="#cb48-569" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This seems that if the borrower request an amendment, it can be approved by the syndicate. </span>
+<span id="cb48-570"><a href="#cb48-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-571"><a href="#cb48-571" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This amendment happened in around 5 months after the loan origination.</span>
+<span id="cb48-572"><a href="#cb48-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-573"><a href="#cb48-573" aria-hidden="true" tabindex="-1"></a>    ::: {#imp-amend .callout-important}</span>
+<span id="cb48-574"><a href="#cb48-574" aria-hidden="true" tabindex="-1"></a>    ## Who initiates the renegotiation process? </span>
+<span id="cb48-575"><a href="#cb48-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-576"><a href="#cb48-576" aria-hidden="true" tabindex="-1"></a><span class="in">    I only observe the successful renegotiations and potentially can also identify who initiates this process. This may create selection bias in your analysis. Need to think about how will this issue create upward/downward bias in your results. </span></span>
+<span id="cb48-577"><a href="#cb48-577" aria-hidden="true" tabindex="-1"></a><span class="in">    :::</span></span>
+<span id="cb48-578"><a href="#cb48-578" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb48-579"><a href="#cb48-579" aria-hidden="true" tabindex="-1"></a><span class="in">    -   The syndicte has four banks and the cost of renegotiation might be small? &amp; What is usually the fees/expenses for renegotiations? </span></span>
+<span id="cb48-580"><a href="#cb48-580" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb48-581"><a href="#cb48-581" aria-hidden="true" tabindex="-1"></a>::: {#tip-syndicate .callout-tip .column-margin}</span>
+<span id="cb48-582"><a href="#cb48-582" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to detect the relationship lending? </span></span>
+<span id="cb48-583"><a href="#cb48-583" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-584"><a href="#cb48-584" aria-hidden="true" tabindex="-1"></a>One tip to detect such lending relationship might be a scrap and search for the person and his/her title along the loan path and also for a single firm's loan pool. </span>
+<span id="cb48-585"><a href="#cb48-585" aria-hidden="true" tabindex="-1"></a>::: </span>
+<span id="cb48-586"><a href="#cb48-586" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-587"><a href="#cb48-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-588"><a href="#cb48-588" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan (also Term Loan A): This layer of debt is typically amortized evenly over 5 to 7 years. Just like a mortgage. </span>
-<span id="cb48-589"><a href="#cb48-589" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan B (also TLB): This layer of debt usually involves nominal amortization (repayment) over 5 to 8 years, with a large bullet payment in the last year. Term Loan B allows borrowers to defer repayment of a large portion of the loan, but is more costly to borrowers than Term Loan A. </span>
-<span id="cb48-590"><a href="#cb48-590" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLB proceeds can be used in various ways, including for refinancing, acquisitions and general corporate use. </span>
-<span id="cb48-591"><a href="#cb48-591" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The first two types generally are secured loans. </span>
-<span id="cb48-592"><a href="#cb48-592" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Repayment can be made and is generally required at a premium to face value. </span>
-<span id="cb48-593"><a href="#cb48-593" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan C (also TLC): TLC proceeds are used to fund cash collateral accounts that support letters of credit—a letter from a bank guaranteeing that a seller of goods or services will receive payment in full and on time, even if the buyer defaults. </span>
-<span id="cb48-594"><a href="#cb48-594" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLC debt, however, may only be used to provide collateral for letters of credit.</span>
-<span id="cb48-595"><a href="#cb48-595" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Since TLCs are specifically raised to provide cash collateral, which must be available in an account to support letters of credit, they also do not amortize. </span>
-<span id="cb48-596"><a href="#cb48-596" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLB is senior than TLC debt. </span>
-<span id="cb48-597"><a href="#cb48-597" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The idea is to use long-term debt to hedge the short-term liquidity/cash needs. TLC plays such a role for this specific purpose. It is a risky debt; however, very strict covenants and purposes are imposed to mitigate risk-shifting by the manager. </span>
-<span id="cb48-598"><a href="#cb48-598" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="co">[</span><span class="ot">A nice article about TLC debt</span><span class="co">](https://debtexplorer.whitecase.com/leveraged-finance-commentary/term-loan-c-in-the-spotlight)</span>. </span>
-<span id="cb48-599"><a href="#cb48-599" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Revolver/Line: Revolving Credit Facility, which is basically a credit card for the borrower. There are two costs associated with revolving lines of credit: (1) the interest rate charged on the revolver’s drawn balance, and (2) an undrawn commitment fee. </span>
-<span id="cb48-600"><a href="#cb48-600" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-601"><a href="#cb48-601" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-602"><a href="#cb48-602" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Q: What happens to the loan path? </span></span>
+<span id="cb48-588"><a href="#cb48-588" aria-hidden="true" tabindex="-1"></a>Different types of term loans: </span>
+<span id="cb48-589"><a href="#cb48-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-590"><a href="#cb48-590" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan (also Term Loan A): This layer of debt is typically amortized evenly over 5 to 7 years. Just like a mortgage. </span>
+<span id="cb48-591"><a href="#cb48-591" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan B (also TLB): This layer of debt usually involves nominal amortization (repayment) over 5 to 8 years, with a large bullet payment in the last year. Term Loan B allows borrowers to defer repayment of a large portion of the loan, but is more costly to borrowers than Term Loan A. </span>
+<span id="cb48-592"><a href="#cb48-592" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLB proceeds can be used in various ways, including for refinancing, acquisitions and general corporate use. </span>
+<span id="cb48-593"><a href="#cb48-593" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The first two types generally are secured loans. </span>
+<span id="cb48-594"><a href="#cb48-594" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Repayment can be made and is generally required at a premium to face value. </span>
+<span id="cb48-595"><a href="#cb48-595" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Term loan C (also TLC): TLC proceeds are used to fund cash collateral accounts that support letters of credit—a letter from a bank guaranteeing that a seller of goods or services will receive payment in full and on time, even if the buyer defaults. </span>
+<span id="cb48-596"><a href="#cb48-596" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLC debt, however, may only be used to provide collateral for letters of credit.</span>
+<span id="cb48-597"><a href="#cb48-597" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Since TLCs are specifically raised to provide cash collateral, which must be available in an account to support letters of credit, they also do not amortize. </span>
+<span id="cb48-598"><a href="#cb48-598" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>TLB is senior than TLC debt. </span>
+<span id="cb48-599"><a href="#cb48-599" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The idea is to use long-term debt to hedge the short-term liquidity/cash needs. TLC plays such a role for this specific purpose. It is a risky debt; however, very strict covenants and purposes are imposed to mitigate risk-shifting by the manager. </span>
+<span id="cb48-600"><a href="#cb48-600" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="co">[</span><span class="ot">A nice article about TLC debt</span><span class="co">](https://debtexplorer.whitecase.com/leveraged-finance-commentary/term-loan-c-in-the-spotlight)</span>. </span>
+<span id="cb48-601"><a href="#cb48-601" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Revolver/Line: Revolving Credit Facility, which is basically a credit card for the borrower. There are two costs associated with revolving lines of credit: (1) the interest rate charged on the revolver’s drawn balance, and (2) an undrawn commitment fee. </span>
+<span id="cb48-602"><a href="#cb48-602" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-603"><a href="#cb48-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-604"><a href="#cb48-604" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roberts_2015_B1_PanelB, echo=TRUE}</span></span>
-<span id="cb48-605"><a href="#cb48-605" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
-<span id="cb48-606"><a href="#cb48-606" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-607"><a href="#cb48-607" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb48-608"><a href="#cb48-608" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tranche_O_A_round =</span> <span class="fu">replace_na</span>(<span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(<span class="at">string =</span> Tranche_O_A, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+$"</span>)) , <span class="at">replace =</span> <span class="dv">0</span> ), </span>
-<span id="cb48-609"><a href="#cb48-609" aria-hidden="true" tabindex="-1"></a>         <span class="at">LPC_Deal_ID =</span> <span class="fu">paste</span>(<span class="st">"Deal: "</span>, LPC_Deal_ID, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb48-610"><a href="#cb48-610" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-611"><a href="#cb48-611" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(LPC_Deal_ID, LPC_Tranche_ID) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-612"><a href="#cb48-612" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-613"><a href="#cb48-613" aria-hidden="true" tabindex="-1"></a>  <span class="co"># check whether there exists tranche amendment in the dataset </span></span>
-<span id="cb48-614"><a href="#cb48-614" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Amend_Flag_check =</span> <span class="fu">max</span>(Tranche_O_A_round) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-615"><a href="#cb48-615" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb48-616"><a href="#cb48-616" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb48-617"><a href="#cb48-617" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>, <span class="at">groupname_col =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Deal_ID"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-618"><a href="#cb48-618" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
-<span id="cb48-619"><a href="#cb48-619" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Aeroflex Inc. Deal-Tranche Level Loan Path"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-620"><a href="#cb48-620" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-621"><a href="#cb48-621" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
-<span id="cb48-622"><a href="#cb48-622" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>)),</span>
-<span id="cb48-623"><a href="#cb48-623" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb48-624"><a href="#cb48-624" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-625"><a href="#cb48-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb48-626"><a href="#cb48-626" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">'red'</span>), </span>
-<span id="cb48-627"><a href="#cb48-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb48-628"><a href="#cb48-628" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Tranche_ID"</span>, </span>
-<span id="cb48-629"><a href="#cb48-629" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span>  <span class="st">`</span><span class="at">Amend</span><span class="sc">\n</span><span class="at">Flag_check</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb48-630"><a href="#cb48-630" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb48-631"><a href="#cb48-631" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb48-632"><a href="#cb48-632" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb48-633"><a href="#cb48-633" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-634"><a href="#cb48-634" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definitions</span></span>
-<span id="cb48-635"><a href="#cb48-635" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-636"><a href="#cb48-636" aria-hidden="true" tabindex="-1"></a><span class="fu">## S4. Future Notes {#sec-s4.-future-notes}</span></span>
-<span id="cb48-637"><a href="#cb48-637" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-638"><a href="#cb48-638" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference {#sec-reference}</span></span>
-<span id="cb48-639"><a href="#cb48-639" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-640"><a href="#cb48-640" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Roberts, M.R., 2015. The role of dynamic renegotiation and asymmetric information in financial contracting. Journal of Financial Economics 116, 61--81. https://doi.org/10.1016/j.jfineco.2014.11.013</span>
-<span id="cb48-641"><a href="#cb48-641" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">HTML Themes</span><span class="co">](https://quarto.org/docs/output-formats/html-themes.html#dark-mode)</span></span>
-<span id="cb48-642"><a href="#cb48-642" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="co">[</span><span class="ot">Callout Blocks</span><span class="co">](https://quarto.org/docs/authoring/callouts.html)</span> &gt; e.g. @imp-amend</span>
-<span id="cb48-643"><a href="#cb48-643" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">`gt()` Cell Style</span><span class="co">](https://gt.albert-rapp.de/styling#sec-theming)</span></span>
+<span id="cb48-604"><a href="#cb48-604" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Q: What happens to the loan path? </span></span>
+<span id="cb48-605"><a href="#cb48-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-606"><a href="#cb48-606" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roberts_2015_B1_PanelB, echo=TRUE}</span></span>
+<span id="cb48-607"><a href="#cb48-607" aria-hidden="true" tabindex="-1"></a><span class="co">#| column: page</span></span>
+<span id="cb48-608"><a href="#cb48-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-609"><a href="#cb48-609" aria-hidden="true" tabindex="-1"></a>DealScan_Aeroflex <span class="sc">%&gt;%</span> </span>
+<span id="cb48-610"><a href="#cb48-610" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">names</span>(dt.Deal_Amend_Refin), Deal_Input_Date, Tranche_Type, Deal_Purpose) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-611"><a href="#cb48-611" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb48-612"><a href="#cb48-612" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tranche_O_A_round =</span> <span class="fu">replace_na</span>(<span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(<span class="at">string =</span> Tranche_O_A, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+$"</span>)) , <span class="at">replace =</span> <span class="dv">0</span> ), </span>
+<span id="cb48-613"><a href="#cb48-613" aria-hidden="true" tabindex="-1"></a>         <span class="at">LPC_Deal_ID =</span> <span class="fu">paste</span>(<span class="st">"Deal: "</span>, LPC_Deal_ID, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb48-614"><a href="#cb48-614" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-615"><a href="#cb48-615" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(LPC_Deal_ID, LPC_Tranche_ID) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-616"><a href="#cb48-616" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Deal_Active_Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-617"><a href="#cb48-617" aria-hidden="true" tabindex="-1"></a>  <span class="co"># check whether there exists tranche amendment in the dataset </span></span>
+<span id="cb48-618"><a href="#cb48-618" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Amend_Flag_check =</span> <span class="fu">max</span>(Tranche_O_A_round) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-619"><a href="#cb48-619" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb48-620"><a href="#cb48-620" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace</span>(<span class="at">string =</span> .x, <span class="at">pattern =</span> <span class="st">"_"</span>, <span class="at">replacement =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb48-621"><a href="#cb48-621" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">id =</span> <span class="st">'table_id'</span>, <span class="at">groupname_col =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Deal_ID"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-622"><a href="#cb48-622" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cols_label(fn = ~ str_replace(string = ., pattern = "_", replacement = "\n") ) %&gt;% </span></span>
+<span id="cb48-623"><a href="#cb48-623" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Panel B: Aeroflex Inc. Deal-Tranche Level Loan Path"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-624"><a href="#cb48-624" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>, <span class="at">heading.align =</span> <span class="st">'left'</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-625"><a href="#cb48-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>( <span class="co"># update the font size for table cells. </span></span>
+<span id="cb48-626"><a href="#cb48-626" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">size =</span> <span class="fu">px</span>(<span class="dv">10</span>)),</span>
+<span id="cb48-627"><a href="#cb48-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb48-628"><a href="#cb48-628" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-629"><a href="#cb48-629" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb48-630"><a href="#cb48-630" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">'red'</span>), </span>
+<span id="cb48-631"><a href="#cb48-631" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb48-632"><a href="#cb48-632" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="st">"LPC</span><span class="sc">\n</span><span class="st">Tranche_ID"</span>, </span>
+<span id="cb48-633"><a href="#cb48-633" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span>  <span class="st">`</span><span class="at">Amend</span><span class="sc">\n</span><span class="at">Flag_check</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb48-634"><a href="#cb48-634" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb48-635"><a href="#cb48-635" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-636"><a href="#cb48-636" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_hide</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"Tranche</span><span class="sc">\n</span><span class="st">O_A_round"</span>, <span class="st">"Amend</span><span class="sc">\n</span><span class="st">Flag_check"</span>) ) <span class="co"># hide columns </span></span>
+<span id="cb48-637"><a href="#cb48-637" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb48-638"><a href="#cb48-638" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-639"><a href="#cb48-639" aria-hidden="true" tabindex="-1"></a>Consistent with Table B1 Panel B in Roberts (2015), most of the deal-tranches in the DealScan database are not consistent with what is in the </span>
+<span id="cb48-640"><a href="#cb48-640" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-641"><a href="#cb48-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-642"><a href="#cb48-642" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-643"><a href="#cb48-643" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definitions</span></span>
 <span id="cb48-644"><a href="#cb48-644" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-645"><a href="#cb48-645" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Notes  --&gt;</span></span>
+<span id="cb48-645"><a href="#cb48-645" aria-hidden="true" tabindex="-1"></a><span class="fu">## S4. Future Notes {#sec-s4.-future-notes}</span></span>
 <span id="cb48-646"><a href="#cb48-646" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-647"><a href="#cb48-647" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- color: &lt;span style="color: red;"&gt; text &lt;/span&gt; // {style="color: red;"} --&gt;</span></span>
+<span id="cb48-647"><a href="#cb48-647" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference {#sec-reference}</span></span>
 <span id="cb48-648"><a href="#cb48-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-649"><a href="#cb48-649" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Quarto --&gt;</span></span>
-<span id="cb48-650"><a href="#cb48-650" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-651"><a href="#cb48-651" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see &lt;https://quarto.org&gt;. --&gt;</span></span>
-<span id="cb48-652"><a href="#cb48-652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-653"><a href="#cb48-653" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Running Code --&gt;</span></span>
+<span id="cb48-649"><a href="#cb48-649" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Roberts, M.R., 2015. The role of dynamic renegotiation and asymmetric information in financial contracting. Journal of Financial Economics 116, 61--81. https://doi.org/10.1016/j.jfineco.2014.11.013</span>
+<span id="cb48-650"><a href="#cb48-650" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">HTML Themes</span><span class="co">](https://quarto.org/docs/output-formats/html-themes.html#dark-mode)</span></span>
+<span id="cb48-651"><a href="#cb48-651" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="co">[</span><span class="ot">Callout Blocks</span><span class="co">](https://quarto.org/docs/authoring/callouts.html)</span> &gt; e.g. @imp-amend </span>
+<span id="cb48-652"><a href="#cb48-652" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="co">[</span><span class="ot">Layout</span><span class="co">](https://quarto.org/docs/authoring/article-layout.html)</span> </span>
+<span id="cb48-653"><a href="#cb48-653" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">`gt()` Cell Style</span><span class="co">](https://gt.albert-rapp.de/styling#sec-theming)</span></span>
 <span id="cb48-654"><a href="#cb48-654" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-655"><a href="#cb48-655" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this: --&gt;</span></span>
+<span id="cb48-655"><a href="#cb48-655" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Notes  --&gt;</span></span>
 <span id="cb48-656"><a href="#cb48-656" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-657"><a href="#cb48-657" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
+<span id="cb48-657"><a href="#cb48-657" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- color: &lt;span style="color: red;"&gt; text &lt;/span&gt; // {style="color: red;"} --&gt;</span></span>
 <span id="cb48-658"><a href="#cb48-658" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-659"><a href="#cb48-659" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 1 + 1 --&gt;</span></span>
+<span id="cb48-659"><a href="#cb48-659" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Quarto --&gt;</span></span>
 <span id="cb48-660"><a href="#cb48-660" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-661"><a href="#cb48-661" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb48-661"><a href="#cb48-661" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see &lt;https://quarto.org&gt;. --&gt;</span></span>
 <span id="cb48-662"><a href="#cb48-662" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-663"><a href="#cb48-663" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can add options to executable code like this --&gt;</span></span>
+<span id="cb48-663"><a href="#cb48-663" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Running Code --&gt;</span></span>
 <span id="cb48-664"><a href="#cb48-664" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-665"><a href="#cb48-665" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
+<span id="cb48-665"><a href="#cb48-665" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this: --&gt;</span></span>
 <span id="cb48-666"><a href="#cb48-666" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-667"><a href="#cb48-667" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #| echo: false --&gt;</span></span>
+<span id="cb48-667"><a href="#cb48-667" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
 <span id="cb48-668"><a href="#cb48-668" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-669"><a href="#cb48-669" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 2 * 2 --&gt;</span></span>
+<span id="cb48-669"><a href="#cb48-669" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 1 + 1 --&gt;</span></span>
 <span id="cb48-670"><a href="#cb48-670" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-671"><a href="#cb48-671" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
 <span id="cb48-672"><a href="#cb48-672" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-673"><a href="#cb48-673" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- The `echo: false` option disables the printing of code (only output is displayed). --&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-673"><a href="#cb48-673" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can add options to executable code like this --&gt;</span></span>
+<span id="cb48-674"><a href="#cb48-674" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-675"><a href="#cb48-675" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
+<span id="cb48-676"><a href="#cb48-676" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-677"><a href="#cb48-677" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #| echo: false --&gt;</span></span>
+<span id="cb48-678"><a href="#cb48-678" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-679"><a href="#cb48-679" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 2 * 2 --&gt;</span></span>
+<span id="cb48-680"><a href="#cb48-680" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-681"><a href="#cb48-681" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb48-682"><a href="#cb48-682" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-683"><a href="#cb48-683" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- The `echo: false` option disables the printing of code (only output is displayed). --&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
