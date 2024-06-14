@@ -1,3 +1,3 @@
-This note is crested to record additional thoughts for the repurchase project. 
+This note is crested to record additional thoughts for the "Under the spotlight" project. 
 
 1.	This JFE paper shares the same setting as the one you have and there are extensions you can do to make the whole story richer. For instance, I can use the shorting interest in the market to re-do the analysis. > [Competition of the informed: Does the presence of short sellers affect insider selling](https://www.sciencedirect.com/science/article/pii/S0304405X15001439)
