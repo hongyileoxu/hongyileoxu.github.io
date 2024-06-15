@@ -52,7 +52,7 @@ Projects in Progress:
 
 - Journal of Finance 2021 Issue Discussion. [[Slide]](https://hongyileoxu.github.io/research/Slides/JF2021Pre_Hongyi_Xu.pdf)
 
-- EDGAR 10-Q/K Parsing Repurchase Info. [[HTML]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3afunctions.html)/[[R]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3cfunctions.R) / 
+- EDGAR 10-Q/K Parsing Repurchase Info. [[HTML]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3afunctions.html)/[[R]](https://hongyileoxu.github.io/research/RepurchaseProject/SEC_web_v3cfunctions.R) / [future notes](https://hongyileoxu.github.io/research/RepurchaseProject/future_notes.md)
 	
 	- [Aug 17, 2023 Update](https://hongyileoxu.github.io/research/RepurchaseProject/Repurchase_BBAIA_merge_v1b.html)
     - [Oct 17, 2023 Presentation](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/c85b72a8999f7a85db99f518141d6d22bbfe5f2d/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / [Slides](https://hongyileoxu.github.io/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / Replication code . <!--- [[v1]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May04_2024.html) [[v2]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May13_2024.html) [[v3]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May17_2024.html) --->
