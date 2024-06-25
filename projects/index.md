@@ -57,6 +57,6 @@ Projects in Progress:
 	- [Aug 17, 2023 Update](https://hongyileoxu.github.io/research/RepurchaseProject/Repurchase_BBAIA_merge_v1b.html)
     - [Oct 17, 2023 Presentation](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/c85b72a8999f7a85db99f518141d6d22bbfe5f2d/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / [Slides](https://hongyileoxu.github.io/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / Replication code . <!--- [[v1]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May04_2024.html) [[v2]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May13_2024.html) [[v3]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May17_2024.html) --->
     - [May 6, 2024 Presentation](https://hongyileoxu.github.io/research/RepurchaseProject/Under_the_Spotlight_2024_Hongyi_Xu_NFN.pdf) 
-	- [Attention and Disagreement](https://www.tonycookson.com) from Professor Tony Cookson. 
+	- [Attention and Disagreement](https://www.tonycookson.com) from Professor Tony Cookson. > [The social signal](https://www.tonycookson.com/#h.raveul66i2bl) 
 
 Thank You! 
