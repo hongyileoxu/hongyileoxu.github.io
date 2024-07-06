@@ -6,4 +6,5 @@ This note is crested to record additional thoughts for the "Under the spotlight"
 	-	Maybe they are used for future investments? 
 	-	Or maybe used to reduce cost of capital? 
 	-	etc. 
-3.	
+3.	One future route to promote this paper is to link it to the failure of return predictability literature even when including the share repurchase information. 
+4. 
