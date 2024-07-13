@@ -7,5 +7,5 @@ This note is crested to record additional thoughts for the "Under the spotlight"
 	-	Or maybe used to reduce cost of capital? 
 	-	etc. 
 3.	One future route to promote this paper is to link it to the failure of return predictability literature even when including the share repurchase information. 
-4.Call my paper - "Quantity Dynamics of Limited Attention". 
+4. Call my paper - "Quantity Dynamics of Limited Attention". 
 	- refer to paper > <u>Terrence Hendershott, Albert J Menkveld, Rémy Praz, Mark Seasholes, Asset Price Dynamics with Limited Attention, The Review of Financial Studies, Volume 35, Issue 2, February 2022, Pages 962–1008, https://doi.org/10.1093/rfs/hhab045</u> 
