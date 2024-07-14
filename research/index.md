@@ -9,7 +9,7 @@ title: Research
 
     -  [Step 1: Link Table](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Link_Table_Compustat.html)
     -  [Step 2: DealScan Data](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Data_Renegotiation.html)
-    -  [Step 3: Loan Path](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html) <details><summary>Detail</summary>Clean the WRDS LPC DealScan Data and convert to a firm-deal-time level panel data, with links to be connected to Compustat.</details> 
+    -  [Step 3: Loan Path](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html) <details>Clean the WRDS LPC DealScan Data and convert to a firm-deal-time level panel data, with links to be connected to Compustat.</details> 
     -  [Step 4: Compustat Data](https://hongyileoxu.github.io)
     
 <!--- <details><summary>Click here for explanation</summary>Some text </details> --->
