@@ -1,3 +1,11 @@
+```mermaid
+flowchart TD;
+    A[DealScan_Link_Table_Compustat] --> B[DealScan_Data_Renegotiation] --> C[DealScan_Loan_Path2];
+    C[DealScan_Loan_Path2] ---> D[DealScan_Loan_Compustat];
+    C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
+```
+
+
 This is a document to record the roadmap: 
 
 1.    DealScan_Link_Table_Compustat.html > DealScan_Link_Table_Compustat_Jun2024: for the link table between WRDS DealScan and WRDS Compustat.
