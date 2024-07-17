@@ -1,8 +1,9 @@
 ```mermaid
 flowchart TD;
     A[DealScan_Link_Table_Compustat] --> B[DealScan_Data_Renegotiation] --> C[DealScan_Loan_Path2];
-    C[DealScan_Loan_Path2] ---> D[DealScan_Loan_Compustat];
+    C[DealScan_Loan_Path2] --July 17, 2024--> D[DealScan_Loan_Compustat];
     C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
+    B --> D2; 
 ```
 
 
