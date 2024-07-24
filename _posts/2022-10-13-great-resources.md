@@ -42,6 +42,8 @@ Econometrics:
 
 -   [Public Econ](https://rajchetty.com/research/public-economics-lectures-2nd-year-ph-d-course/)
 
+-   [Empirical Corporate Finance - PHD Notes](http://www.gormley.info/phd-notes.html) by Prof Todd A. Gormley
+
 Data and Topics
 -   Private Equity and Venture Capital: 
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
