@@ -21,11 +21,11 @@ title: Research
     C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
     B --> D2;
     click C "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html"; 
-</pre>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
- </script>
+    </pre>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
 
 
 ```mermaid
