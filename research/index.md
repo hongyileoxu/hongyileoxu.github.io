@@ -14,6 +14,20 @@ title: Research
     
 <!--- <details><summary>Click here for explanation</summary>Some text </details> --->
 
+<pre class="mermaid">
+  graph TD;
+    A[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Link_Table_Compustat.html'>DealScan_Link_Table_Compustat</a>] --> B[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Data_Renegotiation.html'>DealScan_Data_Renegotiation</a>] --> C[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html'>DealScan_Loan_Path2</a>];
+    C[DealScan_Loan_Path2] --July 17, 2024--> D[DealScan_Loan_Compustat];
+    C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
+    B --> D2;
+    click C "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html"; 
+</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+ </script>
+
+
 ```mermaid
 graph TD;
     A[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Link_Table_Compustat.html'>DealScan_Link_Table_Compustat</a>] --> B[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Data_Renegotiation.html'>DealScan_Data_Renegotiation</a>] --> C[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html'>DealScan_Loan_Path2</a>];
