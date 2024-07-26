@@ -6,7 +6,7 @@ format: revealjs
 
 ```mermaid
 flowchart TD;
-    A[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Link_Table_Compustat.html'>DealScan_Link_Table_Compustat</a>] --> B[DealScan_Data_Renegotiation] --> C[DealScan_Loan_Path2];
+    A[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Link_Table_Compustat.html'>DealScan_Link_Table_Compustat</a>] --> B[DealScan_Data_Renegotiation] --> C[<a href='https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html'>DealScan_Loan_Path2</a>];
     C[DealScan_Loan_Path2] --July 17, 2024--> D[DealScan_Loan_Compustat];
     C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
     B --> D2; 
