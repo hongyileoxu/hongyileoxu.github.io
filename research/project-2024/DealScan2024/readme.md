@@ -10,7 +10,7 @@ flowchart TD;
     C[DealScan_Loan_Path2] --July 17, 2024--> D[DealScan_Loan_Compustat];
     C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
     B --> D2;
-    click C https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html
+    click C "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html"; 
 ```
 
 
