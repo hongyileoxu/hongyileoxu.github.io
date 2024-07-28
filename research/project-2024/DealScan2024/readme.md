@@ -10,7 +10,8 @@ flowchart TD;
     C[DealScan_Loan_Path2] --July 17, 2024--> D[DealScan_Loan_Compustat];
     C[DealScan_Loan_Path2] ---> D2[DealScan_Loan_Covenants];
     B --> D2;
-    click C "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html"; 
+    click C "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html";
+    click D "https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Compustat.html"; 
 ```
 
 
@@ -21,6 +22,12 @@ This is a document to record the roadmap:
 3.    DealScan_Loan_Path2.html > DealScan_Loan_Path_Jun2024: generate the panel dataset for firm-loan-time observations and it can be linked to the Compustat dataset. 
 4.    
 
+
+A list for double check: 
+
+1.    remove financial firms (`SIC == 6000 to 6999`) and also firms with missing information on total assets (atq), total sales (saleq), common shares outstanding (cshoq), closing share 
+price (prccq), and the exact calendar quarter (datacqtr) of the observation.
+2.    
 
 
 ----- 
