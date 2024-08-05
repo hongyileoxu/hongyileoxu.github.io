@@ -28,6 +28,7 @@ Projects in Progress:
 
 - A Portfolio-Level, Sum-of-the-Parts Approach to Return Predictability, with Dean Katselas and Jo Drienko.
 
+<!---
     - Single-sorted Decile Portfolios
     	- [Size (size);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Size.html) | [Book-to-market ratio (bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_bm.html) | [Operating profitability (op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_op.html) | [Investment (inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Inv.html) | [Momentum (mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_mom.html)   
     
@@ -40,6 +41,7 @@ Projects in Progress:
 	 
 	- Double-sorted Portfolios with Different Characteristics 
 		- [SzBM](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szbm.html) | [SzINV](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szinv.html) | [SzMOM](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szmom.html) | [SzOP](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szop.html) 
+---> 
 
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Corporate_Spinoff_v2.pdf)  
 
