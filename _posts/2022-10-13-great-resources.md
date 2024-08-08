@@ -47,6 +47,8 @@ Econometrics:
 Data and Topics
 -   Private Equity and Venture Capital: 
     -   Amazing [datasets]([https://michaelewens.com](https://privatepublicmkts.com/data-sources/)) in PE and VC by Professor Michael Ewens.
+ 
+-   Patents data: http://dvn.iq.harvard.edu/dvn/dv/patent . see paper "The role of human capital: Evidence from corporate innovation" by Liu, Mao and Tian (2023). 
 
 Other Nice Sources: 
 -  A collection from Xuanli Zhu: [Guide2EconRA](https://github.com/hongyileoxu/Guide2EconRA_update/blob/7a12be4d321be6ea318c39096703fbcfdb0b6cd6/README.md)
