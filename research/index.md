@@ -3,6 +3,11 @@ layout: project
 title: Research 
 ---
 
+## Published Papers: 
+
+-  "[A portfolio-level, sum-of-the-parts approach to return predictability](https://www.sciencedirect.com/science/article/abs/pii/S0927539824000604)", with Dean Katselas and Jo Drienko, Journal of Empirical Finance, September 2024. 
+
+
 ## Working Papers: 
 
 -  Renegotiations with News: information economics [>roadmap](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/31feac4143586de784a5b2032bfdac3b511666df/research/project-2024/DealScan2024/readme.md)
