@@ -1106,7 +1106,7 @@ filing.cleaned_multiple <- function(loc_file, # name of the filing
 ) {
     ## import the txt filing 
     if (!is.null(zip_file)) {
-      filing <- readLines((archive::archive_read(zip_file, loc_file))
+      filing <- readLines(archive::archive_read(zip_file, loc_file))
     } else {
       filing <- readLines(loc_file)
     }
