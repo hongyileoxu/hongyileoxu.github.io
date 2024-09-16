@@ -1104,6 +1104,7 @@ filing.cleaned_multiple <- function(loc_file, # name of the filing
                            zip_file, # name of the zipped file 
                            text_break_node # xml text to replace the identified table 
 ) {
+  {
     ## import the txt filing 
     if (!is.null(zip_file)) {
       filing <- readLines(archive::archive_read(zip_file, loc_file))
