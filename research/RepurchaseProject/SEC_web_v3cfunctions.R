@@ -53,7 +53,8 @@ filing.toc <- function(x, # filing
 loc.item  <- function(x, # filing 
                       filing_type, # filing type from the previous input
                       regex_item = c("(Unregistered|UNREGISTERED|UNRE\\w+)\\s+(Sale|sale|SALE)(s|S|)\\s*(of|Of|OF)", 
-                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(The|THE|the)?\\s*(Registrant|REGISTRANT|registrant|Re|re|RE|CO)") # item header ## July 14, 2023 ----
+                                     "(Market|MARKET)\\s+(for|For|FOR)\\s*(The|THE|the)?\\s*(Registrant|REGISTRANT|registrant|Re|re|RE|CO)"), # item header ## July 14, 2023 ----
+                      regex_perl = TRUE
 ) { 
   # locate the section of the item of interest 
   ## > item 2 in 10-Q: "Unregistered Sales of Equity Securities and Use of Proceeds" ;
@@ -64,7 +65,7 @@ loc.item  <- function(x, # filing
   
   ## <Find item_id in the ToC>
   toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc 
-    .[grep("(?=.*item)(?=.*href)", x = ., ignore.case = T, perl = T)] 
+    .[grep("(?=.*item)(?=.*href)", x = ., ignore.case = T, perl = regex_perl)] 
   if (any(grepl(pattern = ">Part.+I", x = toc_tbl, ignore.case = T))) {
     toc_tbl_id <- which(grepl(pattern = ">Part.+[I]{2}|SIGNATURE", x = toc_tbl, ignore.case = T) )[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   } else {
