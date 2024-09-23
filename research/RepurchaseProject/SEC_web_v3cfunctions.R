@@ -65,7 +65,7 @@ loc.item  <- function(x, # filing
   
   ## <Find item_id in the ToC>
   toc_tbl <- html_nodes(filing.toc(x = x), "table") %>% # tables including the toc 
-    .[grep("(?=.*item)(?=.*href)", x = ., ignore.case = T, perl = regex_perl)] 
+    .[grep("(?=.*item)(?=.*href)", x = ., ignore.case = TRUE, perl = TRUE)] 
   if (any(grepl(pattern = ">Part.+I", x = toc_tbl, ignore.case = T))) {
     toc_tbl_id <- which(grepl(pattern = ">Part.+[I]{2}|SIGNATURE", x = toc_tbl, ignore.case = T) )[1] # locate the table for TOC: will return NA if there are no tables in toc_tbl
   } else {
@@ -77,7 +77,7 @@ loc.item  <- function(x, # filing
     ## find the row of item in the TOC
     toc_row <- html_nodes(toc_tbl[[toc_tbl_id]], "tr") %>% # separate each row
       .[grep(pattern = "^(Item|ITEM|\\d)", x = html_text(., trim = T), ignore.case = T)]
-    toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T)[1] # separate and identify the row
+    toc_row_id <- grep(pattern = regex1, x = html_text(toc_row), ignore.case = T, perl = regex_perl)[1] # separate and identify the row
     
     ## find the id for the item  ## updated July 16, 2023
     if (!is.na(toc_row_id)) { # if this item exists in the toc 
