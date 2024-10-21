@@ -68,6 +68,6 @@ Projects in Progress:
     -  [Step 3: Loan Path](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Path2.html) <details>Clean the WRDS LPC DealScan Data and convert to a firm-deal-time level panel data, with links to be connected to Compustat.</details> 
     -  [Step 4: Compustat Data](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Compustat.html)
 
--    [New](https://hongyileoxu.github.io/research/Purchase_contract_10Ks/BJX_project.html) > Extract Purchase Information from SEC 10-K Filings. 
+-    [New](https://hongyileoxu.github.io/research/Purchase_contract_10Ks/project.html) > Extract Purchase Information from SEC 10-K Filings. 
 
 Thank You! 
