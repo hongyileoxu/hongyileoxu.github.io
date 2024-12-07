@@ -2,6 +2,7 @@
 layout: post
 title: "Learning and Resources for Econometrics"
 date: 2022-10-13
+update: 2024-12-7
 ---
 
 Econometrics: 
@@ -62,6 +63,8 @@ Other Nice Sources:
 -  [Macro etc. by Prof Chris Edmond](http://www.chrisedmond.net/teaching.html) 
 
 
+Job Market 
+-  [Job Market Advice from] Professor Kerry Y. Siani from MIT. (https://sites.google.com/view/kerryyangsiani/for-students)
 
 
 
