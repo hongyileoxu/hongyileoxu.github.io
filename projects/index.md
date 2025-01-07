@@ -26,23 +26,6 @@ _*The exact policy about how to use the data from these experiments has not been
 
 Projects in Progress:
 
-- A Portfolio-Level, Sum-of-the-Parts Approach to Return Predictability, with Dean Katselas and Jo Drienko.
-
-<!---
-    - Single-sorted Decile Portfolios
-    	- [Size (size);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Size.html) | [Book-to-market ratio (bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_bm.html) | [Operating profitability (op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_op.html) | [Investment (inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_Inv.html) | [Momentum (mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/Deciles/Xu_2022_v4.1_Deciles_mom.html)   
-    
-    - Double-sorted Size-Characteristic Quintiles from the expanded universe
-    	- [Size - Book-to-market ratio (size-bm);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_bm3.html) | [Size - Operating profitability (size-op);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_op3.html) | [Size - Investment (size-inv);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_inv3.html) | [Size - Momentum (size-mom);](https://hongyileoxu.github.io/research/Xu_et_al_2022/DoubleQuintiles/Xu_2022_v4.1_DoubleQuintiles_size_mom3.html)   
-    
-    - Reproduced Results 2024 		
-		- CRSP universe: [Monthly](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_monthly.html) | [Quarterly](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_quarterly.html) | [Annual - Dec](https://hongyileoxu.github.io/research/Xu_et_al_2022/CRSP_2024/Xu_2023_v4.4_AllfirmsPorts_reproduced_annual.html)   
-     	- NYSE universe: [Monthly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_monthly.html) | [Quarterly](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_quarterly.html) | [Annual - Dec](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualDec.html) | [Annual - July](https://hongyileoxu.github.io/research/Xu_et_al_2022/NYSE_2024/Xu_2023_v4.4_NYSE_reproduced_annualJuly.html) 	  
-	 
-	- Double-sorted Portfolios with Different Characteristics 
-		- [SzBM](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szbm.html) | [SzINV](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szinv.html) | [SzMOM](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szmom.html) | [SzOP](https://hongyileoxu.github.io/research/Xu_et_al_2022/Portfolios_2024/output2_szop.html) 
----> 
-
 -  Limited Ability and Corporate Spin-offs. [[Slide]](https://hongyileoxu.github.io/research/TCP_Project/Corporate_Spinoff_v2.pdf)  
 
     - [Optimal Contract under Diversification](https://hongyileoxu.github.io/research/TCP_Project/TCP_Project_Premodel.html)
@@ -60,6 +43,7 @@ Projects in Progress:
     - [Oct 17, 2023 Presentation](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/c85b72a8999f7a85db99f518141d6d22bbfe5f2d/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / [Slides](https://hongyileoxu.github.io/research/RepurchaseProject/Hongyi%20Xu%20(2023)%20Under%20the%20Spotlight_v8.pdf) / Replication code . <!--- [[v1]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May04_2024.html) [[v2]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May13_2024.html) [[v3]](https://hongyileoxu.github.io/research/RepurchaseProject/writing_tables_May17_2024.html) --->
     - [May 6, 2024 Presentation](https://hongyileoxu.github.io/research/RepurchaseProject/Under_the_Spotlight_2024_Hongyi_Xu_NFN.pdf) 
 	- [Attention and Disagreement](https://www.tonycookson.com) from Professor Tony Cookson. > [The social signal](https://www.tonycookson.com/#h.raveul66i2bl)
+ 	- [Also check the changes in the volatility and price informativeness](https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/government-stock-purchase-undermines-price-informativeness-evidence-from-chinas-national-team/AAB49A866AF0937228ECAE736E61F773?utm_campaign=shareaholic&utm_medium=copy_link&utm_source=bookmark) after the repurchases in the market. (Check Dang et al. (2024))
  
 -   [New](https://github.com/hongyileoxu/hongyileoxu.github.io/tree/main/research/project-2024) > Renegotiations with News: information economics [>roadmap](https://github.com/hongyileoxu/hongyileoxu.github.io/blob/31feac4143586de784a5b2032bfdac3b511666df/research/project-2024/DealScan2024/readme.md)
 
