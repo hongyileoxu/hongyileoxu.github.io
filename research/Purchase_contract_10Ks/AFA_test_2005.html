@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hongyi Xu">
+<meta name="dcterms.date" content="2025-01-10">
+
+<title>Non-financial Liabilities and Restructuring</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="AFA_test_2005_files/libs/clipboard/clipboard.min.js"></script>
+<script src="AFA_test_2005_files/libs/quarto-html/quarto.js"></script>
+<script src="AFA_test_2005_files/libs/quarto-html/popper.min.js"></script>
+<script src="AFA_test_2005_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="AFA_test_2005_files/libs/quarto-html/anchor.min.js"></script>
+<link href="AFA_test_2005_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="AFA_test_2005_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="AFA_test_2005_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="AFA_test_2005_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="AFA_test_2005_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-s1.-raw-dataset" id="toc-sec-s1.-raw-dataset" class="nav-link active" data-scroll-target="#sec-s1.-raw-dataset">S1. Download and Load the Raw Dataset</a></li>
+  <li><a href="#sec-s2.-clean-prep" id="toc-sec-s2.-clean-prep" class="nav-link" data-scroll-target="#sec-s2.-clean-prep">S2. Data Cleaning and Prep</a></li>
+  <li><a href="#s3.-difference-in-difference-examination" id="toc-s3.-difference-in-difference-examination" class="nav-link" data-scroll-target="#s3.-difference-in-difference-examination">S3. Difference-in-Difference Examination</a>
+  <ul class="collapse">
+  <li><a href="#s3.1.-try-and-error-with-calender-year-dyear" id="toc-s3.1.-try-and-error-with-calender-year-dyear" class="nav-link" data-scroll-target="#s3.1.-try-and-error-with-calender-year-dyear">s3.1. try-and-error with calender year <code>dyear</code></a></li>
+  <li><a href="#s3.2.-try-and-error-with-calender-year-fyear" id="toc-s3.2.-try-and-error-with-calender-year-fyear" class="nav-link" data-scroll-target="#s3.2.-try-and-error-with-calender-year-fyear">s3.2. try-and-error with calender year <code>fyear</code></a></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#a1.-results-using-different-measures-of-net-rental-expenses" id="toc-a1.-results-using-different-measures-of-net-rental-expenses" class="nav-link" data-scroll-target="#a1.-results-using-different-measures-of-net-rental-expenses">A1. Results using different measures of “Net Rental Expenses”</a></li>
+  <li><a href="#a1.1.-try-and-error-with-calender-year-dyear" id="toc-a1.1.-try-and-error-with-calender-year-dyear" class="nav-link" data-scroll-target="#a1.1.-try-and-error-with-calender-year-dyear">A1.1. try-and-error with calender year <code>dyear</code></a></li>
+  <li><a href="#a1.2.-try-and-error-with-calender-year-fyear" id="toc-a1.2.-try-and-error-with-calender-year-fyear" class="nav-link" data-scroll-target="#a1.2.-try-and-error-with-calender-year-fyear">A1.2. try-and-error with calender year <code>fyear</code></a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Non-financial Liabilities and Restructuring</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">Empirical support in 2005</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Hongyi Xu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 10, 2025</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">January 14, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<style type="text/css">
+body, td {
+   font-size: 16px;
+}
+code.r{
+  font-size: 12px;
+}
+pre { /* For appearance of output blocks */
+  font-size: 12px;
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 5px;
+  <!-- border-radius: 5px; /* border corner */ -->
+} 
+.gt_table .gt_caption {
+    font-size: 16px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+This analysis is suggested by discussant Samuel Antill in 2025 AFA meeting.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="sec-s1.-raw-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="sec-s1.-raw-dataset">S1. Download and Load the Raw Dataset</h2>
+<p>We download the firm-level capital structure data from Compustat-CapitalIQ North America. The first measure of executory contracts is accounting data which (under U.S. GAAP) cover leases and rental contracts. We use the variables “Debt Equivalent of Operating Leases”, “Capital Leases” and “Net Rental Expenses”.</p>
+<ul>
+<li><p><code>Debt - Capitalized Lease Obligations (dclo)</code>: This item represents long-term obligations due in respect of lease finances and hire purchase arrangements. This item includes:</p>
+<ul>
+<li>Long-term finance lease obligations</li>
+<li>Long-term lease financing</li>
+<li>Long-term hire purchase obligations</li>
+<li>Non-current obligations under capital leases</li>
+</ul></li>
+<li><p><code>Rental Expense (xrent)</code>: This item represents all costs charged to operations for rental, lease, or hire of space and/or equipment. This item includes:</p>
+<ul>
+<li>Airlines’ landing fees</li>
+<li>Contingent rentals associated with capitalized leases</li>
+<li>Lease charges and plant hire</li>
+</ul></li>
+<li><p><code>Asset - Total (at)</code>: Book value of total assets.</p></li>
+<li><p><code>Debt in Current Liabilities - Total (dlc)</code> is for the short-term debt and <code>Long-term debt - Total (dltt)</code> is for the long-term debt.</p></li>
+<li><p><code>Earnings Before Interest (EBITDA)</code>: EBITDA.</p></li>
+<li><p>Industry classifications: <code>naics</code>, <code>sic</code> and <code>spcindcd</code> + (Fama-French 30 Industry Classifiers, <mark><a href="https://github.com/Wenzhi-Ding/FamaFrenchIndustry">To Be Added</a> / <a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_30_ind_port.html">Definition</a></mark>).</p></li>
+</ul>
+<p>We download all annual observations with <code>Data Date (datadate)</code> between Jan 2000 and Dec 2007. The period used in Samuel’s slides is between 2002 and 2007, which is after the doc.com bubble and after the GFC. The variables in the dataset are:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load the compustat_na data </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># compustat_na &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/sikefissene4sglp.csv") )</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>compustat_na <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/g4f68dkn3beu1iag.csv"</span>) )</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## check the variable names </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variables include:</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">names</span>(compustat_na))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Variables include:
+
+ [1] "at"       "cik"      "consol"   "costat"   "curcd"    "cusip"   
+ [7] "datadate" "datafmt"  "dclo"     "dlc"      "dltt"     "ebitda"  
+[13] "fyear"    "fyr"      "fyrc"     "gvkey"    "indfmt"   "mrc1"    
+[19] "mrc2"     "mrc3"     "mrc4"     "mrc5"     "mrct"     "naics"   
+[25] "popsrc"   "sic"      "spcindcd" "tic"      "xrent"   </code></pre>
+</div>
+</div>
+</section>
+<section id="sec-s2.-clean-prep" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="sec-s2.-clean-prep">S2. Data Cleaning and Prep</h2>
+<p>Two dependent variables are constructed to measure firm’s leverage: (<u>cf.&nbsp;p18 and Table 2 of the paper</u>)</p>
+<ul>
+<li><p><code>Book leverage</code>: we define leverage as the ratio of the sum of short-term debt and long-term debt to assets (we drop observations where this is outside the [0,1] range.</p></li>
+<li><p><code>Debt/EBITDA</code>: we define debt-to-EBITDA as the ratio of the long- and short-term debt to EBITDA (we drop observations where this is outside the [0,15] range).</p></li>
+</ul>
+
+<div class="no-row-height column-margin column-container"><div id="nte-rent-var" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What should be the best way to construct this <mark>PV of Rent / Net Rental Expenses</mark> variable in this test?</p>
+</div>
+</div></div><div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create leverage variables </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> compustat_na <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(indfmt <span class="sc">==</span> <span class="st">"INDL"</span>) <span class="sc">%&gt;%</span> <span class="do">## remove all financial firms </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## leverage variables: </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">book_leverage =</span> (dlc <span class="sc">+</span> dltt) <span class="sc">/</span> at, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">debt_ebitda =</span> (dlc <span class="sc">+</span> dltt) <span class="sc">/</span> ebitda, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## treatment intensity: </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">totalrent =</span> mrc1 <span class="sc">+</span> mrc2 <span class="sc">+</span> mrc3 <span class="sc">+</span> mrc4 <span class="sc">+</span> mrc5 <span class="sc">+</span> mrct, <span class="co"># total rent w/o discount</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># contract_intensity = (dclo + xrent * 3) / at, # executory contract intensity</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">contract_intensity =</span> (dclo <span class="sc">+</span> totalrent) <span class="sc">/</span> at, <span class="co"># executory contract intensity</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">## other variables: </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(datadate, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">stop =</span> <span class="dv">4</span>)) <span class="co"># data year </span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="do">## record the variable names </span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variables include:</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">names</span>(data)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Variables include:
+
+ [1] "at"                 "book_leverage"      "cik"               
+ [4] "consol"             "contract_intensity" "costat"            
+ [7] "curcd"              "cusip"              "datadate"          
+[10] "datafmt"            "dclo"               "debt_ebitda"       
+[13] "dlc"                "dltt"               "dyear"             
+[16] "ebitda"             "fyear"              "fyr"               
+[19] "fyrc"               "gvkey"              "indfmt"            
+[22] "mrc1"               "mrc2"               "mrc3"              
+[25] "mrc4"               "mrc5"               "mrct"              
+[28] "naics"              "popsrc"             "sic"               
+[31] "spcindcd"           "tic"                "totalrent"         
+[34] "xrent"             </code></pre>
+</div>
+</div>
+<p>The main independent variable in the test is executory contract intensity, which is named as <code>contract_intensity</code> in our dataset. We follow Samuel’s definition w/o purchase contracts information for firm <span class="math inline">i</span> at year <span class="math inline">t</span>:</p>
+<p><span class="math display">
+\text{Executory Contract Intensity}_{i,t} = \frac{\text{Capitalized Leases}_{i,t} + \text{PV of Rent}_{i,t} }{\text{Book Asset}_{i,t}}
+</span></p>
+<p><span class="math display">
+\Rightarrow \text{contract\_intensity}_{i,t} = \frac{\text{dclo}_{i,t} + \text{xrent}_{i,t} \times 3 }{\text{at}_{i,t}}
+</span></p>
+</section>
+<section id="s3.-difference-in-difference-examination" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="s3.-difference-in-difference-examination">S3. Difference-in-Difference Examination</h2>
+<p>Then, we construct the dataset for the difference-in-difference analysis.</p>
+<p>The original dataset (<code>data</code>) contains observations with data year (<code>dyear</code>) range in [1997, 2009] and we restrict the sample to the data year in [2002, 2007].</p>
+
+<div class="no-row-height column-margin column-container"><div id="nte-group-def" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Does altering the time (i.e.&nbsp;2000 to 1995) for measuring the treatment intensity alter the results?</p>
+</div>
+</div></div><section id="s3.1.-try-and-error-with-calender-year-dyear" class="level3">
+<h3 class="anchored" data-anchor-id="s3.1.-try-and-error-with-calender-year-dyear">s3.1. try-and-error with calender year <code>dyear</code></h3>
+<p>In this section, we first try to use the year information <code>dyear</code> extracted from variable <code>datadate</code> as the periods.</p>
+<p>On top of the base <code>data</code>, we add several new variables in dataset <code>data_did</code>:</p>
+<ul>
+<li><code>contract_intensity_2000</code>: the contract intensity for each firm in year <code>dyear == 2000</code>.</li>
+<li><code>post_2005</code>: an indicator equals to 1 if <code>dyear &gt; 2005</code> and 0 otherwise.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_firm <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">==</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># use `dyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, <span class="at">contract_intensity_2000 =</span> contract_intensity) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gvkey) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">contract_intensity_2000 =</span> <span class="fu">mean</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>FF_30ind <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>data_did <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the grouping variable </span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> data_firm, <span class="at">by =</span> <span class="fu">join_by</span>(gvkey) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the FF 30 industry classifiaction </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> FF_30ind, <span class="at">by =</span> <span class="fu">join_by</span>(sic)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pre- &amp; post- </span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> (dyear <span class="sc">-</span> <span class="dv">2005</span>), <span class="co"># year index with 2005 as base 0.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_2005 =</span> <span class="fu">ifelse</span>(dyear <span class="sc">&gt;</span> <span class="dv">2005</span>, <span class="at">yes =</span> <span class="dv">1</span>, <span class="at">no =</span> <span class="dv">0</span>)  <span class="co"># whether it is after the 2005 reform </span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># %&gt;% </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop values outside the range:</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># )</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># data_did %&gt;% </span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(dyear &gt;= 2002 &amp; dyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#   mutate(</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     gvkey = as.factor(gvkey), </span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     dyear = as.factor(dyear), </span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) %&gt;% </span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#   na.omit() %&gt;% </span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot(data = ., aes(x = dyear, y = book_leverage, fill = group) ) + </span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_boxplot() </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>DiD Analysis:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2002</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.factor</span>(dyear), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> contract_intensity_2000 <span class="sc">&gt;</span> <span class="fu">median</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> contract_intensity_2000<span class="sc">:</span>post_2005 <span class="sc">|</span> gvkey <span class="sc">+</span> dyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                      .
+Dependent Var.:                           book_leverage
+                                                       
+contract_intensity_2000 x post_2005 -0.4176*** (0.1051)
+Fixed-Effects:                      -------------------
+gvkey                                               Yes
+dyear                                               Yes
+___________________________________ ___________________
+S.E.: Clustered                               by: gvkey
+Observations                                     27,408
+R2                                              0.39582
+Within R2                                       0.00334
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.factor</span>(dyear), </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(indexyear), <span class="at">ref =</span> <span class="st">"0"</span>) </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(dyear, contract_intensity_2000, <span class="dv">2002</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> dyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">coefplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="AFA_test_2005_files/figure-html/s3-did-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="s3.2.-try-and-error-with-calender-year-fyear" class="level3">
+<h3 class="anchored" data-anchor-id="s3.2.-try-and-error-with-calender-year-fyear">s3.2. try-and-error with calender year <code>fyear</code></h3>
+<p>In this section, we first try to use the year information <code>fyear</code> extracted from variable <code>datadate</code> as the periods.</p>
+<p>On top of the base <code>data</code>, we add several new variables in dataset <code>data_did</code>:</p>
+<ul>
+<li><code>contract_intensity_2000</code>: the contract intensity for each firm in year <code>fyear == 2000</code>.</li>
+<li><code>post_2005</code>: an indicator equals to 1 if <code>fyear &gt; 2005</code> and 0 otherwise.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_firm <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fyear <span class="sc">==</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># use `fyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, <span class="at">contract_intensity_2000 =</span> contract_intensity) </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>FF_30ind <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>data_did <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the grouping variable </span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> data_firm, <span class="at">by =</span> <span class="fu">join_by</span>(gvkey) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the FF 30 industry classifiaction </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> FF_30ind, <span class="at">by =</span> <span class="fu">join_by</span>(sic)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pre- &amp; post- </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> (fyear <span class="sc">-</span> <span class="dv">2005</span>), <span class="co"># year index with 2005 as base 0.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_2005 =</span> <span class="fu">ifelse</span>(fyear <span class="sc">&gt;</span> <span class="dv">2005</span>, <span class="at">yes =</span> <span class="dv">1</span>, <span class="at">no =</span> <span class="dv">0</span>)  <span class="co"># whether it is after the 2005 reform </span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># %&gt;% </span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop values outside the range:</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>DiD Analysis:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fyear <span class="sc">&gt;=</span> <span class="dv">2002</span> <span class="sc">&amp;</span> fyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fyear =</span> <span class="fu">as.factor</span>(fyear), </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> contract_intensity_2000 <span class="sc">&gt;</span> <span class="fu">median</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> contract_intensity_2000<span class="sc">:</span>post_2005 <span class="sc">|</span> gvkey <span class="sc">+</span> fyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                      .
+Dependent Var.:                           book_leverage
+                                                       
+contract_intensity_2000 x post_2005 -0.4237*** (0.1098)
+Fixed-Effects:                      -------------------
+gvkey                                               Yes
+fyear                                               Yes
+___________________________________ ___________________
+S.E.: Clustered                               by: gvkey
+Observations                                     27,323
+R2                                              0.30335
+Within R2                                       0.00112
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, fyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fyear =</span> <span class="fu">as.factor</span>(fyear), </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(indexyear), <span class="at">ref =</span> <span class="st">"0"</span>) </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(fyear, contract_intensity_2000, <span class="dv">2002</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> fyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">coefplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="AFA_test_2005_files/figure-html/s3b-did-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="appendix" class="level2">
+<h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
+<section id="a1.-results-using-different-measures-of-net-rental-expenses" class="level3">
+<h3 class="anchored" data-anchor-id="a1.-results-using-different-measures-of-net-rental-expenses">A1. Results using different measures of “Net Rental Expenses”</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create leverage variables </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> compustat_na <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(indfmt <span class="sc">==</span> <span class="st">"INDL"</span>) <span class="sc">%&gt;%</span> <span class="do">## remove all financial firms </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## leverage variables: </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">book_leverage =</span> (dlc <span class="sc">+</span> dltt) <span class="sc">/</span> at, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">debt_ebitda =</span> (dlc <span class="sc">+</span> dltt) <span class="sc">/</span> ebitda, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## treatment intensity: </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># totalrent = mrc1 + mrc2 + mrc3 + mrc4 + mrc5 + mrct, # total rent w/o discount</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">contract_intensity =</span> (dclo <span class="sc">+</span> xrent <span class="sc">*</span> <span class="dv">3</span>) <span class="sc">/</span> at, <span class="co"># executory contract intensity</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># contract_intensity = (dclo + totalrent) / at, # executory contract intensity</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">## other variables: </span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(datadate, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">stop =</span> <span class="dv">4</span>)) <span class="co"># data year</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="a1.1.-try-and-error-with-calender-year-dyear" class="level3">
+<h3 class="anchored" data-anchor-id="a1.1.-try-and-error-with-calender-year-dyear">A1.1. try-and-error with calender year <code>dyear</code></h3>
+<p>In this section, we first try to use the year information <code>dyear</code> extracted from variable <code>datadate</code> as the periods.</p>
+<p>On top of the base <code>data</code>, we add several new variables in dataset <code>data_did</code>:</p>
+<ul>
+<li><code>contract_intensity_2000</code>: the contract intensity for each firm in year <code>dyear == 2000</code>.</li>
+<li><code>post_2005</code>: an indicator equals to 1 if <code>dyear &gt; 2005</code> and 0 otherwise.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_firm <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">==</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># use `dyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, <span class="at">contract_intensity_2000 =</span> contract_intensity) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gvkey) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">contract_intensity_2000 =</span> <span class="fu">mean</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>FF_30ind <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>data_did <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the grouping variable </span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> data_firm, <span class="at">by =</span> <span class="fu">join_by</span>(gvkey) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the FF 30 industry classifiaction </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> FF_30ind, <span class="at">by =</span> <span class="fu">join_by</span>(sic)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pre- &amp; post- </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> (dyear <span class="sc">-</span> <span class="dv">2005</span>), <span class="co"># year index with 2005 as base 0.</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_2005 =</span> <span class="fu">ifelse</span>(dyear <span class="sc">&gt;</span> <span class="dv">2005</span>, <span class="at">yes =</span> <span class="dv">1</span>, <span class="at">no =</span> <span class="dv">0</span>)  <span class="co"># whether it is after the 2005 reform </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># %&gt;% </span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop values outside the range:</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>DiD Analysis:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2002</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.factor</span>(dyear), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> contract_intensity_2000 <span class="sc">&gt;</span> <span class="fu">median</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> contract_intensity_2000<span class="sc">:</span>post_2005 <span class="sc">|</span> gvkey <span class="sc">+</span> dyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                    .
+Dependent Var.:                         book_leverage
+                                                     
+contract_intensity_2000 x post_2005 -0.9704* (0.3917)
+Fixed-Effects:                      -----------------
+gvkey                                             Yes
+dyear                                             Yes
+___________________________________ _________________
+S.E.: Clustered                             by: gvkey
+Observations                                   28,097
+R2                                            0.37060
+Within R2                                     0.00334
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dyear =</span> <span class="fu">as.factor</span>(dyear), </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(indexyear), <span class="at">ref =</span> <span class="st">"0"</span>) </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(dyear, contract_intensity_2000, <span class="dv">2002</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> dyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">coefplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="AFA_test_2005_files/figure-html/a1a-did-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a1.2.-try-and-error-with-calender-year-fyear" class="level3">
+<h3 class="anchored" data-anchor-id="a1.2.-try-and-error-with-calender-year-fyear">A1.2. try-and-error with calender year <code>fyear</code></h3>
+<p>In this section, we first try to use the year information <code>fyear</code> extracted from variable <code>datadate</code> as the periods.</p>
+<p>On top of the base <code>data</code>, we add several new variables in dataset <code>data_did</code>:</p>
+<ul>
+<li><code>contract_intensity_2000</code>: the contract intensity for each firm in year <code>fyear == 2000</code>.</li>
+<li><code>post_2005</code>: an indicator equals to 1 if <code>fyear &gt; 2005</code> and 0 otherwise.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_firm <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fyear <span class="sc">==</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> <span class="co"># use `fyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, <span class="at">contract_intensity_2000 =</span> contract_intensity) </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>FF_30ind <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>data_did <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the grouping variable </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> data_firm, <span class="at">by =</span> <span class="fu">join_by</span>(gvkey) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## merge the FF 30 industry classifiaction </span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> FF_30ind, <span class="at">by =</span> <span class="fu">join_by</span>(sic)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pre- &amp; post- </span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> (fyear <span class="sc">-</span> <span class="dv">2005</span>), <span class="co"># year index with 2005 as base 0.</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">post_2005 =</span> <span class="fu">ifelse</span>(fyear <span class="sc">&gt;</span> <span class="dv">2005</span>, <span class="at">yes =</span> <span class="dv">1</span>, <span class="at">no =</span> <span class="dv">0</span>)  <span class="co"># whether it is after the 2005 reform </span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># %&gt;% </span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop values outside the range:</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>DiD Analysis:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fyear <span class="sc">&gt;=</span> <span class="dv">2002</span> <span class="sc">&amp;</span> fyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fyear =</span> <span class="fu">as.factor</span>(fyear), </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> contract_intensity_2000 <span class="sc">&gt;</span> <span class="fu">median</span>(contract_intensity_2000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> contract_intensity_2000<span class="sc">:</span>post_2005 <span class="sc">|</span> gvkey <span class="sc">+</span> fyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                    .
+Dependent Var.:                         book_leverage
+                                                     
+contract_intensity_2000 x post_2005 -0.9857* (0.4054)
+Fixed-Effects:                      -----------------
+gvkey                                             Yes
+fyear                                             Yes
+___________________________________ _________________
+S.E.: Clustered                             by: gvkey
+Observations                                   27,955
+R2                                            0.29949
+Within R2                                     0.00129
+---
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_did <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, fyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey), </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fyear =</span> <span class="fu">as.factor</span>(fyear), </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">indexyear =</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(indexyear), <span class="at">ref =</span> <span class="st">"0"</span>) </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(fyear, contract_intensity_2000, <span class="dv">2002</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> fyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">coefplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="AFA_test_2005_files/figure-html/a1b-did-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- -->
+
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb22" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Non-financial Liabilities and Restructuring" </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co">  "Empirical support in 2005" </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Hongyi Xu"</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "January 10, 2025"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">    html-math-method: katex</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left </span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-block-bg: true</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">    code-block-border-left: "#31BAE9" </span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">  output: true</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>&lt;style type="text/css"&gt;</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>body<span class="op">,</span> td {</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>   <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">16</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>code<span class="fu">.r</span>{</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">12</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>pre { <span class="co">/* For appearance of output blocks */</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">12</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">#f0f0f0</span><span class="op">;</span> <span class="co">/* Light grey background */</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding</span><span class="ch">:</span> <span class="dv">5</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>  &lt;!<span class="va">--</span> <span class="kw">border-radius</span><span class="ch">:</span> <span class="dv">5</span><span class="dt">px</span><span class="op">;</span> <span class="co">/* border corner */</span> <span class="va">--</span><span class="op">&gt;</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="fu">.gt_table</span> <span class="fu">.gt_caption</span> {</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">16</span><span class="dt">px</span><span class="op">;</span> </span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">display</span><span class="ch">:</span> <span class="dv">flex</span><span class="op">;</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">justify-content</span><span class="ch">:</span> <span class="dv">space-between</span><span class="op">;</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">align-items</span><span class="ch">:</span> <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>&lt;/style&gt;</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = TRUE)</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a><span class="in">library(haven) </span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse) </span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2) </span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a><span class="in">library(scales) </span></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a><span class="in">library(gt)</span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="in">library(patchwork)</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a><span class="in">library(DiagrammeR)</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a><span class="in">setwd("~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response")</span></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="in"># setwd("C:/Users/13613/OneDrive - Handelshögskolan i Stockholm/MAR_2024/R")</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>::: callout-important</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a><span class="fu">#### This analysis is suggested by discussant Samuel Antill in 2025 AFA meeting.</span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## S1. Download and Load the Raw Dataset {#sec-s1.-raw-dataset}</span></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>We download the firm-level capital structure data from Compustat-CapitalIQ North America. The first measure of executory contracts is accounting data which (under U.S. GAAP) cover leases and rental contracts. We use the variables “Debt Equivalent of Operating Leases”, “Capital Leases” and “Net Rental Expenses”.</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Debt - Capitalized Lease Obligations (dclo)`</span>: This item represents long-term obligations due in respect of lease finances and hire purchase arrangements. This item includes:</span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Long-term finance lease obligations</span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Long-term lease financing</span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Long-term hire purchase obligations</span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Non-current obligations under capital leases</span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Rental Expense (xrent)`</span>: This item represents all costs charged to operations for rental, lease, or hire of space and/or equipment. This item includes:</span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Airlines' landing fees</span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Contingent rentals associated with capitalized leases</span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Lease charges and plant hire</span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Asset - Total (at)`</span>: Book value of total assets.</span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Debt in Current Liabilities - Total (dlc)`</span> is for the short-term debt and <span class="in">`Long-term debt - Total (dltt)`</span> is for the long-term debt.</span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Earnings Before Interest (EBITDA)`</span>: EBITDA.</span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Industry classifications: <span class="in">`naics`</span>, <span class="in">`sic`</span> and <span class="in">`spcindcd`</span> + (Fama-French 30 Industry Classifiers, &lt;mark&gt;<span class="co">[</span><span class="ot">To Be Added</span><span class="co">](https://github.com/Wenzhi-Ding/FamaFrenchIndustry)</span> / <span class="co">[</span><span class="ot">Definition</span><span class="co">](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_30_ind_port.html)</span>&lt;/mark&gt;).</span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>We download all annual observations with <span class="in">`Data Date (datadate)`</span> between Jan 2000 and Dec 2007. The period used in Samuel's slides is between 2002 and 2007, which is after the doc.com bubble and after the GFC. The variables in the dataset are:</span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s1-load-data, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a><span class="in">## load the compustat_na data </span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a><span class="in"># compustat_na &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/sikefissene4sglp.csv") )</span></span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a><span class="in">compustat_na &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/g4f68dkn3beu1iag.csv") )</span></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a><span class="in">## check the variable names </span></span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a><span class="in">cat("Variables include:\n\n")</span></span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a><span class="in">sort(names(compustat_na))</span></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## S2. Data Cleaning and Prep {#sec-s2.-clean-prep}</span></span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>Two dependent variables are constructed to measure firm's leverage: (&lt;u&gt;cf. p18 and Table 2 of the paper&lt;/u&gt;)</span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Book leverage`</span>: we define leverage as the ratio of the sum of short-term debt and long-term debt to assets (we drop observations where this is outside the <span class="sc">\[</span>0,1<span class="sc">\]</span> range.</span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Debt/EBITDA`</span>: we define debt-to-EBITDA as the ratio of the long- and short-term debt to EBITDA (we drop observations where this is outside the <span class="sc">\[</span>0,15<span class="sc">\]</span> range).</span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>::: {#nte-rent-var .callout-note .column-margin}</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a>What should be the best way to construct this &lt;mark&gt;PV of Rent / Net Rental Expenses&lt;/mark&gt; variable in this test? </span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a>::: </span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s2-clean-prep, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a><span class="in">## create leverage variables </span></span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a><span class="in">data &lt;- compustat_na %&gt;% </span></span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(indfmt == "INDL") %&gt;% ## remove all financial firms </span></span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a><span class="in">    ## leverage variables: </span></span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a><span class="in">    book_leverage = (dlc + dltt) / at, </span></span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a><span class="in">    debt_ebitda = (dlc + dltt) / ebitda, </span></span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a><span class="in">    ## treatment intensity: </span></span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a><span class="in">    totalrent = mrc1 + mrc2 + mrc3 + mrc4 + mrc5 + mrct, # total rent w/o discount</span></span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a><span class="in">    # contract_intensity = (dclo + xrent * 3) / at, # executory contract intensity</span></span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a><span class="in">    contract_intensity = (dclo + totalrent) / at, # executory contract intensity</span></span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a><span class="in">    ## other variables: </span></span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.integer(substr(datadate, start = 1, stop = 4)) # data year </span></span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a><span class="in">  ) </span></span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a><span class="in">## record the variable names </span></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a><span class="in">cat("Variables include:\n\n")</span></span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a><span class="in">sort(names(data)) </span></span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>The main independent variable in the test is executory contract intensity, which is named as <span class="in">`contract_intensity`</span> in our dataset. We follow Samuel's definition w/o purchase contracts information for firm $i$ at year $t$:</span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a>\text{Executory Contract Intensity}_{i,t} = \frac{\text{Capitalized Leases}_{i,t} + \text{PV of Rent}_{i,t} }{\text{Book Asset}_{i,t}}</span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a>\Rightarrow \text{contract<span class="sc">\_</span>intensity}_{i,t} = \frac{\text{dclo}_{i,t} + \text{xrent}_{i,t} \times 3 }{\text{at}_{i,t}} </span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s2-prep-did, echo=FALSE, include=FALSE}</span></span>
+<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a><span class="in">## [this code block is deprecated]</span></span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a><span class="in">data_firm &lt;- data %&gt;% </span></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear == 2000) %&gt;% # use `dyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, contract_intensity_2000 = contract_intensity) </span></span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a><span class="in">FF_30ind &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"))</span></span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a><span class="in">data_did &lt;- data %&gt;% </span></span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the grouping variable </span></span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = data_firm, by = join_by(gvkey) ) %&gt;% </span></span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the FF 30 industry classifiaction </span></span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = FF_30ind, by = join_by(sic)) %&gt;% </span></span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a><span class="in">  ## pre- &amp; post- </span></span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = (fyear - 2005), # year index with 2005 as base 0.</span></span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a><span class="in">    post_2005 = ifelse(fyear &gt; 2005, yes = 1, no = 0)  # whether it is after the 2005 reform </span></span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a><span class="in">    book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a><span class="in">    debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-174"><a href="#cb22-174" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-175"><a href="#cb22-175" aria-hidden="true" tabindex="-1"></a><span class="in">    group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-176"><a href="#cb22-176" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-177"><a href="#cb22-177" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-178"><a href="#cb22-178" aria-hidden="true" tabindex="-1"></a><span class="in">  ggplot(data = ., aes(x = fyear, y = book_leverage, fill = group) ) + </span></span>
+<span id="cb22-179"><a href="#cb22-179" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_boxplot() </span></span>
+<span id="cb22-180"><a href="#cb22-180" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb22-181"><a href="#cb22-181" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-182"><a href="#cb22-182" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-183"><a href="#cb22-183" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-184"><a href="#cb22-184" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-185"><a href="#cb22-185" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-186"><a href="#cb22-186" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear) </span></span>
+<span id="cb22-187"><a href="#cb22-187" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-188"><a href="#cb22-188" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-189"><a href="#cb22-189" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ contract_intensity_2000:post_2005 | gvkey + fyear, data = ., se = "iid")</span></span>
+<span id="cb22-190"><a href="#cb22-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-191"><a href="#cb22-191" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-192"><a href="#cb22-192" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-193"><a href="#cb22-193" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-194"><a href="#cb22-194" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-195"><a href="#cb22-195" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-196"><a href="#cb22-196" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-197"><a href="#cb22-197" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = relevel(factor(indexyear), ref = "0") </span></span>
+<span id="cb22-198"><a href="#cb22-198" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-199"><a href="#cb22-199" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-200"><a href="#cb22-200" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(fyear, contract_intensity_2000, 2002) | gvkey + fyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-201"><a href="#cb22-201" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::coefplot()</span></span>
+<span id="cb22-202"><a href="#cb22-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-203"><a href="#cb22-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-204"><a href="#cb22-204" aria-hidden="true" tabindex="-1"></a><span class="fu">## S3. Difference-in-Difference Examination </span></span>
+<span id="cb22-205"><a href="#cb22-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-206"><a href="#cb22-206" aria-hidden="true" tabindex="-1"></a>Then, we construct the dataset for the difference-in-difference analysis. </span>
+<span id="cb22-207"><a href="#cb22-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-208"><a href="#cb22-208" aria-hidden="true" tabindex="-1"></a>The original dataset (<span class="in">`data`</span>) contains observations with data year (<span class="in">`dyear`</span>) range in <span class="in">`r paste("[", paste(range(data$dyear, na.rm = TRUE), collapse = ", "), "]", sep = "")`</span> and we restrict the sample to the data year in <span class="sc">\[</span>2002, 2007<span class="sc">\]</span>. </span>
+<span id="cb22-209"><a href="#cb22-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-210"><a href="#cb22-210" aria-hidden="true" tabindex="-1"></a>::: {#nte-group-def .callout-note .column-margin}</span>
+<span id="cb22-211"><a href="#cb22-211" aria-hidden="true" tabindex="-1"></a>Does altering the time (i.e. 2000 to 1995) for measuring the treatment intensity alter the results? </span>
+<span id="cb22-212"><a href="#cb22-212" aria-hidden="true" tabindex="-1"></a>::: </span>
+<span id="cb22-213"><a href="#cb22-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-214"><a href="#cb22-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### s3.1. try-and-error with calender year `dyear` </span></span>
+<span id="cb22-215"><a href="#cb22-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-216"><a href="#cb22-216" aria-hidden="true" tabindex="-1"></a>In this section, we first try to use the year information <span class="in">`dyear`</span> extracted from variable <span class="in">`datadate`</span> as the periods. </span>
+<span id="cb22-217"><a href="#cb22-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-218"><a href="#cb22-218" aria-hidden="true" tabindex="-1"></a>On top of the base <span class="in">`data`</span>, we add several new variables in dataset <span class="in">`data_did`</span>: </span>
+<span id="cb22-219"><a href="#cb22-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-220"><a href="#cb22-220" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`contract_intensity_2000`</span>: the contract intensity for each firm in year <span class="in">`dyear == 2000`</span>. </span>
+<span id="cb22-221"><a href="#cb22-221" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`post_2005`</span>: an indicator equals to 1 if <span class="in">`dyear &gt; 2005`</span> and 0 otherwise. </span>
+<span id="cb22-222"><a href="#cb22-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-223"><a href="#cb22-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s3a-did-data, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-224"><a href="#cb22-224" aria-hidden="true" tabindex="-1"></a><span class="in">data_firm &lt;- data %&gt;% </span></span>
+<span id="cb22-225"><a href="#cb22-225" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear == 2000) %&gt;% # use `dyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb22-226"><a href="#cb22-226" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, contract_intensity_2000 = contract_intensity) %&gt;% </span></span>
+<span id="cb22-227"><a href="#cb22-227" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(gvkey) %&gt;% </span></span>
+<span id="cb22-228"><a href="#cb22-228" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(contract_intensity_2000 = mean(contract_intensity_2000, na.rm = TRUE) ) %&gt;% </span></span>
+<span id="cb22-229"><a href="#cb22-229" aria-hidden="true" tabindex="-1"></a><span class="in">  ungroup() </span></span>
+<span id="cb22-230"><a href="#cb22-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-231"><a href="#cb22-231" aria-hidden="true" tabindex="-1"></a><span class="in">FF_30ind &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"))</span></span>
+<span id="cb22-232"><a href="#cb22-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-233"><a href="#cb22-233" aria-hidden="true" tabindex="-1"></a><span class="in">data_did &lt;- data %&gt;% </span></span>
+<span id="cb22-234"><a href="#cb22-234" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the grouping variable </span></span>
+<span id="cb22-235"><a href="#cb22-235" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = data_firm, by = join_by(gvkey) ) %&gt;% </span></span>
+<span id="cb22-236"><a href="#cb22-236" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the FF 30 industry classifiaction </span></span>
+<span id="cb22-237"><a href="#cb22-237" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = FF_30ind, by = join_by(sic)) %&gt;% </span></span>
+<span id="cb22-238"><a href="#cb22-238" aria-hidden="true" tabindex="-1"></a><span class="in">  ## pre- &amp; post- </span></span>
+<span id="cb22-239"><a href="#cb22-239" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-240"><a href="#cb22-240" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = (dyear - 2005), # year index with 2005 as base 0.</span></span>
+<span id="cb22-241"><a href="#cb22-241" aria-hidden="true" tabindex="-1"></a><span class="in">    post_2005 = ifelse(dyear &gt; 2005, yes = 1, no = 0)  # whether it is after the 2005 reform </span></span>
+<span id="cb22-242"><a href="#cb22-242" aria-hidden="true" tabindex="-1"></a><span class="in">  ) # %&gt;% </span></span>
+<span id="cb22-243"><a href="#cb22-243" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
+<span id="cb22-244"><a href="#cb22-244" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
+<span id="cb22-245"><a href="#cb22-245" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb22-246"><a href="#cb22-246" aria-hidden="true" tabindex="-1"></a><span class="in">  #   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb22-247"><a href="#cb22-247" aria-hidden="true" tabindex="-1"></a><span class="in">  # )</span></span>
+<span id="cb22-248"><a href="#cb22-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-249"><a href="#cb22-249" aria-hidden="true" tabindex="-1"></a><span class="in"># data_did %&gt;% </span></span>
+<span id="cb22-250"><a href="#cb22-250" aria-hidden="true" tabindex="-1"></a><span class="in">#   select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-251"><a href="#cb22-251" aria-hidden="true" tabindex="-1"></a><span class="in">#   filter(dyear &gt;= 2002 &amp; dyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-252"><a href="#cb22-252" aria-hidden="true" tabindex="-1"></a><span class="in">#   mutate(</span></span>
+<span id="cb22-253"><a href="#cb22-253" aria-hidden="true" tabindex="-1"></a><span class="in">#     gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-254"><a href="#cb22-254" aria-hidden="true" tabindex="-1"></a><span class="in">#     dyear = as.factor(dyear), </span></span>
+<span id="cb22-255"><a href="#cb22-255" aria-hidden="true" tabindex="-1"></a><span class="in">#     group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-256"><a href="#cb22-256" aria-hidden="true" tabindex="-1"></a><span class="in">#   ) %&gt;% </span></span>
+<span id="cb22-257"><a href="#cb22-257" aria-hidden="true" tabindex="-1"></a><span class="in">#   na.omit() %&gt;% </span></span>
+<span id="cb22-258"><a href="#cb22-258" aria-hidden="true" tabindex="-1"></a><span class="in">#   ggplot(data = ., aes(x = dyear, y = book_leverage, fill = group) ) + </span></span>
+<span id="cb22-259"><a href="#cb22-259" aria-hidden="true" tabindex="-1"></a><span class="in">#   geom_boxplot() </span></span>
+<span id="cb22-260"><a href="#cb22-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-261"><a href="#cb22-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-262"><a href="#cb22-262" aria-hidden="true" tabindex="-1"></a>DiD Analysis: </span>
+<span id="cb22-263"><a href="#cb22-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-264"><a href="#cb22-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s3-did-test, echo=TRUE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb22-265"><a href="#cb22-265" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-266"><a href="#cb22-266" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-267"><a href="#cb22-267" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2002 &amp; dyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-268"><a href="#cb22-268" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-269"><a href="#cb22-269" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-270"><a href="#cb22-270" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.factor(dyear), </span></span>
+<span id="cb22-271"><a href="#cb22-271" aria-hidden="true" tabindex="-1"></a><span class="in">    group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-272"><a href="#cb22-272" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-273"><a href="#cb22-273" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-274"><a href="#cb22-274" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ contract_intensity_2000:post_2005 | gvkey + dyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-275"><a href="#cb22-275" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable()</span></span>
+<span id="cb22-276"><a href="#cb22-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-277"><a href="#cb22-277" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-278"><a href="#cb22-278" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-279"><a href="#cb22-279" aria-hidden="true" tabindex="-1"></a><span class="in">  # filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-280"><a href="#cb22-280" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-281"><a href="#cb22-281" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-282"><a href="#cb22-282" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.factor(dyear), </span></span>
+<span id="cb22-283"><a href="#cb22-283" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = relevel(factor(indexyear), ref = "0") </span></span>
+<span id="cb22-284"><a href="#cb22-284" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-285"><a href="#cb22-285" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-286"><a href="#cb22-286" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(dyear, contract_intensity_2000, 2002) | gvkey + dyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-287"><a href="#cb22-287" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::coefplot() </span></span>
+<span id="cb22-288"><a href="#cb22-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-289"><a href="#cb22-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-290"><a href="#cb22-290" aria-hidden="true" tabindex="-1"></a><span class="fu">### s3.2. try-and-error with calender year `fyear` </span></span>
+<span id="cb22-291"><a href="#cb22-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-292"><a href="#cb22-292" aria-hidden="true" tabindex="-1"></a>In this section, we first try to use the year information <span class="in">`fyear`</span> extracted from variable <span class="in">`datadate`</span> as the periods. </span>
+<span id="cb22-293"><a href="#cb22-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-294"><a href="#cb22-294" aria-hidden="true" tabindex="-1"></a>On top of the base <span class="in">`data`</span>, we add several new variables in dataset <span class="in">`data_did`</span>: </span>
+<span id="cb22-295"><a href="#cb22-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-296"><a href="#cb22-296" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`contract_intensity_2000`</span>: the contract intensity for each firm in year <span class="in">`fyear == 2000`</span>. </span>
+<span id="cb22-297"><a href="#cb22-297" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`post_2005`</span>: an indicator equals to 1 if <span class="in">`fyear &gt; 2005`</span> and 0 otherwise. </span>
+<span id="cb22-298"><a href="#cb22-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-299"><a href="#cb22-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s3b-did-data, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-300"><a href="#cb22-300" aria-hidden="true" tabindex="-1"></a><span class="in">data_firm &lt;- data %&gt;% </span></span>
+<span id="cb22-301"><a href="#cb22-301" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear == 2000) %&gt;% # use `fyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, contract_intensity_2000 = contract_intensity) </span></span>
+<span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a><span class="in">FF_30ind &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"))</span></span>
+<span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-306"><a href="#cb22-306" aria-hidden="true" tabindex="-1"></a><span class="in">data_did &lt;- data %&gt;% </span></span>
+<span id="cb22-307"><a href="#cb22-307" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the grouping variable </span></span>
+<span id="cb22-308"><a href="#cb22-308" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = data_firm, by = join_by(gvkey) ) %&gt;% </span></span>
+<span id="cb22-309"><a href="#cb22-309" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the FF 30 industry classifiaction </span></span>
+<span id="cb22-310"><a href="#cb22-310" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = FF_30ind, by = join_by(sic)) %&gt;% </span></span>
+<span id="cb22-311"><a href="#cb22-311" aria-hidden="true" tabindex="-1"></a><span class="in">  ## pre- &amp; post- </span></span>
+<span id="cb22-312"><a href="#cb22-312" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-313"><a href="#cb22-313" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = (fyear - 2005), # year index with 2005 as base 0.</span></span>
+<span id="cb22-314"><a href="#cb22-314" aria-hidden="true" tabindex="-1"></a><span class="in">    post_2005 = ifelse(fyear &gt; 2005, yes = 1, no = 0)  # whether it is after the 2005 reform </span></span>
+<span id="cb22-315"><a href="#cb22-315" aria-hidden="true" tabindex="-1"></a><span class="in">  ) # %&gt;% </span></span>
+<span id="cb22-316"><a href="#cb22-316" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
+<span id="cb22-317"><a href="#cb22-317" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
+<span id="cb22-318"><a href="#cb22-318" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb22-319"><a href="#cb22-319" aria-hidden="true" tabindex="-1"></a><span class="in">  #   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb22-320"><a href="#cb22-320" aria-hidden="true" tabindex="-1"></a><span class="in">  # ) </span></span>
+<span id="cb22-321"><a href="#cb22-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-322"><a href="#cb22-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-323"><a href="#cb22-323" aria-hidden="true" tabindex="-1"></a>DiD Analysis: </span>
+<span id="cb22-324"><a href="#cb22-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-325"><a href="#cb22-325" aria-hidden="true" tabindex="-1"></a><span class="in">```{r s3b-did-test, echo=TRUE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb22-326"><a href="#cb22-326" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-327"><a href="#cb22-327" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-328"><a href="#cb22-328" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-329"><a href="#cb22-329" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-330"><a href="#cb22-330" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-331"><a href="#cb22-331" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-332"><a href="#cb22-332" aria-hidden="true" tabindex="-1"></a><span class="in">    group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-333"><a href="#cb22-333" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-334"><a href="#cb22-334" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-335"><a href="#cb22-335" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ contract_intensity_2000:post_2005 | gvkey + fyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-336"><a href="#cb22-336" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable()</span></span>
+<span id="cb22-337"><a href="#cb22-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-338"><a href="#cb22-338" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-339"><a href="#cb22-339" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-340"><a href="#cb22-340" aria-hidden="true" tabindex="-1"></a><span class="in">  # filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-341"><a href="#cb22-341" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-342"><a href="#cb22-342" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-343"><a href="#cb22-343" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-344"><a href="#cb22-344" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = relevel(factor(indexyear), ref = "0") </span></span>
+<span id="cb22-345"><a href="#cb22-345" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-346"><a href="#cb22-346" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-347"><a href="#cb22-347" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(fyear, contract_intensity_2000, 2002) | gvkey + fyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-348"><a href="#cb22-348" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::coefplot() </span></span>
+<span id="cb22-349"><a href="#cb22-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-350"><a href="#cb22-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-351"><a href="#cb22-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-352"><a href="#cb22-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-353"><a href="#cb22-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-354"><a href="#cb22-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Appendix </span></span>
+<span id="cb22-355"><a href="#cb22-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-356"><a href="#cb22-356" aria-hidden="true" tabindex="-1"></a><span class="fu">### A1. Results using different measures of "Net Rental Expenses" </span></span>
+<span id="cb22-357"><a href="#cb22-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-358"><a href="#cb22-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a1-clean-prep, echo=TRUE}</span></span>
+<span id="cb22-359"><a href="#cb22-359" aria-hidden="true" tabindex="-1"></a><span class="in">## create leverage variables </span></span>
+<span id="cb22-360"><a href="#cb22-360" aria-hidden="true" tabindex="-1"></a><span class="in">data &lt;- compustat_na %&gt;% </span></span>
+<span id="cb22-361"><a href="#cb22-361" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(indfmt == "INDL") %&gt;% ## remove all financial firms </span></span>
+<span id="cb22-362"><a href="#cb22-362" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-363"><a href="#cb22-363" aria-hidden="true" tabindex="-1"></a><span class="in">    ## leverage variables: </span></span>
+<span id="cb22-364"><a href="#cb22-364" aria-hidden="true" tabindex="-1"></a><span class="in">    book_leverage = (dlc + dltt) / at, </span></span>
+<span id="cb22-365"><a href="#cb22-365" aria-hidden="true" tabindex="-1"></a><span class="in">    debt_ebitda = (dlc + dltt) / ebitda, </span></span>
+<span id="cb22-366"><a href="#cb22-366" aria-hidden="true" tabindex="-1"></a><span class="in">    ## treatment intensity: </span></span>
+<span id="cb22-367"><a href="#cb22-367" aria-hidden="true" tabindex="-1"></a><span class="in">    # totalrent = mrc1 + mrc2 + mrc3 + mrc4 + mrc5 + mrct, # total rent w/o discount</span></span>
+<span id="cb22-368"><a href="#cb22-368" aria-hidden="true" tabindex="-1"></a><span class="in">    contract_intensity = (dclo + xrent * 3) / at, # executory contract intensity</span></span>
+<span id="cb22-369"><a href="#cb22-369" aria-hidden="true" tabindex="-1"></a><span class="in">    # contract_intensity = (dclo + totalrent) / at, # executory contract intensity</span></span>
+<span id="cb22-370"><a href="#cb22-370" aria-hidden="true" tabindex="-1"></a><span class="in">    ## other variables: </span></span>
+<span id="cb22-371"><a href="#cb22-371" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.integer(substr(datadate, start = 1, stop = 4)) # data year</span></span>
+<span id="cb22-372"><a href="#cb22-372" aria-hidden="true" tabindex="-1"></a><span class="in">  ) </span></span>
+<span id="cb22-373"><a href="#cb22-373" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-374"><a href="#cb22-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-375"><a href="#cb22-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-376"><a href="#cb22-376" aria-hidden="true" tabindex="-1"></a><span class="fu">### A1.1. try-and-error with calender year `dyear` </span></span>
+<span id="cb22-377"><a href="#cb22-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-378"><a href="#cb22-378" aria-hidden="true" tabindex="-1"></a>In this section, we first try to use the year information <span class="in">`dyear`</span> extracted from variable <span class="in">`datadate`</span> as the periods. </span>
+<span id="cb22-379"><a href="#cb22-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-380"><a href="#cb22-380" aria-hidden="true" tabindex="-1"></a>On top of the base <span class="in">`data`</span>, we add several new variables in dataset <span class="in">`data_did`</span>: </span>
+<span id="cb22-381"><a href="#cb22-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-382"><a href="#cb22-382" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`contract_intensity_2000`</span>: the contract intensity for each firm in year <span class="in">`dyear == 2000`</span>. </span>
+<span id="cb22-383"><a href="#cb22-383" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`post_2005`</span>: an indicator equals to 1 if <span class="in">`dyear &gt; 2005`</span> and 0 otherwise. </span>
+<span id="cb22-384"><a href="#cb22-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-385"><a href="#cb22-385" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a1a-did-data, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-386"><a href="#cb22-386" aria-hidden="true" tabindex="-1"></a><span class="in">data_firm &lt;- data %&gt;% </span></span>
+<span id="cb22-387"><a href="#cb22-387" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear == 2000) %&gt;% # use `dyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb22-388"><a href="#cb22-388" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, contract_intensity_2000 = contract_intensity) %&gt;% </span></span>
+<span id="cb22-389"><a href="#cb22-389" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(gvkey) %&gt;% </span></span>
+<span id="cb22-390"><a href="#cb22-390" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(contract_intensity_2000 = mean(contract_intensity_2000, na.rm = TRUE) ) %&gt;% </span></span>
+<span id="cb22-391"><a href="#cb22-391" aria-hidden="true" tabindex="-1"></a><span class="in">  ungroup() </span></span>
+<span id="cb22-392"><a href="#cb22-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-393"><a href="#cb22-393" aria-hidden="true" tabindex="-1"></a><span class="in">FF_30ind &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"))</span></span>
+<span id="cb22-394"><a href="#cb22-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-395"><a href="#cb22-395" aria-hidden="true" tabindex="-1"></a><span class="in">data_did &lt;- data %&gt;% </span></span>
+<span id="cb22-396"><a href="#cb22-396" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the grouping variable </span></span>
+<span id="cb22-397"><a href="#cb22-397" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = data_firm, by = join_by(gvkey) ) %&gt;% </span></span>
+<span id="cb22-398"><a href="#cb22-398" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the FF 30 industry classifiaction </span></span>
+<span id="cb22-399"><a href="#cb22-399" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = FF_30ind, by = join_by(sic)) %&gt;% </span></span>
+<span id="cb22-400"><a href="#cb22-400" aria-hidden="true" tabindex="-1"></a><span class="in">  ## pre- &amp; post- </span></span>
+<span id="cb22-401"><a href="#cb22-401" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-402"><a href="#cb22-402" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = (dyear - 2005), # year index with 2005 as base 0.</span></span>
+<span id="cb22-403"><a href="#cb22-403" aria-hidden="true" tabindex="-1"></a><span class="in">    post_2005 = ifelse(dyear &gt; 2005, yes = 1, no = 0)  # whether it is after the 2005 reform </span></span>
+<span id="cb22-404"><a href="#cb22-404" aria-hidden="true" tabindex="-1"></a><span class="in">  ) # %&gt;% </span></span>
+<span id="cb22-405"><a href="#cb22-405" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
+<span id="cb22-406"><a href="#cb22-406" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
+<span id="cb22-407"><a href="#cb22-407" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb22-408"><a href="#cb22-408" aria-hidden="true" tabindex="-1"></a><span class="in">  #   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb22-409"><a href="#cb22-409" aria-hidden="true" tabindex="-1"></a><span class="in">  # ) </span></span>
+<span id="cb22-410"><a href="#cb22-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-411"><a href="#cb22-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-412"><a href="#cb22-412" aria-hidden="true" tabindex="-1"></a>DiD Analysis: </span>
+<span id="cb22-413"><a href="#cb22-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-414"><a href="#cb22-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a1a-did-test, echo=TRUE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb22-415"><a href="#cb22-415" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-416"><a href="#cb22-416" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-417"><a href="#cb22-417" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2002 &amp; dyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-418"><a href="#cb22-418" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-419"><a href="#cb22-419" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-420"><a href="#cb22-420" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.factor(dyear), </span></span>
+<span id="cb22-421"><a href="#cb22-421" aria-hidden="true" tabindex="-1"></a><span class="in">    group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-422"><a href="#cb22-422" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-423"><a href="#cb22-423" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-424"><a href="#cb22-424" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ contract_intensity_2000:post_2005 | gvkey + dyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-425"><a href="#cb22-425" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable()</span></span>
+<span id="cb22-426"><a href="#cb22-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-427"><a href="#cb22-427" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-428"><a href="#cb22-428" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-429"><a href="#cb22-429" aria-hidden="true" tabindex="-1"></a><span class="in">  # filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-430"><a href="#cb22-430" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-431"><a href="#cb22-431" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-432"><a href="#cb22-432" aria-hidden="true" tabindex="-1"></a><span class="in">    dyear = as.factor(dyear), </span></span>
+<span id="cb22-433"><a href="#cb22-433" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = relevel(factor(indexyear), ref = "0") </span></span>
+<span id="cb22-434"><a href="#cb22-434" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-435"><a href="#cb22-435" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-436"><a href="#cb22-436" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(dyear, contract_intensity_2000, 2002) | gvkey + dyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-437"><a href="#cb22-437" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::coefplot() </span></span>
+<span id="cb22-438"><a href="#cb22-438" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-439"><a href="#cb22-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-440"><a href="#cb22-440" aria-hidden="true" tabindex="-1"></a><span class="fu">### A1.2. try-and-error with calender year `fyear` </span></span>
+<span id="cb22-441"><a href="#cb22-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-442"><a href="#cb22-442" aria-hidden="true" tabindex="-1"></a>In this section, we first try to use the year information <span class="in">`fyear`</span> extracted from variable <span class="in">`datadate`</span> as the periods. </span>
+<span id="cb22-443"><a href="#cb22-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-444"><a href="#cb22-444" aria-hidden="true" tabindex="-1"></a>On top of the base <span class="in">`data`</span>, we add several new variables in dataset <span class="in">`data_did`</span>: </span>
+<span id="cb22-445"><a href="#cb22-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-446"><a href="#cb22-446" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`contract_intensity_2000`</span>: the contract intensity for each firm in year <span class="in">`fyear == 2000`</span>. </span>
+<span id="cb22-447"><a href="#cb22-447" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`post_2005`</span>: an indicator equals to 1 if <span class="in">`fyear &gt; 2005`</span> and 0 otherwise. </span>
+<span id="cb22-448"><a href="#cb22-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-449"><a href="#cb22-449" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a1b-did-data, echo=TRUE, results='hold'}</span></span>
+<span id="cb22-450"><a href="#cb22-450" aria-hidden="true" tabindex="-1"></a><span class="in">data_firm &lt;- data %&gt;% </span></span>
+<span id="cb22-451"><a href="#cb22-451" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear == 2000) %&gt;% # use `fyear` may create multiple observations for the same firm. E.g. filter(gvkey == 23535, dyear == 2005) </span></span>
+<span id="cb22-452"><a href="#cb22-452" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, contract_intensity_2000 = contract_intensity) </span></span>
+<span id="cb22-453"><a href="#cb22-453" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb22-454"><a href="#cb22-454" aria-hidden="true" tabindex="-1"></a><span class="in">FF_30ind &lt;- as_tibble(read.csv(file = "~/Library/CloudStorage/OneDrive-HandelshögskolaniStockholm/Projects_2024/BeckerJosephsonXu_2025/AFA_meeting_response/Data/ff_30ind.csv"))</span></span>
+<span id="cb22-455"><a href="#cb22-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-456"><a href="#cb22-456" aria-hidden="true" tabindex="-1"></a><span class="in">data_did &lt;- data %&gt;% </span></span>
+<span id="cb22-457"><a href="#cb22-457" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the grouping variable </span></span>
+<span id="cb22-458"><a href="#cb22-458" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = data_firm, by = join_by(gvkey) ) %&gt;% </span></span>
+<span id="cb22-459"><a href="#cb22-459" aria-hidden="true" tabindex="-1"></a><span class="in">  ## merge the FF 30 industry classifiaction </span></span>
+<span id="cb22-460"><a href="#cb22-460" aria-hidden="true" tabindex="-1"></a><span class="in">  left_join(y = FF_30ind, by = join_by(sic)) %&gt;% </span></span>
+<span id="cb22-461"><a href="#cb22-461" aria-hidden="true" tabindex="-1"></a><span class="in">  ## pre- &amp; post- </span></span>
+<span id="cb22-462"><a href="#cb22-462" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-463"><a href="#cb22-463" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = (fyear - 2005), # year index with 2005 as base 0.</span></span>
+<span id="cb22-464"><a href="#cb22-464" aria-hidden="true" tabindex="-1"></a><span class="in">    post_2005 = ifelse(fyear &gt; 2005, yes = 1, no = 0)  # whether it is after the 2005 reform </span></span>
+<span id="cb22-465"><a href="#cb22-465" aria-hidden="true" tabindex="-1"></a><span class="in">  ) # %&gt;% </span></span>
+<span id="cb22-466"><a href="#cb22-466" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
+<span id="cb22-467"><a href="#cb22-467" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
+<span id="cb22-468"><a href="#cb22-468" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
+<span id="cb22-469"><a href="#cb22-469" aria-hidden="true" tabindex="-1"></a><span class="in">  #   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
+<span id="cb22-470"><a href="#cb22-470" aria-hidden="true" tabindex="-1"></a><span class="in">  # ) </span></span>
+<span id="cb22-471"><a href="#cb22-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-472"><a href="#cb22-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-473"><a href="#cb22-473" aria-hidden="true" tabindex="-1"></a>DiD Analysis: </span>
+<span id="cb22-474"><a href="#cb22-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-475"><a href="#cb22-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a1b-did-test, echo=TRUE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb22-476"><a href="#cb22-476" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-477"><a href="#cb22-477" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-478"><a href="#cb22-478" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-479"><a href="#cb22-479" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-480"><a href="#cb22-480" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-481"><a href="#cb22-481" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-482"><a href="#cb22-482" aria-hidden="true" tabindex="-1"></a><span class="in">    group = contract_intensity_2000 &gt; median(contract_intensity_2000, na.rm = TRUE) </span></span>
+<span id="cb22-483"><a href="#cb22-483" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-484"><a href="#cb22-484" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-485"><a href="#cb22-485" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ contract_intensity_2000:post_2005 | gvkey + fyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-486"><a href="#cb22-486" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable()</span></span>
+<span id="cb22-487"><a href="#cb22-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-488"><a href="#cb22-488" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb22-489"><a href="#cb22-489" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, fyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb22-490"><a href="#cb22-490" aria-hidden="true" tabindex="-1"></a><span class="in">  # filter(fyear &gt;= 2002 &amp; fyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb22-491"><a href="#cb22-491" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb22-492"><a href="#cb22-492" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey), </span></span>
+<span id="cb22-493"><a href="#cb22-493" aria-hidden="true" tabindex="-1"></a><span class="in">    fyear = as.factor(fyear), </span></span>
+<span id="cb22-494"><a href="#cb22-494" aria-hidden="true" tabindex="-1"></a><span class="in">    indexyear = relevel(factor(indexyear), ref = "0") </span></span>
+<span id="cb22-495"><a href="#cb22-495" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
+<span id="cb22-496"><a href="#cb22-496" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb22-497"><a href="#cb22-497" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(fyear, contract_intensity_2000, 2002) | gvkey + fyear, data = ., cluster = c("gvkey")) %&gt;% </span></span>
+<span id="cb22-498"><a href="#cb22-498" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::coefplot() </span></span>
+<span id="cb22-499"><a href="#cb22-499" aria-hidden="true" tabindex="-1"></a><span class="in">```</span> </span>
+<span id="cb22-500"><a href="#cb22-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-501"><a href="#cb22-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-502"><a href="#cb22-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-503"><a href="#cb22-503" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
