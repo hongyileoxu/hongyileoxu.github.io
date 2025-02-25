@@ -1028,9 +1028,8 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop values outside the range:</span></span>
 <span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>   <span class="at">book_leverage =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> (book_leverage <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> book_leverage <span class="sc">&lt;=</span> <span class="dv">1</span>), <span class="at">yes =</span> book_leverage, <span class="at">no =</span> <span class="cn">NA</span>),</span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>   <span class="at">debt_ebitda =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> (debt_ebitda <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> debt_ebitda <span class="sc">&lt;=</span> <span class="dv">15</span>), <span class="at">yes =</span> debt_ebitda, <span class="at">no =</span> <span class="cn">NA</span> )</span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>   <span class="at">book_leverage =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> (book_leverage <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> book_leverage <span class="sc">&lt;=</span> <span class="dv">1</span>), <span class="at">yes =</span> book_leverage, <span class="at">no =</span> <span class="cn">NA</span>)</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>First, we look at some summary statistics for the <code>book_leverage</code> variable.</p>
@@ -1052,27 +1051,28 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>              vars     n mean   sd median trimmed  mad min max range skew
-book_leverage    1 39306 0.21 0.22   0.16    0.18 0.23   0   1     1 1.03
+book_leverage    1 52294 0.22 0.23   0.16    0.19 0.24   0   1     1 1.03
               kurtosis se
-book_leverage     0.45  0</code></pre>
+book_leverage     0.37  0</code></pre>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, book_leverage, debt_ebitda) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(book_leverage) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(book_leverage <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> book_leverage <span class="sc">&lt;=</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  .<span class="sc">$</span>book_leverage <span class="sc">%&gt;%</span> </span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(., </span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="co"># density plot</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"#E1DEFC"</span>,  </span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="st">"Density Histogram: raw data from Compustat NA (US only)"</span>, </span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"Book leverage (only show the region [0,3])"</span>,</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Density"</span>, </span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>)</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2002</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(book_leverage) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(book_leverage <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> book_leverage <span class="sc">&lt;=</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  .<span class="sc">$</span>book_leverage <span class="sc">%&gt;%</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(., </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="co"># density plot</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"#E1DEFC"</span>,  </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="st">"Density Histogram: raw data from Compustat NA (US only)"</span>, </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"Book leverage (only show the region [0,3])"</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Density"</span>, </span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>) </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1139,16 +1139,16 @@ book_leverage     0.45  0</code></pre>
 <pre><code>                                                  (1)               (2)
 Dependent Var.:                         book_leverage     book_leverage
                                                                        
-contract_intensity_2000 x post_2005   0.0015 (0.0064)  -0.0027 (0.0074)
-Fixed-Effects:                        ---------------  ----------------
+contract_intensity_2000 x post_2005   0.0031 (0.0020)   0.0028 (0.0019)
+Fixed-Effects:                        ---------------   ---------------
 gvkey                                             Yes               Yes
 dyear                                             Yes               Yes
 ff_30ind_name-dyear                                No               Yes
-___________________________________   _______________  ________________
+___________________________________   _______________   _______________
 S.E.: Clustered                     by: gvkey &amp; ff_3. by: gvkey &amp; ff_3.
-Observations                                   16,865            16,865
-R2                                            0.86849           0.87132
-Within R2                                     1.39e-5           3.74e-5
+Observations                                   21,599            21,599
+R2                                            0.79481           0.79807
+Within R2                                     0.00020           0.00017
 ---
 Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -1156,21 +1156,21 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>model_a2_a <span class="ot">&lt;-</span> data_did <span class="sc">%&gt;%</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2001</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey) </span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(indexyear, contract_intensity_2000, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> indexyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>, <span class="st">"ff_30ind_name"</span>))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(indexyear, contract_intensity_2000, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> indexyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>, <span class="st">"ff_30ind_name"</span>))</span>
 <span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>model_a2_b <span class="ot">&lt;-</span> data_did <span class="sc">%&gt;%</span> </span>
 <span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2001</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey) </span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(indexyear, contract_intensity_2000, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> indexyear <span class="sc">+</span> ff_30ind_name<span class="sc">^</span>indexyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>, <span class="st">"ff_30ind_name"</span>)) <span class="co"># with industry-year FE. </span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> book_leverage <span class="sc">~</span> <span class="fu">i</span>(indexyear, contract_intensity_2000, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">|</span> gvkey <span class="sc">+</span> indexyear <span class="sc">+</span> ff_30ind_name<span class="sc">^</span>indexyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>, <span class="st">"ff_30ind_name"</span>)) <span class="co"># with industry-year FE. </span></span>
 <span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="fu">iplot</span>(<span class="fu">list</span>(model_a2_a, model_a2_b), </span>
 <span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="fu">paste</span>(<span class="st">"Time to treatment (0 is Year "</span>, base_year, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>),</span>
@@ -2477,23 +2477,23 @@ Note&nbsp;5
 <span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="seyxjysvis" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#seyxjysvis table {
+<div id="emcsygcrwo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#emcsygcrwo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#seyxjysvis thead, #seyxjysvis tbody, #seyxjysvis tfoot, #seyxjysvis tr, #seyxjysvis td, #seyxjysvis th {
+#emcsygcrwo thead, #emcsygcrwo tbody, #emcsygcrwo tfoot, #emcsygcrwo tr, #emcsygcrwo td, #emcsygcrwo th {
   border-style: none;
 }
 
-#seyxjysvis p {
+#emcsygcrwo p {
   margin: 0;
   padding: 0;
 }
 
-#seyxjysvis .gt_table {
+#emcsygcrwo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2519,12 +2519,12 @@ Note&nbsp;5
   border-left-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_caption {
+#emcsygcrwo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#seyxjysvis .gt_title {
+#emcsygcrwo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2536,7 +2536,7 @@ Note&nbsp;5
   border-bottom-width: 0;
 }
 
-#seyxjysvis .gt_subtitle {
+#emcsygcrwo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2548,7 +2548,7 @@ Note&nbsp;5
   border-top-width: 0;
 }
 
-#seyxjysvis .gt_heading {
+#emcsygcrwo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2560,13 +2560,13 @@ Note&nbsp;5
   border-right-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_bottom_border {
+#emcsygcrwo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_col_headings {
+#emcsygcrwo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2581,7 +2581,7 @@ Note&nbsp;5
   border-right-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_col_heading {
+#emcsygcrwo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2601,7 +2601,7 @@ Note&nbsp;5
   overflow-x: hidden;
 }
 
-#seyxjysvis .gt_column_spanner_outer {
+#emcsygcrwo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2613,15 +2613,15 @@ Note&nbsp;5
   padding-right: 4px;
 }
 
-#seyxjysvis .gt_column_spanner_outer:first-child {
+#emcsygcrwo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#seyxjysvis .gt_column_spanner_outer:last-child {
+#emcsygcrwo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#seyxjysvis .gt_column_spanner {
+#emcsygcrwo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2633,11 +2633,11 @@ Note&nbsp;5
   width: 100%;
 }
 
-#seyxjysvis .gt_spanner_row {
+#emcsygcrwo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#seyxjysvis .gt_group_heading {
+#emcsygcrwo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2663,7 +2663,7 @@ Note&nbsp;5
   text-align: left;
 }
 
-#seyxjysvis .gt_empty_group_heading {
+#emcsygcrwo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2678,15 +2678,15 @@ Note&nbsp;5
   vertical-align: middle;
 }
 
-#seyxjysvis .gt_from_md > :first-child {
+#emcsygcrwo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#seyxjysvis .gt_from_md > :last-child {
+#emcsygcrwo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#seyxjysvis .gt_row {
+#emcsygcrwo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2705,7 +2705,7 @@ Note&nbsp;5
   overflow-x: hidden;
 }
 
-#seyxjysvis .gt_stub {
+#emcsygcrwo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2718,7 +2718,7 @@ Note&nbsp;5
   padding-right: 5px;
 }
 
-#seyxjysvis .gt_stub_row_group {
+#emcsygcrwo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2732,15 +2732,15 @@ Note&nbsp;5
   vertical-align: top;
 }
 
-#seyxjysvis .gt_row_group_first td {
+#emcsygcrwo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#seyxjysvis .gt_row_group_first th {
+#emcsygcrwo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#seyxjysvis .gt_summary_row {
+#emcsygcrwo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2750,16 +2750,16 @@ Note&nbsp;5
   padding-right: 5px;
 }
 
-#seyxjysvis .gt_first_summary_row {
+#emcsygcrwo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_first_summary_row.thick {
+#emcsygcrwo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#seyxjysvis .gt_last_summary_row {
+#emcsygcrwo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2769,7 +2769,7 @@ Note&nbsp;5
   border-bottom-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_grand_summary_row {
+#emcsygcrwo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2779,7 +2779,7 @@ Note&nbsp;5
   padding-right: 5px;
 }
 
-#seyxjysvis .gt_first_grand_summary_row {
+#emcsygcrwo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2789,7 +2789,7 @@ Note&nbsp;5
   border-top-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_last_grand_summary_row_top {
+#emcsygcrwo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2799,11 +2799,11 @@ Note&nbsp;5
   border-bottom-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_striped {
+#emcsygcrwo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#seyxjysvis .gt_table_body {
+#emcsygcrwo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2812,7 +2812,7 @@ Note&nbsp;5
   border-bottom-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_footnotes {
+#emcsygcrwo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2826,7 +2826,7 @@ Note&nbsp;5
   border-right-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_footnote {
+#emcsygcrwo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2835,7 +2835,7 @@ Note&nbsp;5
   padding-right: 5px;
 }
 
-#seyxjysvis .gt_sourcenotes {
+#emcsygcrwo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2849,7 +2849,7 @@ Note&nbsp;5
   border-right-color: #D3D3D3;
 }
 
-#seyxjysvis .gt_sourcenote {
+#emcsygcrwo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2857,72 +2857,72 @@ Note&nbsp;5
   padding-right: 5px;
 }
 
-#seyxjysvis .gt_left {
+#emcsygcrwo .gt_left {
   text-align: left;
 }
 
-#seyxjysvis .gt_center {
+#emcsygcrwo .gt_center {
   text-align: center;
 }
 
-#seyxjysvis .gt_right {
+#emcsygcrwo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#seyxjysvis .gt_font_normal {
+#emcsygcrwo .gt_font_normal {
   font-weight: normal;
 }
 
-#seyxjysvis .gt_font_bold {
+#emcsygcrwo .gt_font_bold {
   font-weight: bold;
 }
 
-#seyxjysvis .gt_font_italic {
+#emcsygcrwo .gt_font_italic {
   font-style: italic;
 }
 
-#seyxjysvis .gt_super {
+#emcsygcrwo .gt_super {
   font-size: 65%;
 }
 
-#seyxjysvis .gt_footnote_marks {
+#emcsygcrwo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#seyxjysvis .gt_asterisk {
+#emcsygcrwo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#seyxjysvis .gt_indent_1 {
+#emcsygcrwo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#seyxjysvis .gt_indent_2 {
+#emcsygcrwo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#seyxjysvis .gt_indent_3 {
+#emcsygcrwo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#seyxjysvis .gt_indent_4 {
+#emcsygcrwo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#seyxjysvis .gt_indent_5 {
+#emcsygcrwo .gt_indent_5 {
   text-indent: 25px;
 }
 
-#seyxjysvis .katex-display {
+#emcsygcrwo .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#seyxjysvis div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#emcsygcrwo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4162,23 +4162,23 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell column-page-right quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div id="gdtqnkocyh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gdtqnkocyh table {
+<div id="llwnfwlspd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#llwnfwlspd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gdtqnkocyh thead, #gdtqnkocyh tbody, #gdtqnkocyh tfoot, #gdtqnkocyh tr, #gdtqnkocyh td, #gdtqnkocyh th {
+#llwnfwlspd thead, #llwnfwlspd tbody, #llwnfwlspd tfoot, #llwnfwlspd tr, #llwnfwlspd td, #llwnfwlspd th {
   border-style: none;
 }
 
-#gdtqnkocyh p {
+#llwnfwlspd p {
   margin: 0;
   padding: 0;
 }
 
-#gdtqnkocyh .gt_table {
+#llwnfwlspd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4204,12 +4204,12 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_caption {
+#llwnfwlspd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gdtqnkocyh .gt_title {
+#llwnfwlspd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4221,7 +4221,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-width: 0;
 }
 
-#gdtqnkocyh .gt_subtitle {
+#llwnfwlspd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4233,7 +4233,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-width: 0;
 }
 
-#gdtqnkocyh .gt_heading {
+#llwnfwlspd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4245,13 +4245,13 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_bottom_border {
+#llwnfwlspd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_col_headings {
+#llwnfwlspd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4266,7 +4266,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_col_heading {
+#llwnfwlspd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4286,7 +4286,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#gdtqnkocyh .gt_column_spanner_outer {
+#llwnfwlspd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4298,15 +4298,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 4px;
 }
 
-#gdtqnkocyh .gt_column_spanner_outer:first-child {
+#llwnfwlspd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gdtqnkocyh .gt_column_spanner_outer:last-child {
+#llwnfwlspd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gdtqnkocyh .gt_column_spanner {
+#llwnfwlspd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4318,11 +4318,11 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   width: 100%;
 }
 
-#gdtqnkocyh .gt_spanner_row {
+#llwnfwlspd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gdtqnkocyh .gt_group_heading {
+#llwnfwlspd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4348,7 +4348,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   text-align: left;
 }
 
-#gdtqnkocyh .gt_empty_group_heading {
+#llwnfwlspd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4363,15 +4363,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: middle;
 }
 
-#gdtqnkocyh .gt_from_md > :first-child {
+#llwnfwlspd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gdtqnkocyh .gt_from_md > :last-child {
+#llwnfwlspd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gdtqnkocyh .gt_row {
+#llwnfwlspd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4390,7 +4390,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#gdtqnkocyh .gt_stub {
+#llwnfwlspd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4403,7 +4403,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#gdtqnkocyh .gt_stub_row_group {
+#llwnfwlspd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4417,15 +4417,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: top;
 }
 
-#gdtqnkocyh .gt_row_group_first td {
+#llwnfwlspd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gdtqnkocyh .gt_row_group_first th {
+#llwnfwlspd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gdtqnkocyh .gt_summary_row {
+#llwnfwlspd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4435,16 +4435,16 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#gdtqnkocyh .gt_first_summary_row {
+#llwnfwlspd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_first_summary_row.thick {
+#llwnfwlspd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gdtqnkocyh .gt_last_summary_row {
+#llwnfwlspd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4454,7 +4454,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_grand_summary_row {
+#llwnfwlspd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4464,7 +4464,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#gdtqnkocyh .gt_first_grand_summary_row {
+#llwnfwlspd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4474,7 +4474,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_last_grand_summary_row_top {
+#llwnfwlspd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4484,11 +4484,11 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_striped {
+#llwnfwlspd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gdtqnkocyh .gt_table_body {
+#llwnfwlspd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4497,7 +4497,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_footnotes {
+#llwnfwlspd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4511,7 +4511,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_footnote {
+#llwnfwlspd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4520,7 +4520,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#gdtqnkocyh .gt_sourcenotes {
+#llwnfwlspd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4534,7 +4534,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#gdtqnkocyh .gt_sourcenote {
+#llwnfwlspd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4542,72 +4542,72 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#gdtqnkocyh .gt_left {
+#llwnfwlspd .gt_left {
   text-align: left;
 }
 
-#gdtqnkocyh .gt_center {
+#llwnfwlspd .gt_center {
   text-align: center;
 }
 
-#gdtqnkocyh .gt_right {
+#llwnfwlspd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gdtqnkocyh .gt_font_normal {
+#llwnfwlspd .gt_font_normal {
   font-weight: normal;
 }
 
-#gdtqnkocyh .gt_font_bold {
+#llwnfwlspd .gt_font_bold {
   font-weight: bold;
 }
 
-#gdtqnkocyh .gt_font_italic {
+#llwnfwlspd .gt_font_italic {
   font-style: italic;
 }
 
-#gdtqnkocyh .gt_super {
+#llwnfwlspd .gt_super {
   font-size: 65%;
 }
 
-#gdtqnkocyh .gt_footnote_marks {
+#llwnfwlspd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gdtqnkocyh .gt_asterisk {
+#llwnfwlspd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gdtqnkocyh .gt_indent_1 {
+#llwnfwlspd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gdtqnkocyh .gt_indent_2 {
+#llwnfwlspd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gdtqnkocyh .gt_indent_3 {
+#llwnfwlspd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gdtqnkocyh .gt_indent_4 {
+#llwnfwlspd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gdtqnkocyh .gt_indent_5 {
+#llwnfwlspd .gt_indent_5 {
   text-indent: 25px;
 }
 
-#gdtqnkocyh .katex-display {
+#llwnfwlspd .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#gdtqnkocyh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#llwnfwlspd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4803,23 +4803,23 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </table>
 
 </div>
-<div id="oxzcdoplas" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oxzcdoplas table {
+<div id="zbvjlvijvp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zbvjlvijvp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oxzcdoplas thead, #oxzcdoplas tbody, #oxzcdoplas tfoot, #oxzcdoplas tr, #oxzcdoplas td, #oxzcdoplas th {
+#zbvjlvijvp thead, #zbvjlvijvp tbody, #zbvjlvijvp tfoot, #zbvjlvijvp tr, #zbvjlvijvp td, #zbvjlvijvp th {
   border-style: none;
 }
 
-#oxzcdoplas p {
+#zbvjlvijvp p {
   margin: 0;
   padding: 0;
 }
 
-#oxzcdoplas .gt_table {
+#zbvjlvijvp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4845,12 +4845,12 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_caption {
+#zbvjlvijvp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oxzcdoplas .gt_title {
+#zbvjlvijvp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4862,7 +4862,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-width: 0;
 }
 
-#oxzcdoplas .gt_subtitle {
+#zbvjlvijvp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4874,7 +4874,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-width: 0;
 }
 
-#oxzcdoplas .gt_heading {
+#zbvjlvijvp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4886,13 +4886,13 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_bottom_border {
+#zbvjlvijvp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_col_headings {
+#zbvjlvijvp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4907,7 +4907,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_col_heading {
+#zbvjlvijvp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4927,7 +4927,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#oxzcdoplas .gt_column_spanner_outer {
+#zbvjlvijvp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4939,15 +4939,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 4px;
 }
 
-#oxzcdoplas .gt_column_spanner_outer:first-child {
+#zbvjlvijvp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oxzcdoplas .gt_column_spanner_outer:last-child {
+#zbvjlvijvp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oxzcdoplas .gt_column_spanner {
+#zbvjlvijvp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4959,11 +4959,11 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   width: 100%;
 }
 
-#oxzcdoplas .gt_spanner_row {
+#zbvjlvijvp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oxzcdoplas .gt_group_heading {
+#zbvjlvijvp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4989,7 +4989,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   text-align: left;
 }
 
-#oxzcdoplas .gt_empty_group_heading {
+#zbvjlvijvp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5004,15 +5004,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: middle;
 }
 
-#oxzcdoplas .gt_from_md > :first-child {
+#zbvjlvijvp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oxzcdoplas .gt_from_md > :last-child {
+#zbvjlvijvp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oxzcdoplas .gt_row {
+#zbvjlvijvp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5031,7 +5031,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   overflow-x: hidden;
 }
 
-#oxzcdoplas .gt_stub {
+#zbvjlvijvp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5044,7 +5044,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#oxzcdoplas .gt_stub_row_group {
+#zbvjlvijvp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5058,15 +5058,15 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   vertical-align: top;
 }
 
-#oxzcdoplas .gt_row_group_first td {
+#zbvjlvijvp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oxzcdoplas .gt_row_group_first th {
+#zbvjlvijvp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oxzcdoplas .gt_summary_row {
+#zbvjlvijvp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5076,16 +5076,16 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#oxzcdoplas .gt_first_summary_row {
+#zbvjlvijvp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_first_summary_row.thick {
+#zbvjlvijvp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oxzcdoplas .gt_last_summary_row {
+#zbvjlvijvp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5095,7 +5095,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_grand_summary_row {
+#zbvjlvijvp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5105,7 +5105,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#oxzcdoplas .gt_first_grand_summary_row {
+#zbvjlvijvp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5115,7 +5115,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_last_grand_summary_row_top {
+#zbvjlvijvp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5125,11 +5125,11 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_striped {
+#zbvjlvijvp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oxzcdoplas .gt_table_body {
+#zbvjlvijvp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5138,7 +5138,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_footnotes {
+#zbvjlvijvp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5152,7 +5152,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_footnote {
+#zbvjlvijvp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5161,7 +5161,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#oxzcdoplas .gt_sourcenotes {
+#zbvjlvijvp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5175,7 +5175,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oxzcdoplas .gt_sourcenote {
+#zbvjlvijvp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5183,72 +5183,72 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   padding-right: 5px;
 }
 
-#oxzcdoplas .gt_left {
+#zbvjlvijvp .gt_left {
   text-align: left;
 }
 
-#oxzcdoplas .gt_center {
+#zbvjlvijvp .gt_center {
   text-align: center;
 }
 
-#oxzcdoplas .gt_right {
+#zbvjlvijvp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oxzcdoplas .gt_font_normal {
+#zbvjlvijvp .gt_font_normal {
   font-weight: normal;
 }
 
-#oxzcdoplas .gt_font_bold {
+#zbvjlvijvp .gt_font_bold {
   font-weight: bold;
 }
 
-#oxzcdoplas .gt_font_italic {
+#zbvjlvijvp .gt_font_italic {
   font-style: italic;
 }
 
-#oxzcdoplas .gt_super {
+#zbvjlvijvp .gt_super {
   font-size: 65%;
 }
 
-#oxzcdoplas .gt_footnote_marks {
+#zbvjlvijvp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oxzcdoplas .gt_asterisk {
+#zbvjlvijvp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oxzcdoplas .gt_indent_1 {
+#zbvjlvijvp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oxzcdoplas .gt_indent_2 {
+#zbvjlvijvp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oxzcdoplas .gt_indent_3 {
+#zbvjlvijvp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oxzcdoplas .gt_indent_4 {
+#zbvjlvijvp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oxzcdoplas .gt_indent_5 {
+#zbvjlvijvp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oxzcdoplas .katex-display {
+#zbvjlvijvp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oxzcdoplas div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zbvjlvijvp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5678,7 +5678,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb97-23"><a href="#cb97-23" aria-hidden="true" tabindex="-1"></a>data_did_withind3 <span class="sc">%&gt;%</span> </span>
 <span id="cb97-24"><a href="#cb97-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(book_leverage_filter)) <span class="sc">%&gt;%</span> </span>
 <span id="cb97-25"><a href="#cb97-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dyear <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> dyear <span class="sc">&lt;=</span> <span class="dv">2007</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(book_leverage) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(contract_intensity_2000)) <span class="sc">%&gt;%</span> </span>
-<span id="cb97-26"><a href="#cb97-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, conm, tic, </span>
+<span id="cb97-26"><a href="#cb97-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(conm, tic, </span>
 <span id="cb97-27"><a href="#cb97-27" aria-hidden="true" tabindex="-1"></a>         <span class="co"># tic, cik, fic, </span></span>
 <span id="cb97-28"><a href="#cb97-28" aria-hidden="true" tabindex="-1"></a>         dyear, </span>
 <span id="cb97-29"><a href="#cb97-29" aria-hidden="true" tabindex="-1"></a>         <span class="co"># fyear, datadate,</span></span>
@@ -5686,21 +5686,20 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb97-31"><a href="#cb97-31" aria-hidden="true" tabindex="-1"></a>         at, dlc, dltt, ff_30ind_name) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,799 × 10
-   gvkey conm        tic   dyear ci_2000 book_leverage     at   dlc  dltt
-   &lt;int&gt; &lt;chr&gt;       &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1  1084 WORLDS INC  WDDD   2000  0.254           1.06  1.96  0.66   1.42
- 2  1084 WORLDS INC  WDDD   2001  0.254         364.    0.006 2.18   0   
- 3  1084 WORLDS INC  WDDD   2002  0.254         170.    0.013 2.22   0   
- 4  1084 WORLDS INC  WDDD   2003  0.254        1116.    0.002 2.23   0   
- 5  1084 WORLDS INC  WDDD   2004  0.254        1037     0.002 2.07   0   
- 6  1084 WORLDS INC  WDDD   2005  0.254         613.    0.003 1.84   0   
- 7  1084 WORLDS INC  WDDD   2006  0.254         920.    0.002 1.84   0   
- 8  1084 WORLDS INC  WDDD   2007  0.254           2.24  0.346 0.774  0   
- 9  1165 B-FAST CORP BFTC   2000  0.0149          1.38 11.6   0.376 15.7 
-10  1165 B-FAST CORP BFTC   2001  0.0149          1.53 11.3   0.935 16.4 
-# ℹ 1,789 more rows
-# ℹ 1 more variable: ff_30ind_name &lt;chr&gt;</code></pre>
+<pre><code># A tibble: 1,799 × 9
+   conm       tic   dyear ci_2000 book_leverage     at   dlc  dltt ff_30ind_name
+   &lt;chr&gt;      &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        
+ 1 WORLDS INC WDDD   2000  0.254           1.06  1.96  0.66   1.42 Servs        
+ 2 WORLDS INC WDDD   2001  0.254         364.    0.006 2.18   0    Servs        
+ 3 WORLDS INC WDDD   2002  0.254         170.    0.013 2.22   0    Servs        
+ 4 WORLDS INC WDDD   2003  0.254        1116.    0.002 2.23   0    Servs        
+ 5 WORLDS INC WDDD   2004  0.254        1037     0.002 2.07   0    Servs        
+ 6 WORLDS INC WDDD   2005  0.254         613.    0.003 1.84   0    Servs        
+ 7 WORLDS INC WDDD   2006  0.254         920.    0.002 1.84   0    Servs        
+ 8 WORLDS INC WDDD   2007  0.254           2.24  0.346 0.774  0    Servs        
+ 9 B-FAST CO… BFTC   2000  0.0149          1.38 11.6   0.376 15.7  Other        
+10 B-FAST CO… BFTC   2001  0.0149          1.53 11.3   0.935 16.4  Other        
+# ℹ 1,789 more rows</code></pre>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -5822,7 +5821,7 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="do">## did analysis: </span></span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>data_did_withind3 <span class="sc">%&gt;%</span> </span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>data_did_withind <span class="sc">%&gt;%</span> </span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind, ff_30ind_name) <span class="sc">%&gt;%</span> </span>
 <span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">book_leverage =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> (book_leverage <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> book_leverage <span class="sc">&lt;=</span> <span class="dv">1</span>), <span class="at">yes =</span> book_leverage, <span class="at">no =</span> <span class="cn">NA</span>),</span>
@@ -5837,29 +5836,29 @@ Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb108-14"><a href="#cb108-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_post =</span> <span class="fu">sum</span>(post_2005, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># number of obs after 2005</span></span>
 <span id="cb108-15"><a href="#cb108-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb108-16"><a href="#cb108-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb108-17"><a href="#cb108-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_obs <span class="sc">&gt;=</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-17"><a href="#cb108-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(n_obs == 6) %&gt;% </span></span>
 <span id="cb108-18"><a href="#cb108-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">## re-clean  </span></span>
 <span id="cb108-19"><a href="#cb108-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb108-20"><a href="#cb108-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">gvkey =</span> <span class="fu">as.factor</span>(gvkey) </span>
 <span id="cb108-21"><a href="#cb108-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb108-22"><a href="#cb108-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb108-23"><a href="#cb108-23" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">feols</span>(<span class="at">fml =</span> debt_ebitda <span class="sc">~</span> contract_intensity_2000<span class="sc">:</span>post_2005 <span class="sc">|</span> gvkey <span class="sc">+</span> dyear <span class="sc">+</span> ff_30ind<span class="sc">^</span>dyear, <span class="at">data =</span> ., <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"gvkey"</span>, <span class="st">"ff_30ind_name"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb108-24"><a href="#cb108-24" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb108-24"><a href="#cb108-24" aria-hidden="true" tabindex="-1"></a>  fixest<span class="sc">::</span><span class="fu">etable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                    .
 Dependent Var.:                           debt_ebitda
                                                      
-contract_intensity_2000 x post_2005   0.0606 (0.1352)
+contract_intensity_2000 x post_2005   0.0086 (0.0794)
 Fixed-Effects:                        ---------------
 gvkey                                             Yes
 dyear                                             Yes
 ff_30ind-dyear                                    Yes
 ___________________________________   _______________
 S.E.: Clustered                     by: gvkey &amp; ff_3.
-Observations                                    9,817
-R2                                            0.72005
-Within R2                                     6.07e-5
+Observations                                   16,865
+R2                                            0.74609
+Within R2                                      1.3e-6
 ---
 Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -7163,34 +7162,34 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-817"><a href="#cb110-817" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
 <span id="cb110-818"><a href="#cb110-818" aria-hidden="true" tabindex="-1"></a><span class="in">  # drop values outside the range:</span></span>
 <span id="cb110-819"><a href="#cb110-819" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
-<span id="cb110-820"><a href="#cb110-820" aria-hidden="true" tabindex="-1"></a><span class="in">   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
-<span id="cb110-821"><a href="#cb110-821" aria-hidden="true" tabindex="-1"></a><span class="in">   debt_ebitda = ifelse(test = (debt_ebitda &gt;= 0 &amp; debt_ebitda &lt;= 15), yes = debt_ebitda, no = NA )</span></span>
-<span id="cb110-822"><a href="#cb110-822" aria-hidden="true" tabindex="-1"></a><span class="in">  ) </span></span>
-<span id="cb110-823"><a href="#cb110-823" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb110-824"><a href="#cb110-824" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-825"><a href="#cb110-825" aria-hidden="true" tabindex="-1"></a>First, we look at some summary statistics for the <span class="in">`book_leverage`</span> variable. </span>
-<span id="cb110-826"><a href="#cb110-826" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-827"><a href="#cb110-827" aria-hidden="true" tabindex="-1"></a>Summary statistics for the <span class="in">`book_leverage`</span> variable: </span>
-<span id="cb110-828"><a href="#cb110-828" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-829"><a href="#cb110-829" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a2-did-summary-stat, echo=TRUE}</span></span>
-<span id="cb110-830"><a href="#cb110-830" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
-<span id="cb110-831"><a href="#cb110-831" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
-<span id="cb110-832"><a href="#cb110-832" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
-<span id="cb110-833"><a href="#cb110-833" aria-hidden="true" tabindex="-1"></a><span class="in">  select(book_leverage) %&gt;% </span></span>
-<span id="cb110-834"><a href="#cb110-834" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
-<span id="cb110-835"><a href="#cb110-835" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_1 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 1, yes = book_leverage, no = NA), </span></span>
-<span id="cb110-836"><a href="#cb110-836" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_3 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 3, yes = book_leverage, no = NA), </span></span>
-<span id="cb110-837"><a href="#cb110-837" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_5 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 5, yes = book_leverage, no = NA) </span></span>
-<span id="cb110-838"><a href="#cb110-838" aria-hidden="true" tabindex="-1"></a><span class="in">  # ) %&gt;% </span></span>
-<span id="cb110-839"><a href="#cb110-839" aria-hidden="true" tabindex="-1"></a><span class="in">  data.frame() %&gt;% </span></span>
-<span id="cb110-840"><a href="#cb110-840" aria-hidden="true" tabindex="-1"></a><span class="in">  psych::describe(.) </span></span>
-<span id="cb110-841"><a href="#cb110-841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-842"><a href="#cb110-842" aria-hidden="true" tabindex="-1"></a><span class="in">data %&gt;% </span></span>
-<span id="cb110-843"><a href="#cb110-843" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, book_leverage, debt_ebitda) %&gt;% </span></span>
+<span id="cb110-820"><a href="#cb110-820" aria-hidden="true" tabindex="-1"></a><span class="in">   book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA)</span></span>
+<span id="cb110-821"><a href="#cb110-821" aria-hidden="true" tabindex="-1"></a><span class="in">  ) </span></span>
+<span id="cb110-822"><a href="#cb110-822" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb110-823"><a href="#cb110-823" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-824"><a href="#cb110-824" aria-hidden="true" tabindex="-1"></a>First, we look at some summary statistics for the <span class="in">`book_leverage`</span> variable. </span>
+<span id="cb110-825"><a href="#cb110-825" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-826"><a href="#cb110-826" aria-hidden="true" tabindex="-1"></a>Summary statistics for the <span class="in">`book_leverage`</span> variable: </span>
+<span id="cb110-827"><a href="#cb110-827" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-828"><a href="#cb110-828" aria-hidden="true" tabindex="-1"></a><span class="in">```{r a2-did-summary-stat, echo=TRUE}</span></span>
+<span id="cb110-829"><a href="#cb110-829" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
+<span id="cb110-830"><a href="#cb110-830" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
+<span id="cb110-831"><a href="#cb110-831" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
+<span id="cb110-832"><a href="#cb110-832" aria-hidden="true" tabindex="-1"></a><span class="in">  select(book_leverage) %&gt;% </span></span>
+<span id="cb110-833"><a href="#cb110-833" aria-hidden="true" tabindex="-1"></a><span class="in">  # mutate(</span></span>
+<span id="cb110-834"><a href="#cb110-834" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_1 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 1, yes = book_leverage, no = NA), </span></span>
+<span id="cb110-835"><a href="#cb110-835" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_3 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 3, yes = book_leverage, no = NA), </span></span>
+<span id="cb110-836"><a href="#cb110-836" aria-hidden="true" tabindex="-1"></a><span class="in">  #   book_leverage_5 = ifelse(book_leverage &gt;= 0 &amp; book_leverage &lt;= 5, yes = book_leverage, no = NA) </span></span>
+<span id="cb110-837"><a href="#cb110-837" aria-hidden="true" tabindex="-1"></a><span class="in">  # ) %&gt;% </span></span>
+<span id="cb110-838"><a href="#cb110-838" aria-hidden="true" tabindex="-1"></a><span class="in">  data.frame() %&gt;% </span></span>
+<span id="cb110-839"><a href="#cb110-839" aria-hidden="true" tabindex="-1"></a><span class="in">  psych::describe(.) </span></span>
+<span id="cb110-840"><a href="#cb110-840" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-841"><a href="#cb110-841" aria-hidden="true" tabindex="-1"></a><span class="in">data %&gt;% </span></span>
+<span id="cb110-842"><a href="#cb110-842" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, book_leverage, debt_ebitda) %&gt;% </span></span>
+<span id="cb110-843"><a href="#cb110-843" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2002 &amp; dyear &lt;= 2007) %&gt;% </span></span>
 <span id="cb110-844"><a href="#cb110-844" aria-hidden="true" tabindex="-1"></a><span class="in">  # select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
 <span id="cb110-845"><a href="#cb110-845" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
 <span id="cb110-846"><a href="#cb110-846" aria-hidden="true" tabindex="-1"></a><span class="in">  select(book_leverage) %&gt;% </span></span>
-<span id="cb110-847"><a href="#cb110-847" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(book_leverage &gt;= 0 &amp; book_leverage &lt;= 3) %&gt;% </span></span>
+<span id="cb110-847"><a href="#cb110-847" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(book_leverage &gt;= 0 &amp; book_leverage &lt;= 3) %&gt;%</span></span>
 <span id="cb110-848"><a href="#cb110-848" aria-hidden="true" tabindex="-1"></a><span class="in">  .$book_leverage %&gt;% </span></span>
 <span id="cb110-849"><a href="#cb110-849" aria-hidden="true" tabindex="-1"></a><span class="in">  hist(., </span></span>
 <span id="cb110-850"><a href="#cb110-850" aria-hidden="true" tabindex="-1"></a><span class="in">       prob = TRUE, # density plot</span></span>
@@ -7198,7 +7197,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-852"><a href="#cb110-852" aria-hidden="true" tabindex="-1"></a><span class="in">       main = "Density Histogram: raw data from Compustat NA (US only)", </span></span>
 <span id="cb110-853"><a href="#cb110-853" aria-hidden="true" tabindex="-1"></a><span class="in">       xlab = "Book leverage (only show the region [0,3])",</span></span>
 <span id="cb110-854"><a href="#cb110-854" aria-hidden="true" tabindex="-1"></a><span class="in">       ylab = "Density", </span></span>
-<span id="cb110-855"><a href="#cb110-855" aria-hidden="true" tabindex="-1"></a><span class="in">       breaks = 50, xlim = c(0, 3)</span></span>
+<span id="cb110-855"><a href="#cb110-855" aria-hidden="true" tabindex="-1"></a><span class="in">       breaks = 50, xlim = c(0, 3) </span></span>
 <span id="cb110-856"><a href="#cb110-856" aria-hidden="true" tabindex="-1"></a><span class="in">       )</span></span>
 <span id="cb110-857"><a href="#cb110-857" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-858"><a href="#cb110-858" aria-hidden="true" tabindex="-1"></a><span class="in">data_did %&gt;% </span></span>
@@ -7236,21 +7235,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-890"><a href="#cb110-890" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-891"><a href="#cb110-891" aria-hidden="true" tabindex="-1"></a><span class="in">model_a2_a &lt;- data_did %&gt;% </span></span>
 <span id="cb110-892"><a href="#cb110-892" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
-<span id="cb110-893"><a href="#cb110-893" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2000 &amp; dyear &lt;= 2007) %&gt;%</span></span>
+<span id="cb110-893"><a href="#cb110-893" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2001 &amp; dyear &lt;= 2007) %&gt;%</span></span>
 <span id="cb110-894"><a href="#cb110-894" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
 <span id="cb110-895"><a href="#cb110-895" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey) </span></span>
 <span id="cb110-896"><a href="#cb110-896" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
 <span id="cb110-897"><a href="#cb110-897" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
-<span id="cb110-898"><a href="#cb110-898" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(indexyear, contract_intensity_2000, -1) | gvkey + indexyear, data = ., cluster = c("gvkey", "ff_30ind_name"))</span></span>
+<span id="cb110-898"><a href="#cb110-898" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(indexyear, contract_intensity_2000, -4) | gvkey + indexyear, data = ., cluster = c("gvkey", "ff_30ind_name"))</span></span>
 <span id="cb110-899"><a href="#cb110-899" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-900"><a href="#cb110-900" aria-hidden="true" tabindex="-1"></a><span class="in">model_a2_b &lt;- data_did %&gt;% </span></span>
 <span id="cb110-901"><a href="#cb110-901" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, indexyear, book_leverage, debt_ebitda, sic, ff_30ind_name) %&gt;% </span></span>
-<span id="cb110-902"><a href="#cb110-902" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2000 &amp; dyear &lt;= 2007) %&gt;% </span></span>
+<span id="cb110-902"><a href="#cb110-902" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2001 &amp; dyear &lt;= 2007) %&gt;% </span></span>
 <span id="cb110-903"><a href="#cb110-903" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
 <span id="cb110-904"><a href="#cb110-904" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey) </span></span>
 <span id="cb110-905"><a href="#cb110-905" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
 <span id="cb110-906"><a href="#cb110-906" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
-<span id="cb110-907"><a href="#cb110-907" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(indexyear, contract_intensity_2000, -1) | gvkey + indexyear + ff_30ind_name^indexyear, data = ., cluster = c("gvkey", "ff_30ind_name")) # with industry-year FE. </span></span>
+<span id="cb110-907"><a href="#cb110-907" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = book_leverage ~ i(indexyear, contract_intensity_2000, -4) | gvkey + indexyear + ff_30ind_name^indexyear, data = ., cluster = c("gvkey", "ff_30ind_name")) # with industry-year FE. </span></span>
 <span id="cb110-908"><a href="#cb110-908" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-909"><a href="#cb110-909" aria-hidden="true" tabindex="-1"></a><span class="in">iplot(list(model_a2_a, model_a2_b), </span></span>
 <span id="cb110-910"><a href="#cb110-910" aria-hidden="true" tabindex="-1"></a><span class="in">        xlab = paste("Time to treatment (0 is Year ", base_year, ")", sep = ""),</span></span>
@@ -8719,7 +8718,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-2373"><a href="#cb110-2373" aria-hidden="true" tabindex="-1"></a><span class="in">data_did_withind3 %&gt;% </span></span>
 <span id="cb110-2374"><a href="#cb110-2374" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(is.na(book_leverage_filter)) %&gt;% </span></span>
 <span id="cb110-2375"><a href="#cb110-2375" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(dyear &gt;= 2000 &amp; dyear &lt;= 2007 &amp; !is.na(book_leverage) &amp; !is.na(contract_intensity_2000)) %&gt;% </span></span>
-<span id="cb110-2376"><a href="#cb110-2376" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, conm, tic, </span></span>
+<span id="cb110-2376"><a href="#cb110-2376" aria-hidden="true" tabindex="-1"></a><span class="in">  select(conm, tic, </span></span>
 <span id="cb110-2377"><a href="#cb110-2377" aria-hidden="true" tabindex="-1"></a><span class="in">         # tic, cik, fic, </span></span>
 <span id="cb110-2378"><a href="#cb110-2378" aria-hidden="true" tabindex="-1"></a><span class="in">         dyear, </span></span>
 <span id="cb110-2379"><a href="#cb110-2379" aria-hidden="true" tabindex="-1"></a><span class="in">         # fyear, datadate,</span></span>
@@ -8798,7 +8797,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-2452"><a href="#cb110-2452" aria-hidden="true" tabindex="-1"></a><span class="in">cat("More tests: use `debt_ebitda` ratio as the dependent variable ")</span></span>
 <span id="cb110-2453"><a href="#cb110-2453" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-2454"><a href="#cb110-2454" aria-hidden="true" tabindex="-1"></a><span class="in">## did analysis: </span></span>
-<span id="cb110-2455"><a href="#cb110-2455" aria-hidden="true" tabindex="-1"></a><span class="in">data_did_withind3 %&gt;% </span></span>
+<span id="cb110-2455"><a href="#cb110-2455" aria-hidden="true" tabindex="-1"></a><span class="in">data_did_withind %&gt;% </span></span>
 <span id="cb110-2456"><a href="#cb110-2456" aria-hidden="true" tabindex="-1"></a><span class="in">  select(gvkey, dyear, contract_intensity_2000, post_2005, book_leverage, debt_ebitda, sic, ff_30ind, ff_30ind_name) %&gt;% </span></span>
 <span id="cb110-2457"><a href="#cb110-2457" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
 <span id="cb110-2458"><a href="#cb110-2458" aria-hidden="true" tabindex="-1"></a><span class="in">    book_leverage = ifelse(test = (book_leverage &gt;= 0 &amp; book_leverage &lt;= 1), yes = book_leverage, no = NA),</span></span>
@@ -8813,22 +8812,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb110-2467"><a href="#cb110-2467" aria-hidden="true" tabindex="-1"></a><span class="in">    n_post = sum(post_2005, na.rm = TRUE) # number of obs after 2005</span></span>
 <span id="cb110-2468"><a href="#cb110-2468" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;%</span></span>
 <span id="cb110-2469"><a href="#cb110-2469" aria-hidden="true" tabindex="-1"></a><span class="in">  ungroup() %&gt;%</span></span>
-<span id="cb110-2470"><a href="#cb110-2470" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(n_obs &gt;= 6) %&gt;% </span></span>
+<span id="cb110-2470"><a href="#cb110-2470" aria-hidden="true" tabindex="-1"></a><span class="in">  # filter(n_obs == 6) %&gt;% </span></span>
 <span id="cb110-2471"><a href="#cb110-2471" aria-hidden="true" tabindex="-1"></a><span class="in">  ## re-clean  </span></span>
 <span id="cb110-2472"><a href="#cb110-2472" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
 <span id="cb110-2473"><a href="#cb110-2473" aria-hidden="true" tabindex="-1"></a><span class="in">    gvkey = as.factor(gvkey) </span></span>
 <span id="cb110-2474"><a href="#cb110-2474" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;% </span></span>
 <span id="cb110-2475"><a href="#cb110-2475" aria-hidden="true" tabindex="-1"></a><span class="in">  na.omit() %&gt;% </span></span>
 <span id="cb110-2476"><a href="#cb110-2476" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::feols(fml = debt_ebitda ~ contract_intensity_2000:post_2005 | gvkey + dyear + ff_30ind^dyear, data = ., cluster = c("gvkey", "ff_30ind_name")) %&gt;% </span></span>
-<span id="cb110-2477"><a href="#cb110-2477" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable()</span></span>
-<span id="cb110-2478"><a href="#cb110-2478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-2477"><a href="#cb110-2477" aria-hidden="true" tabindex="-1"></a><span class="in">  fixest::etable() </span></span>
+<span id="cb110-2478"><a href="#cb110-2478" aria-hidden="true" tabindex="-1"></a><span class="in">```</span> </span>
 <span id="cb110-2479"><a href="#cb110-2479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-2480"><a href="#cb110-2480" aria-hidden="true" tabindex="-1"></a><span class="in">```</span> </span>
+<span id="cb110-2480"><a href="#cb110-2480" aria-hidden="true" tabindex="-1"></a>There seems to be a shift. </span>
 <span id="cb110-2481"><a href="#cb110-2481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-2482"><a href="#cb110-2482" aria-hidden="true" tabindex="-1"></a>There seems to be a shift. </span>
-<span id="cb110-2483"><a href="#cb110-2483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-2484"><a href="#cb110-2484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-2485"><a href="#cb110-2485" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb110-2482"><a href="#cb110-2482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-2483"><a href="#cb110-2483" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
