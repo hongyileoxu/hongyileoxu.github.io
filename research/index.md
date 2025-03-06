@@ -10,4 +10,5 @@ title: Research
 
 ## Working Papers: 
 
--  "Under the Spotlight: How External Informed Traders Impact Share Repurchases", Novemeber 2023. 
+-  "Rational Inattention and Share Repurchases", November 2024. (paper was previously circulated under the title "Under the Spotlight: How External Informed Traders Impact Share Repurchases") 
+
