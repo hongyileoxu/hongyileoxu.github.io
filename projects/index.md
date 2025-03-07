@@ -53,8 +53,8 @@ Projects in Progress:
     -  [Step 4: Compustat Data](https://hongyileoxu.github.io/research/project-2024/DealScan2024/DealScan_Loan_Compustat.html)
 
 -    [New](https://hongyileoxu.github.io/research/Purchase_contract_10Ks/project.html) > Extract Purchase Obligations from 10-K Filings.
-    -  [New Test 2005](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005.html)
-	- [2005 Test for PPE](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/research/AFA_test_2005 - PPE.html)
+	-    [New Test 2005](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005.html)
+     	-    [2005 Test for PPE](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/research/AFA_test_2005 - PPE.html)
 
 -    [MAR project with Mengyu Yang](http://hongyileoxu.github.io/research/MAR/OnBoard_analysis_hongyi.html)
 
