@@ -245,7 +245,9 @@ data <- compustat_na %>%
     dyear = as.integer(substr(datadate, start = 1, stop = 4)), # data year 
     roa = ni / at, # return on asset (ROA) 
     tangibility = ppent / at, # tangibility  
-    altman_Z = (3.3 * revt + 1.4 * re + 1.2 * wcap) / at, # Altman Z-score
+    altman_Z = 
+      # (3.3 * revt + 1.4 * re + 1.2 * wcap) / at, # Altman Z-score
+      (3.3 * ebit + 1.4 * re + 1.2 * wcap + 0.6 * prcc_f * csho + 0.999 * revt), # Altman Z-score
     kz = -1.001909 * ((ib + dp)/ppent_lag1) + 0.2826389 * ((at + prcc_f*csho - ceq - txdb)/at) + 3.139193 * ((dltt + dlc)/(dltt + dlc + seq)) - 39.3678 * ((dvc + dvp)/ppent_lag1) - 1.314759 * (che/ppent_lag1), # KZ index 
     # hw = , # financial contraints (HW) 
     current_ratio = act / lct, # current ratio: current asset / current liabilites 
@@ -553,8 +555,11 @@ data_firm <- data %>%
   group_by(fyear) %>%
   mutate(median_at = median(at, na.rm = TRUE)) %>%
   ungroup() %>%
-  mutate(large = ifelse(at > median_at, 1, 0)) %>%
-  select(gvkey, intensity_2000 = all_of(intensity_measure_name), large)
+  mutate(
+    large = ifelse(at > median_at, 1, 0), 
+    exposed = ifelse(contract_intensity > 0, yes = "With_Contract", no = "Without_Contract")
+    ) %>%
+  select(gvkey, intensity_2000 = all_of(intensity_measure_name), large, exposed)
 
 data_did <- data %>%
   ## merge the grouping variable
@@ -625,11 +630,12 @@ fml_parameters <- expand_grid(
 
 ## construct the data used for the loop:
 data_did_loop <- data_did %>%
-  filter(book_leverage >= 0 & book_leverage <= 1) %>%
+  filter(book_leverage >= 0 & book_leverage <= 1) %>% 
+  # filter(building_intensity >= 0 & building_intensity <= 1) %>% 
   # filter(gvkey %in% data_did_balanced_id) %>%
   # filter(intensity_2000 > 0) %>%
   select(gvkey, fyear, indexyear, intensity_2000, post_2005,
-         book_leverage, debt_ebitda, sic, ff_30ind_name,
+         book_leverage, debt_ebitda, sic, ff_30ind_name, exposed, 
          at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity,
          altman_Z, kz, market_book, tangibility, current_ratio) %>%
   filter(fyear >= period_start & fyear <= period_end) %>%
@@ -649,11 +655,12 @@ data_did_loop <- data_did %>%
   )
 
 data_did_loop_balanced <- data_did %>%
-  filter(book_leverage >= 0 & book_leverage <= 1) %>%
+  filter(book_leverage >= 0 & book_leverage <= 1) %>% 
+  # filter(building_intensity >= 0 & building_intensity <= 1) %>% 
   filter(gvkey %in% data_did_balanced_id) %>%
   # filter(intensity_2000 > 0) %>%
   select(gvkey, fyear, indexyear, intensity_2000, post_2005,
-         book_leverage, debt_ebitda, sic, ff_30ind_name,
+         book_leverage, debt_ebitda, sic, ff_30ind_name, exposed, 
          at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity,
          altman_Z, kz, market_book, tangibility, current_ratio) %>%
   filter(fyear >= period_start & fyear <= period_end) %>%
@@ -700,6 +707,8 @@ fml_results %>%
   etable(
     order = "post",
     # keep = "post",
+    se.below = TRUE, 
+    # fontsize = "scriptsize", 
     extralines = list(
       ## Controls:
       "^_Controls" = ifelse(unlist(fml_parameters[,3]), yes = "Yes", no = "No"),
@@ -763,9 +772,9 @@ data_did_loop <- data_did %>%
   filter(book_leverage >= 0 & book_leverage <= 1) %>%
   # filter(gvkey %in% data_did_balanced_id) %>%
   # filter(intensity_2000 > 0) %>%
-  select(gvkey, fyear, indexyear, intensity_2000, post_2005,
-         book_leverage, debt_ebitda, sic, ff_30ind_name,
-         at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity,
+  select(gvkey, fyear, indexyear, intensity_2000, post_2005, exposed, 
+         book_leverage, debt_ebitda, sic, ff_30ind_name, building_intensity, 
+         at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity, contract_intensity, 
          altman_Z, kz, market_book, tangibility, current_ratio) %>%
   filter(fyear >= period_start - n_pre & fyear <= period_end) %>%
   filter(!is.na(intensity_2000) & !is.na(at)) %>%
@@ -781,15 +790,19 @@ data_did_loop <- data_did %>%
     bnl = bnl_intensity * at,
     # large = ifelse(large, yes = 1, no = 0),
     treated_large = paste(treated, large, sep = "_")
-  )
+  ) %>% 
+  group_by(gvkey) %>%
+  arrange(fyear) %>%
+  mutate(d_building_intensity = building_intensity - lag(building_intensity, n = 1)) %>% 
+  ungroup() 
 
 data_did_loop_balanced <- data_did %>%
   filter(book_leverage >= 0 & book_leverage <= 1) %>%
   filter(gvkey %in% data_did_balanced_id) %>%
   # filter(intensity_2000 > 0) %>%
-  select(gvkey, fyear, indexyear, intensity_2000, post_2005,
-         book_leverage, debt_ebitda, sic, ff_30ind_name,
-         at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity,
+  select(gvkey, fyear, indexyear, intensity_2000, post_2005, exposed, 
+         book_leverage, debt_ebitda, sic, ff_30ind_name, building_intensity, 
+         at, ebitda, large, roa, ppent, bnl_intensity, ppe_lease_intensity, contract_intensity, 
          altman_Z, kz, market_book, tangibility, current_ratio) %>%
   filter(fyear >= period_start - n_pre & fyear <= period_end) %>%
   filter(!is.na(intensity_2000) & !is.na(at)) %>%
@@ -805,7 +818,11 @@ data_did_loop_balanced <- data_did %>%
     bnl = bnl_intensity * at,
     # large = ifelse(large, yes = 1, no = 0),
     treated_large = paste(treated, large, sep = "_")
-  )
+  ) %>% 
+  group_by(gvkey) %>%
+  arrange(fyear) %>%
+  mutate(d_building_intensity = building_intensity - lag(building_intensity, n = 1)) %>% 
+  ungroup()
 
 ## store all results
 fml_results <- fml_parameters %>%
@@ -835,6 +852,7 @@ fml_results %>%
   etable(
     order = "indexyear",
     # keep = "post",
+    se.below = TRUE, 
     extralines = list(
       ## Controls:
       "^_Controls" = ifelse(unlist(fml_parameters[,3]), yes = "Yes", no = "No"),
@@ -858,8 +876,20 @@ fml_results[which(unlist(fml_parameters$balanced_panel))] %>% # choose the balan
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
+
+#### intensity only: 
+fml_results[which(unlist(fml_parameters$balanced_panel))][1:2] %>% # choose the balanced panel
+  iplot(.,
+        xlab = paste("Time to treatment (Year; 0 = ", base_year, ")", sep = ""),
+        main = paste("Treatment Effects by fiscal year: `", intensity_measure_name, "`", sep = ""),
+        sub = "Data: Balanced Panel",
+        ref.line = FALSE,
+        ref.line.par = list(col = "red", lty = 2),
+        pt.join = FALSE,
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls')[1:2]);
 
 fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sample
   iplot(.,
@@ -869,13 +899,101 @@ fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sam
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
 ```
 
 We plot the yearly treatment effect estimates with different model specifications using both the balanced panel and the full sample. As the full sample will contain some firms with extremely high leverage and high `building intensity` before 2004, we believe that it is more reasonable to use a balanced sample for the analysis.
 
 We conclude that the pre-trend assumption is not violated and we can see a significant negative treatment effect around 2005 (end of fiscal year 2004) and after 2005.
+
+#### w/ and w/o Executory Contracts:
+
+```{r testing, echo=TRUE, include=TRUE, results='hold', message=FALSE, warning=FALSE}
+did_model_subsample <- data_did_loop_balanced %>% 
+  fixest::feols(fml = book_leverage ~ i(fyear, intensity_2000, ref = base_year - 1) +
+                  roa + ebitda_at + log(at_thousand) +
+                  altman_Z + tangibility + current_ratio |
+                  gvkey + fyear + ff_30ind_name^fyear,
+                data = .,
+                cluster = c("gvkey", "ff_30ind_name"),
+                split = ~ exposed # large
+                )
+
+did_model_subsample %>% etable(se.below = TRUE) 
+
+did_model_subsample %>% 
+  iplot(.,
+        xlab = paste("Time to treatment (Year ", base_year, ")", sep = ""),
+        main = paste("Treatment Effects by fiscal year: `", intensity_measure_name, "`", sep = ""),
+        sub = "Data: Balanced Panel",
+        ref.line = FALSE,
+        ref.line.par = list(col = "red", lty = 2),
+        pt.join = FALSE
+        # xlim = c(period_start - n_pre - 0.5, period_end + 0.5)
+        ); 
+# axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5));
+abline(v = base_year - (period_start - n_pre) + 1.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2), pch = c(20, 17), legend = c('With Executory Contracts', 'Without Executory Contracts'));
+
+# Calculate the Wald statistics
+model_large <- did_model_subsample[[1]]
+model_small <- did_model_subsample[[2]]
+## get the name of the coefficient of interests
+coef_names <- names(model_large$coefficients) %>%
+  .[str_detect(string = ., pattern = "::")]
+coef_large <- coef(model_large)[coef_names]
+coef_small <- coef(model_small)[coef_names]
+# Difference in treatment effects
+diff_coef <- coef_large - coef_small
+# Variance of the difference
+var_diff <- vcov(model_large)[coef_names, coef_names] + vcov(model_small)[coef_names, coef_names]
+# Wald statistic for each treatment effect estimate
+wald_stat <- (diff_coef)^2 / diag(var_diff)
+wald_stat_vector <- c(t(diff_coef) %*% solve(var_diff) %*% (diff_coef))
+# Degrees of freedom
+df <- 1
+df_vector <- length(diff_coef)
+# P-value
+p_value <- 1 - pchisq(wald_stat, df)
+p_value_vector <- 1 - pchisq(wald_stat_vector, df_vector)
+
+convert_p_to_stars <- function(p_values) {
+  # Initialize a character vector to store the significance stars
+  stars <- character(length(p_values))
+  # Assign stars based on p-value thresholds
+  stars[p_values < 0.001] <- "***"
+  stars[p_values >= 0.001 & p_values < 0.01] <- "**"
+  stars[p_values >= 0.01 & p_values < 0.05] <- "*"
+  stars[p_values >= 0.05 & p_values < 0.1] <- "."
+  stars[p_values >= 0.1] <- ""
+  return(stars)
+}
+
+# Output results
+cat("\n\nWald test for the difference in the treatment effect\n between the firms with and w/o executory contracts: \n\n")
+data.frame(
+  Diff = diff_coef,
+  `Std. Error` = sqrt(diag(var_diff)),
+  `Wald stat` = wald_stat,
+  `P value` = p_value,
+  Star = convert_p_to_stars(p_value)
+) %>% 
+  rbind.data.frame(., "Multipel Testing:" = c("", "", wald_stat_vector, p_value_vector, convert_p_to_stars(p_value_vector) )) %>% 
+  mutate_if(is.numeric, round, digits = 4) 
+cat("Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 \n\n")
+
+
+## Interacting with With/Withou Contracts:
+
+data_did_loop_balanced %>% 
+  fixest::feols(fml = book_leverage ~ intensity_2000 + post_2005 + exposed + post_2005*exposed + intensity_2000*exposed + intensity_2000:post_2005:i(exposed)
+                + roa + ebitda_at + log(at_thousand) + altman_Z + tangibility + current_ratio 
+                |
+                  gvkey + fyear + ff_30ind_name^fyear, data = ., cluster = c("gvkey", "ff_30ind_name")) %>%
+
+  etable()
+
+```
 
 ### s3.3. land intensity {#sec-s3c-land-intensity}
 
@@ -1193,8 +1311,8 @@ fml_results[which(unlist(fml_parameters$balanced_panel))] %>% # choose the balan
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
 
 fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sample
   iplot(.,
@@ -1204,12 +1322,11 @@ fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sam
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
 ```
 
 Results using `land_intensity` are much noisier. The treatment effects are indifferent from zero when using the intensity measure and are negative when using the treatment dummy. However, there seems to be a pre-trend before the time of treatment. This is further shown in the plots.
-
 
 ### s3.4. builindg and land intensity {#sec-s3c-building-and-land-intensity}
 
@@ -1544,8 +1661,8 @@ fml_results[which(unlist(fml_parameters$balanced_panel))] %>% # choose the balan
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'));
 
 fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sample
   iplot(.,
@@ -1555,89 +1672,138 @@ fml_results[which(!unlist(fml_parameters$balanced_panel))] %>% # choose full sam
         ref.line = FALSE,
         ref.line.par = list(col = "red", lty = 2),
         pt.join = FALSE,
-        xlim = c(-3.5, 3.5)
-        ); axis(1, at = -3:3); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
+        xlim = c(period_start - n_pre - base_year - 0.5, period_end - base_year + 0.5)
+        ); axis(1, at = (period_start - n_pre - base_year):(period_end - base_year + 0.5)); abline(v = 0.5, col = "red", lty = 2, lwd = 3); legend('bottomleft', bty = "n", col = c(1, 2, 3, 4), pch = c(20, 17, 15, 21), legend = c('intensity', 'intensity + controls', 'dummy', 'dummy + controls'))
 ```
 
 <!-- Other tests and summary stat: -->
 
 <!-- ```{r s3d-test-run, echo=TRUE, results='asis'} -->
+
 <!-- cat('#### ', "Big versus Small", '   \n') -->
+
 <!-- did_model_subsample <- data_did_loop_balanced %>% -->
+
 <!--   fixest::feols(fml = book_leverage ~ i(fyear, intensity_2000, ref = base_year - 1) + -->
+
 <!--                   roa + ebitda_at + log(at_thousand) + -->
+
 <!--                   altman_Z + tangibility + current_ratio | -->
+
 <!--                   gvkey + fyear + ff_30ind_name^fyear, -->
+
 <!--                 data = ., -->
+
 <!--                 cluster = c("gvkey", "ff_30ind_name"), -->
+
 <!--                 split = ~ large # large -->
+
 <!--                 ) -->
 
 <!-- did_model_subsample %>% etable(se.below = TRUE) -->
 
 <!-- { -->
+
 <!--   # Calculate the Wald statistics -->
+
 <!--   model_large <- did_model_subsample[[1]] -->
+
 <!--   model_small <- did_model_subsample[[2]] -->
+
 <!--   ## get the name of the coefficnet of interests -->
+
 <!--   coef_names <- names(model_large$coefficients) %>% -->
+
 <!--     .[str_detect(string = ., pattern = "::")] -->
 
 <!--   coef_large <- coef(model_large)[coef_names] -->
+
 <!--   coef_small <- coef(model_small)[coef_names] -->
 
 <!--   # Difference in treatment effects -->
+
 <!--   diff_coef <- coef_large - coef_small -->
 
 <!--   # Variance of the difference -->
+
 <!--   var_diff <- vcov(model_large)[coef_names, coef_names] + vcov(model_small)[coef_names, coef_names] -->
 
 <!--   # Wald statistic for each treatment effect estimate -->
+
 <!--   wald_stat <- (diff_coef)^2 / diag(var_diff) -->
 
 <!--   wald_stat_vector <- c(t(diff_coef) %*% solve(var_diff) %*% (diff_coef)) -->
 
 <!--   # Degrees of freedom -->
+
 <!--   df <- 1 -->
+
 <!--   df_vector <- length(diff_coef) -->
 
 <!--   # P-value -->
+
 <!--   p_value <- 1 - pchisq(wald_stat, df) -->
+
 <!--   p_value_vector <- 1 - pchisq(wald_stat_vector, df_vector) -->
+
 <!-- } -->
 
 <!-- convert_p_to_stars <- function(p_values) { -->
+
 <!--   # Initialize a character vector to store the significance stars -->
+
 <!--   stars <- character(length(p_values)) -->
 
 <!--   # Assign stars based on p-value thresholds -->
+
 <!--   stars[p_values < 0.001] <- "***" -->
+
 <!--   stars[p_values >= 0.001 & p_values < 0.01] <- "**" -->
+
 <!--   stars[p_values >= 0.01 & p_values < 0.05] <- "*" -->
+
 <!--   stars[p_values >= 0.05 & p_values < 0.1] <- "." -->
+
 <!--   stars[p_values >= 0.1] <- "" -->
 
 <!--   return(stars) -->
+
 <!-- } -->
 
 <!-- # Output results -->
+
 <!-- cat("Wald test for the difference in the treatment effect\n between the Large firms and Small firms: \n\n"); -->
+
 <!-- data.frame( -->
+
 <!--   Diff = diff_coef, -->
+
 <!--   `Std. Error` = sqrt(diag(var_diff)), -->
+
 <!--   `Wald stat` = wald_stat, -->
+
 <!--   `P value` = p_value, -->
+
 <!--   Star = convert_p_to_stars(p_value) -->
+
 <!-- ) -->
+
 <!-- cat("Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 \n") -->
 
 <!-- ## Interacting with Large/Small: -->
+
 <!-- data_did_loop_balanced %>% -->
+
 <!--   fixest::feols(fml = book_leverage ~ intensity_2000 + post_2005 + large + post_2005*large + intensity_2000*large + intensity_2000:post_2005:i(large) -->
+
 <!--                 + roa + ebitda_at + log(at_thousand) + altman_Z + tangibility + current_ratio -->
+
 <!--                 | -->
+
 <!--                   gvkey + fyear + ff_30ind_name^fyear, data = ., cluster = c("gvkey", "ff_30ind_name")) %>% -->
+
 <!--   etable() -->
+
 <!-- ``` -->
 
 Check the trend of movement in the intensity measure:
