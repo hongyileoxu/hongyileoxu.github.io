@@ -12,7 +12,9 @@ Project 2:
         |> Wald tests and pre-trend. 
         |> DiD with intensity_2000 measure. 
 |> AFA_test_2005_PPE_clean.Rmd 
-    |> a clean output file for all results. 
+    |> a clean output file for all results. `book leverage` is the dependent variable. 
+|> AFA_test_2005_PPE_clean_ebitda.Rmd 
+    |> a clean output file for all results with `debt-to-ebitda` as the dependent variable. 
 
 
 
