@@ -58,6 +58,7 @@ Projects in Progress:
      -    [2005 Test for PPE](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005_PPE.html)
      -    [2005 Test for Compustat NA](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005_PPE_allNA.html)
      -    [Final Results](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005_PPE_clean.html)
+     -    [Final Results with EBITDA](http://hongyileoxu.github.io/research/Purchase_contract_10Ks/AFA_test_2005_PPE_clean_ebitda.html)
 
 -    [MAR project with Mengyu Yang](http://hongyileoxu.github.io/research/MAR/OnBoard_analysis_hongyi.html)
 
