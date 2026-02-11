@@ -16,3 +16,12 @@ This trend did not change after SK group taking over Hynix for many year. In the
 
 <img width="659" height="514" alt="image" src="https://github.com/user-attachments/assets/ea2d6daa-d245-43ac-938d-db213fffb1fb" />
 
+However, the turning point comes with the appointment of Park Sung-wook, a Hynix engineer veteran, as the CEO. He encouraged his team to prioritise **long-term research** over short-term financial performance. In particular, the company focued on developing the HBM technology when it is still at its infant stage and increased R&D spending approx. 14% per annum between 2010 and 2024. This bet does not turn into immediate revenue and profit booms as the market for application is too small, until the current AI boom. The groundbreaking introduction of ChatGPT and the surging demand for AI servers fueled substantial demand for HBM and SK Hynix's long-term investments (bets) finally paid off. 
+
+In the literature, we generally think these Zombie firms are bad and useless. However, their existence may reflect the diversity of an economy and increase the resilence of an economy towards future shocks. Of course, doing nothing does not grant any zombie firms the privilage to survive, but SK Hynix's story suggests one channel to revive a zombie. 
+
+
+> A very capital intensive business which has until AI been highly competitive and low margin. Given that every company materially involved in AI is in the process of designing their own chips, I'd have to guess the competitive landscape is going to change materially in the years to come. My guess is there will be no one big winner. The industry will continue to grow, but it will become more distributed and margins will once again fall to commodity levels. Regardless, never in the history of stock prices has a major vertical movement ever kept rising without major correction.
+> -- an interesting comment from one reader. 
+
+
