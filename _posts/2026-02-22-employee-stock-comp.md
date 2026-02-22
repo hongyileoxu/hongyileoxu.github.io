@@ -8,6 +8,12 @@ The recognition of employee stock compensation (SBC) as an expense is an interes
 
 The direct impact of including the SBC expense is a reduction in the profit. However, <u>it has no impact on the operating cash flow</u> and is added back as** a non-cash item** when calculating operating cash flow. Thus, under earnings pressure, firms may reduce SBC grants as an additional mechanism for influencing reported profits, complementing strategies such as share repurchases. 
 
+Also additional stories about the surge in AI spending among US firms: [Big Tech’s ‘breathtaking’ $660bn spending spree reignites AI bubble fears] (https://www.ft.com/content/0e7f6374-3fd5-46ce-a538-e4b0b8b6e6cd). 
+
+	Big Tech’s ‘breathtaking’ $660bn spending spree reignites AI bubble fears - "Even record earnings at Google were not enough to override these concerns. Parent company Alphabet surpassed $400bn in annual revenue for the first time and made $132bn of profit in ..."
+
+https://www.ft.com/content/0e7f6374-3fd5-46ce-a538-e4b0b8b6e6cd?shareType=nongift&highlights=cb9b2dd6d8a71452164b34ca32435f3ace9a60ff8fdb683533f3dd312fac7b24
+
 
 
 [\^1] [Meta cuts staff stock awards for a second straight year](https://www.ft.com/content/071d5503-b3dc-46bc-bc55-28f92dbdd42a?shareType=nongift)
