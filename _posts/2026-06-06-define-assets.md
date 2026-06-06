@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Debt Capacity Expansion through Re-define Assets?"
+title: "Expanding Debt Capacity through Asset Redefinition?"
 date: 2026-06-06
 ---
 
