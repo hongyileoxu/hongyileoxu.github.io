@@ -10,6 +10,8 @@ title: Research
 
 ## Working Papers: 
 
+-  "Insider Trading Regulation, Blockholder Exit, and Governance Roles", with Mengyu Yang, June 2026.  
+
 -  "Rational Inattention and Share Repurchases", November 2024.
     -  paper was previously circulated under the title "Under the Spotlight: How External Informed Traders Impact Share Repurchases" 
 
