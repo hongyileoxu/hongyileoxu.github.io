@@ -12,7 +12,7 @@ While the business model sounds risky, this is actually a very extreme version o
 
 
 <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container" style="width:100%; max-width:1200px; height:700px; margin:0 auto;">
+<div class="tradingview-widget-container" style="width:100%; max-width:1200px; height:2700px; margin:0 auto;">
   <div class="tradingview-widget-container__widget" style="width:100%; height:calc(100% - 32px);"></div>
 
   <div class="tradingview-widget-copyright" style="text-align:center;">
