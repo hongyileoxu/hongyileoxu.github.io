@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Thoughts about Blending Spoons"
-date: 2026-07-05
+date: 2026-07-06
 ---
 
 When reading this [FT article](https://www.ft.com/content/040aac86-f458-400b-a353-7ff2ee5aa34f?shareType=nongift) after its IPO, the business model of Blending Spoons (Ticker: BSP) interests me. Simply put, it is a listed, open-end PE firm. While this claim that they will not liquidate their "subsidiaries", this is far from a convincing promise to keep.  
@@ -12,7 +12,7 @@ While the business model sounds risky, this is actually a very extreme version o
 
 
 <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container" style="height:100%;width:100%">
+<div class="tradingview-widget-container" style="height:120%;width:80%">
   <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
   <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener nofollow" target="_blank"><span class="blue-text">AAPL stock chart</span></a><span class="trademark"> by TradingView</span></div>
   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
@@ -29,7 +29,7 @@ While the business model sounds risky, this is actually a very extreme version o
   "locale": "en",
   "save_image": true,
   "style": "1",
-  "symbol": "NASDAQ:AAPL",
+  "symbol": "NASDAQ:BPS",
   "theme": "light",
   "timezone": "Etc/UTC",
   "backgroundColor": "#ffffff",
