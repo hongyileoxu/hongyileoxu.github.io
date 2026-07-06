@@ -29,7 +29,7 @@ While the business model sounds risky, this is actually a very extreme version o
   "locale": "en",
   "save_image": true,
   "style": "1",
-  "symbol": "NASDAQ:AAPL",
+  "symbol": "NASDAQ:BSP",
   "theme": "light",
   "timezone": "Etc/UTC",
   "backgroundColor": "#ffffff",
@@ -37,8 +37,7 @@ While the business model sounds risky, this is actually a very extreme version o
   "watchlist": [],
   "withdateranges": false,
   "compareSymbols": [],
-  "studies": [],
-  "autosize": true
+  "studies": []
 }
   </script>
 </div>
