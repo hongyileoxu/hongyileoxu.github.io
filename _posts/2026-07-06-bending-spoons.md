@@ -12,34 +12,43 @@ While the business model sounds risky, this is actually a very extreme version o
 
 
 <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container" style="width:100%; max-width:1200px; height:2700px; margin:0 auto;">
-  <div class="tradingview-widget-container__widget" style="width:100%; height:calc(100% - 32px);"></div>
+<div style="display:flex; justify-content:center; margin: 2rem 0;">
+  <div class="tradingview-widget-container" style="width:100%; max-width:1100px; height:700px;">
+    <div class="tradingview-widget-container__widget" style="width:100%; height:700px;"></div>
 
-  <div class="tradingview-widget-copyright" style="text-align:center;">
-    <a href="https://www.tradingview.com/symbols/NASDAQ-BSP/" target="_blank" rel="noopener nofollow">
-      <span class="blue-text">BSP Stock Chart</span>
-    </a>
-    <span class="trademark"> by TradingView</span>
+    <div class="tradingview-widget-copyright" style="text-align:center;">
+      <a href="https://www.tradingview.com/symbols/NASDAQ-BSP/" rel="noopener nofollow" target="_blank">
+        <span class="blue-text">BSP Stock Chart</span>
+      </a>
+      <span class="trademark"> by TradingView</span>
+    </div>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+    {
+      "allow_symbol_change": true,
+      "calendar": false,
+      "details": false,
+      "hide_side_toolbar": true,
+      "hide_top_toolbar": false,
+      "hide_legend": false,
+      "hide_volume": false,
+      "hotlist": false,
+      "interval": "D",
+      "locale": "en",
+      "save_image": true,
+      "style": "1",
+      "symbol": "NASDAQ:BSP",
+      "theme": "light",
+      "timezone": "Etc/UTC",
+      "backgroundColor": "#ffffff",
+      "gridColor": "rgba(46, 46, 46, 0.06)",
+      "watchlist": [],
+      "withdateranges": false,
+      "compareSymbols": [],
+      "studies": [],
+      "autosize": true
+    }
+    </script>
   </div>
-
-  <script
-    type="text/javascript"
-    src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
-    async>
-{
-  "symbol": "NASDAQ:BSP",
-  "interval": "D",
-  "theme": "light",
-  "style": "1",
-  "locale": "en",
-  "timezone": "Etc/UTC",
-  "allow_symbol_change": true,
-  "hide_side_toolbar": true,
-  "hide_top_toolbar": false,
-  "hide_legend": false,
-  "hide_volume": false,
-  "withdateranges": true
-}
-  </script>
 </div>
 <!-- TradingView Widget END -->
