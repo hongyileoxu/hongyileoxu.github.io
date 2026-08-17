@@ -12,6 +12,11 @@
   --page: min(1140px, calc(100vw - 64px));
 }
 
+html[lang="zh-CN"] {
+  --sans: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --serif: "Noto Serif SC", "Songti SC", serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -130,6 +135,27 @@ button:focus-visible {
   left: 0;
   position: absolute;
   width: 100%;
+}
+
+.language-switch {
+  align-items: center;
+  border-left: 1px solid #d4d4d4;
+  color: #999;
+  display: flex;
+  font-size: 14px;
+  gap: 7px;
+  margin-left: 2px;
+  padding-left: 22px;
+}
+
+.site-nav .language-switch a {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.language-switch .current-language {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .menu-toggle {
@@ -518,6 +544,11 @@ button:focus-visible {
   color: #8dc9ed;
 }
 
+html[lang="zh-CN"] .cv-placeholder::before {
+  content: "中文简历";
+  font-size: 38px;
+}
+
 .cv-embed {
   border: 0;
   display: block;
@@ -688,6 +719,20 @@ button:focus-visible {
 
   .site-nav a[aria-current="page"]::after {
     display: none;
+  }
+
+  .language-switch {
+    border-left: 0;
+    border-top: 1px solid #d6d6d6;
+    gap: 10px;
+    margin: 8px 0 0;
+    padding: 18px 4px 0;
+  }
+
+  .site-nav .language-switch a {
+    border-bottom: 0;
+    font-size: 16px;
+    padding: 0;
   }
 }
 

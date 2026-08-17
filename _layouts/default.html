@@ -1,5 +1,18 @@
+{% assign is_zh = false %}
+{% if page.lang == 'zh-CN' %}
+  {% assign is_zh = true %}
+{% endif %}
+{% assign english_path = '/' %}
+{% assign chinese_path = '/zh/' %}
+{% if page.url contains '/research/' %}
+  {% assign english_path = '/research/' %}
+  {% assign chinese_path = '/zh/research/' %}
+{% elsif page.url contains '/cv/' %}
+  {% assign english_path = '/cv/' %}
+  {% assign chinese_path = '/zh/cv/' %}
+{% endif %}
 <!doctype html>
-<html lang="en">
+<html lang="{% if is_zh %}zh-CN{% else %}en{% endif %}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,25 +22,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    {% if is_zh %}<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">{% endif %}
     <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+    <link rel="alternate" hreflang="en" href="{{ english_path | absolute_url }}">
+    <link rel="alternate" hreflang="zh-CN" href="{{ chinese_path | absolute_url }}">
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{% if is_zh %}跳至正文{% else %}Skip to content{% endif %}</a>
 
     <header class="site-header">
-      <a class="identity" href="{{ '/' | relative_url }}" aria-label="Hongyi Xu, home">
+      <a class="identity" href="{% if is_zh %}{{ '/zh/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}" aria-label="{% if is_zh %}Hongyi Xu，首页{% else %}Hongyi Xu, home{% endif %}">
         <img class="school-logo" src="{{ '/asset/sse-logo.svg' | relative_url }}" alt="Stockholm School of Economics">
         <span class="identity-name">Hongyi Xu</span>
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
-        Menu
+        {% if is_zh %}菜单{% else %}Menu{% endif %}
       </button>
 
-      <nav class="site-nav" id="site-navigation" aria-label="Primary navigation">
-        <a href="{{ '/' | relative_url }}" {% if page.url == '/' or page.url == '/home/' %}aria-current="page"{% endif %}>Home</a>
-        <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}aria-current="page"{% endif %}>Research</a>
-        <a href="{{ '/cv/' | relative_url }}" {% if page.url == '/cv/' %}aria-current="page"{% endif %}>CV</a>
+      <nav class="site-nav" id="site-navigation" aria-label="{% if is_zh %}主导航{% else %}Primary navigation{% endif %}">
+        {% if is_zh %}
+          <a href="{{ '/zh/' | relative_url }}" {% if page.url == '/zh/' %}aria-current="page"{% endif %}>首页</a>
+          <a href="{{ '/zh/research/' | relative_url }}" {% if page.url == '/zh/research/' %}aria-current="page"{% endif %}>研究</a>
+          <a href="{{ '/zh/cv/' | relative_url }}" {% if page.url == '/zh/cv/' %}aria-current="page"{% endif %}>简历</a>
+        {% else %}
+          <a href="{{ '/' | relative_url }}" {% if page.url == '/' or page.url == '/home/' %}aria-current="page"{% endif %}>Home</a>
+          <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}aria-current="page"{% endif %}>Research</a>
+          <a href="{{ '/cv/' | relative_url }}" {% if page.url == '/cv/' %}aria-current="page"{% endif %}>CV</a>
+        {% endif %}
+        <div class="language-switch" aria-label="{% if is_zh %}语言选择{% else %}Language selection{% endif %}">
+          {% if is_zh %}
+            <a href="{{ english_path | relative_url }}" lang="en">EN</a><span aria-hidden="true">/</span><span class="current-language" lang="zh-CN">中文</span>
+          {% else %}
+            <span class="current-language" lang="en">EN</span><span aria-hidden="true">/</span><a href="{{ chinese_path | relative_url }}" lang="zh-CN">中文</a>
+          {% endif %}
+        </div>
       </nav>
     </header>
 
@@ -38,9 +67,9 @@
     <footer class="site-footer">
       <p>&copy; {{ 'now' | date: '%Y' }} Hongyi Xu</p>
       <div>
-        <a href="mailto:{{ site.email }}">Email</a>
-        <a href="{{ '/blog/' | relative_url }}">Notes</a>
-        <a href="{{ '/projects/' | relative_url }}">Research archive</a>
+        <a href="mailto:{{ site.email }}">{% if is_zh %}邮箱{% else %}Email{% endif %}</a>
+        <a href="{{ '/blog/' | relative_url }}">{% if is_zh %}研究笔记{% else %}Notes{% endif %}</a>
+        <a href="{{ '/projects/' | relative_url }}">{% if is_zh %}研究资料{% else %}Research archive{% endif %}</a>
         <a href="https://github.com/hongyileoxu">GitHub</a>
       </div>
     </footer>

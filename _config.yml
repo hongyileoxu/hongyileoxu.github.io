@@ -2,6 +2,8 @@ name: Hongyi Xu
 title: Hongyi Xu
 email: hongyi.xu@hhs.se
 description: Finance PhD student at the Stockholm School of Economics researching corporate finance and financial intermediaries.
+url: https://hongyileoxu.github.io
+baseurl: ""
 theme: jekyll-theme-cayman
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
