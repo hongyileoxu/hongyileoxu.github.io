@@ -342,7 +342,7 @@ button:focus-visible {
   padding: 25px 7px 28px;
 }
 
-.paper-row h3 {
+.prose .paper-row h3 {
   color: var(--blue);
   font-family: var(--serif);
   font-size: 20px;
@@ -351,7 +351,7 @@ button:focus-visible {
   margin: 0 0 18px;
 }
 
-.paper-row h3 a {
+.prose .paper-row h3 a {
   color: var(--blue);
   font-weight: inherit;
 }
