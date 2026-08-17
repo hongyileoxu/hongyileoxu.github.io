@@ -3,7 +3,7 @@ layout: project
 title: Projects, Replications and Experiments
 ---
 
-This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. So if you have some better solutions, please feel free to [email](mailto:hongyi.xu@phdstudent.hhs.se) me.
+This section presents some replications of past papers I am interested in. The codes and results presented may not be exactly the same as those in the original paper. If you have suggestions or improvements, please feel free to [email](mailto:hongyi.xu@hhs.se) me.
 
 Below is a list of projects:
 - Welch, I. & Goyal, A. 2008, "A Comprehensive Look at the Empirical Performance of Equity Premium Prediction", The Review of financial studies. **[> Project Goyal and Welch (2008)]**

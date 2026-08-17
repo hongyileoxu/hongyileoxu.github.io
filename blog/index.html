@@ -1,13 +1,18 @@
 ---
 layout: default
-title: Hongyi's Blog
+title: Notes
+description: Research notes and reading reflections by Hongyi Xu.
 ---
-	<h2>{{ page.title }}</h2>
 
-	<ul>
-	  {% for post in site.posts %}
-	   <li><span>{{ post.date | date_to_string }}</span> - <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-	  {% endfor %}
-	</ul>	
+<header class="page-title">
+  <h1>Notes</h1>
+</header>
 
-	<iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/all-in-with-chamath-jason-sacks-friedberg/id1502871393"></iframe>
+<section class="content-page notes-page">
+  {% for post in site.posts %}
+  <article class="note-row">
+    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+  </article>
+  {% endfor %}
+</section>

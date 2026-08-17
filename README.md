@@ -1,37 +1,25 @@
-## Welcome to GitHub Pages
+# Hongyi Xu - academic website
 
-You can use the [editor on GitHub](https://github.com/hongyileoxu/hongyileoxu.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+A Jekyll website for an academic finance profile, designed for GitHub Pages.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Main content
 
-### Markdown
+- `index.html`: homepage biography, research interests, and contact
+- `research/index.md`: working papers and publication record
+- `cv/index.html`: CV page with embedded viewer and download link
+- `blog/index.html`: research notes
+- `projects/index.md`: replication and project archive
+- `_layouts/default.html`: shared navigation and footer
+- `css/main.css`: typography, colors, layout, and responsive styles
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The header uses the official black SSE logo stored at `asset/sse-logo.svg`.
 
-```markdown
-Syntax highlighted code block
+## Updating job-market materials
 
-# Header 1
-## Header 2
-### Header 3
+The homepage portrait is stored at `asset/profile.jpg`. The current CV is stored at `cv.pdf` and displayed through `cv/index.html`.
 
-- Bulleted
-- List
+To replace the portrait later, overwrite `asset/profile.jpg`. The tall crop is controlled by `.profile-photo` in `css/main.css`.
 
-1. Numbered
-2. List
+To update the CV, overwrite `cv.pdf` with the new version. The existing viewer and download link will continue to work. Paper links can be added to the corresponding entries in `research/index.md`.
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hongyileoxu/hongyileoxu.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+GitHub Pages rebuilds the site when changes are pushed to the publishing branch.

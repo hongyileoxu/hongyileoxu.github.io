@@ -1,36 +1,50 @@
-<!DOCTYPE html>
-	<html>
-		<head>
-			<title>{{ page.title }}</title>
-			<!-- link to main stylesheet -->
-			<link rel="stylesheet" type="text/css" href="/css/main.css">
-		</head>
-		<head>
-			<h1> Hongyi Xu </h1>
-		</head>
-		<body>
-			<nav>
-	    		<ul>
-	        		<li><a href="/home">Home</a></li>
-		        	<li><a href="/research">Research</a></li>
-	        		<li><a href="/cv">CV</a></li>
-	        		<li><a href="/blog">Blog</a></li>
-				<li><a href="/projects">Projects</a></li>
-	    		</ul>
-			</nav>
-			<div class="container">
-			
-			{{ content }}
-			
-			</div><!-- /.container -->
-			<footer>
-	    		<ul>
-	        		<li><a href="https://github.com/hongyileoxu">&copy 2026 Hongyi Xu</a></li>
-				<li><a href="mailto:hongyi.xu@hhs.se">Email</a></li>
-				<li><a href="https://hongyileoxu.github.io/research">⎋Like</a></li>
-				<li><a href="https://livehhsse.sharepoint.com/sites/sse-branding/SitePages/SSE-Logotype-Guidelines.aspx?csf=1&web=1&e=AaZDUu">SSE Branding</a></li>	
-				<li><a href="https://livehhsse-my.sharepoint.com/:t:/r/personal/65570_student_hhs_se/Documents/Projects_2025/New%20Ideas%20for%20JMP.txt?csf=1&web=1&e=uJSeVd">Ideas</a></li>
-				</ul>
-			</footer>
-		</body>
-	</html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    <meta name="theme-color" content="#ffffff">
+    <title>{% if page.title == site.name %}{{ site.name }}{% else %}{{ page.title }} | {{ site.name }}{% endif %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <a class="identity" href="{{ '/' | relative_url }}" aria-label="Hongyi Xu, home">
+        <img class="school-logo" src="{{ '/asset/sse-logo.svg' | relative_url }}" alt="Stockholm School of Economics">
+        <span class="identity-name">Hongyi Xu</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+        Menu
+      </button>
+
+      <nav class="site-nav" id="site-navigation" aria-label="Primary navigation">
+        <a href="{{ '/' | relative_url }}" {% if page.url == '/' or page.url == '/home/' %}aria-current="page"{% endif %}>Home</a>
+        <a href="{{ '/research/' | relative_url }}" {% if page.url == '/research/' %}aria-current="page"{% endif %}>Research</a>
+        <a href="{{ '/cv/' | relative_url }}" {% if page.url == '/cv/' %}aria-current="page"{% endif %}>CV</a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      {{ content }}
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; {{ 'now' | date: '%Y' }} Hongyi Xu</p>
+      <div>
+        <a href="mailto:{{ site.email }}">Email</a>
+        <a href="{{ '/blog/' | relative_url }}">Notes</a>
+        <a href="{{ '/projects/' | relative_url }}">Research archive</a>
+        <a href="https://github.com/hongyileoxu">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="{{ '/js/main.js' | relative_url }}"></script>
+  </body>
+</html>
