@@ -329,10 +329,10 @@ button:focus-visible {
 }
 
 .paper-list {
-  background: var(--wash);
+  background: transparent;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 22px max(calc((100vw - 1140px) / 2), 32px) 10px;
+  padding: 16px max(calc((100vw - 1140px) / 2), 32px) 13px;
 }
 
 .paper-row {
@@ -340,6 +340,13 @@ button:focus-visible {
   margin: 0 auto;
   max-width: 1140px;
   padding: 25px 7px 28px;
+  position: relative;
+  transition: background-color 160ms ease;
+}
+
+.paper-row:hover,
+.paper-row:focus-within {
+  background: #fafafa;
 }
 
 .prose .paper-row h3 {
@@ -349,6 +356,7 @@ button:focus-visible {
   font-weight: normal;
   line-height: 1.35;
   margin: 0 0 18px;
+  padding-right: 50px;
 }
 
 .prose .paper-row h3 a {
@@ -383,26 +391,26 @@ button:focus-visible {
 }
 
 .paper-abstract {
-  border-top: 1px solid rgba(71, 71, 71, 0.16);
-  margin-top: 19px;
+  margin-top: 0;
   max-width: 980px;
-  padding-top: 13px;
 }
 
 .paper-abstract summary {
   align-items: center;
+  border: 1px solid rgba(71, 71, 71, 0.45);
+  border-radius: 50%;
   color: #444;
   cursor: pointer;
   display: flex;
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 600;
-  justify-content: space-between;
-  letter-spacing: 0.04em;
+  height: 34px;
+  justify-content: center;
   list-style: none;
-  max-width: 980px;
-  padding: 2px 0;
-  text-transform: uppercase;
+  padding: 0;
+  position: absolute;
+  right: 7px;
+  top: 24px;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  width: 34px;
 }
 
 .paper-abstract summary::-webkit-details-marker {
@@ -411,7 +419,8 @@ button:focus-visible {
 
 .paper-abstract summary::after {
   content: "+";
-  font-size: 20px;
+  font-family: var(--sans);
+  font-size: 19px;
   font-weight: 400;
   line-height: 1;
 }
@@ -420,16 +429,25 @@ button:focus-visible {
   content: "\2212";
 }
 
+.paper-abstract summary:hover,
+.paper-abstract[open] summary {
+  background: #333;
+  border-color: #333;
+  color: #fff;
+}
+
 .paper-abstract summary:focus-visible {
   outline: 2px solid rgba(34, 34, 34, 0.35);
   outline-offset: 4px;
 }
 
 .paper-row .paper-abstract p {
+  border-top: 1px solid rgba(71, 71, 71, 0.16);
   font-size: 16px;
   line-height: 1.7;
-  margin: 15px 0 2px;
+  margin: 18px 0 2px;
   max-width: 920px;
+  padding-top: 15px;
 }
 
 .dark-button {
