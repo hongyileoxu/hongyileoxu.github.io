@@ -322,7 +322,7 @@ button:focus-visible {
 .prose > h2 {
   color: #111;
   font-family: var(--sans);
-  font-size: 23px;
+  font-size: 25px;
   line-height: 1.2;
   margin: 0;
   padding: 34px 8px;
@@ -369,6 +369,13 @@ button:focus-visible {
 
 .paper-row .paper-authors {
   color: #444;
+}
+
+.paper-row .paper-authors a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .paper-row .paper-note {

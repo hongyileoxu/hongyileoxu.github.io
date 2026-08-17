@@ -20,8 +20,8 @@ description: Job market paper, working papers, and publications by Hongyi Xu.
 
 <section class="paper-list">
   <article class="paper-row">
-    <h3>Non-Financial Liabilities and Effective Corporate Restructuring</h3>
-    <p class="paper-authors">with <u>Bo Becker</u> and <u>Jens Josephson</u></p>
+    <h3><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4614991">Non-Financial Liabilities and Effective Corporate Restructuring</a></h3>
+    <p class="paper-authors">with <a href="https://sites.google.com/site/bobecker2/">Bo Becker</a> and <a href="https://sites.google.com/site/jensjosephson71/home">Jens Josephson</a></p>
     <details class="paper-abstract">
       <summary>Abstract</summary>
       <p>Non-financial obligations created by long-term contracts such as leases are often large, exceeding financial debts in around a third of U.S. firms. Their treatment in insolvency varies: Chapter 11 allows firms to freely reject or assume contracts, but many other restructuring regimes do not allow rejection. We model regimes with and without the rejection option. This option prevents excessive liquidation of insolvent firms and increases firms' debt capacity. Using novel measures of executory contracts by industry, and two difference-in-difference settings, we confirm that leverage and loan flow increase when the rejection option is available.</p>
