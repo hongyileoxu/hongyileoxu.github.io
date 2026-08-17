@@ -346,13 +346,14 @@ button:focus-visible {
   color: var(--blue);
   font-family: var(--serif);
   font-size: 20px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.35;
   margin: 0 0 18px;
 }
 
 .paper-row h3 a {
   color: var(--blue);
+  font-weight: inherit;
 }
 
 .paper-row p {
@@ -366,8 +367,62 @@ button:focus-visible {
   font-style: italic;
 }
 
+.paper-row .paper-authors {
+  color: #444;
+}
+
 .paper-row .paper-note {
   font-size: 15px;
+}
+
+.paper-abstract {
+  border-top: 1px solid rgba(71, 71, 71, 0.16);
+  margin-top: 19px;
+  max-width: 980px;
+  padding-top: 13px;
+}
+
+.paper-abstract summary {
+  align-items: center;
+  color: #444;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: space-between;
+  letter-spacing: 0.04em;
+  list-style: none;
+  max-width: 980px;
+  padding: 2px 0;
+  text-transform: uppercase;
+}
+
+.paper-abstract summary::-webkit-details-marker {
+  display: none;
+}
+
+.paper-abstract summary::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.paper-abstract[open] summary::after {
+  content: "\2212";
+}
+
+.paper-abstract summary:focus-visible {
+  outline: 2px solid rgba(34, 34, 34, 0.35);
+  outline-offset: 4px;
+}
+
+.paper-row .paper-abstract p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 15px 0 2px;
+  max-width: 920px;
 }
 
 .dark-button {
