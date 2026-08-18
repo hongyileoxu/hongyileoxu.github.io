@@ -22,7 +22,7 @@ description: Hongyi Xu 的求职论文、工作论文与已发表论文。
 <section class="paper-list">
   <article class="paper-row">
     <h3><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4614991">非金融负债与有效的企业重组</a></h3>
-    <p class="paper-authors">与 <a href="https://sites.google.com/site/bobecker2/">Bo Becker</a> 和 <a href="https://sites.google.com/site/jensjosephson71/home">Jens Josephson</a> 合著</p>
+<p class="paper-authors">与 <a href="https://sites.google.com/site/bobecker2/">Bo Becker</a> 和 <a href="https://sites.google.com/site/jensjosephson71/home">Jens Josephson</a></p>
     <details class="paper-abstract">
       <summary><span class="sr-only">展开或收起《非金融负债与有效的企业重组》的摘要</span></summary>
       <p>租赁等长期合同形成的非金融义务通常规模庞大，在约三分之一的美国企业中甚至超过金融债务。不同破产制度对这类义务的处理方式并不相同：美国《破产法》第 11 章允许企业自由拒绝或承接合同，而许多其他重组制度并不允许拒绝合同。本文构建了允许和不允许拒绝合同的两类制度模型。拒绝合同的选择权能够避免资不抵债企业被过度清算，并提高企业的债务融资能力。利用按行业构建的待履行合同新指标以及两项双重差分研究设计，我们发现，当企业拥有拒绝合同的选择权时，杠杆率和贷款流量均会增加。</p>
@@ -31,7 +31,7 @@ description: Hongyi Xu 的求职论文、工作论文与已发表论文。
 
   <article class="paper-row">
     <h3>内幕交易监管、大股东退出与治理作用</h3>
-    <p class="paper-authors">与 <u>Mengyu Yang</u> 合著</p>
+<p class="paper-authors">与 <u>Mengyu Yang</u></p>
     <details class="paper-abstract">
       <summary><span class="sr-only">展开或收起《内幕交易监管、大股东退出与治理作用》的摘要</span></summary>
       <p>本文研究收紧内幕交易监管如何影响大股东的公司治理作用。我们以 2016 年《市场滥用条例》的实施为准自然实验，考察更严格的信息披露要求如何改变主要股东的构成与行为。研究发现，在内幕交易规则收紧后，注重短期收益和流动性的投资者会减少董事会席位，但其在提名委员会中的参与并未发生变化。《市场滥用条例》还使短期大股东退出董事会的概率提高了 16 至 20 个百分点。</p>
@@ -52,7 +52,7 @@ description: Hongyi Xu 的求职论文、工作论文与已发表论文。
 <section class="paper-list">
   <article class="paper-row">
     <h3><a href="https://doi.org/10.1016/j.jempfin.2024.101525">基于投资组合层面的分部加总收益可预测性方法</a></h3>
-    <p class="paper-authors">与 <u>Dean Katselas</u> 和 <u>Jo Drienko</u> 合著</p>
+<p class="paper-authors">与 <u>Dean Katselas</u> 和 <u>Jo Drienko</u></p>
     <p class="paper-meta"><em>Journal of Empirical Finance</em> 78 (2024), 101525</p>
   </article>
 </section>
