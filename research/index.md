@@ -29,7 +29,7 @@ description: Job market paper, working papers, and publications by Hongyi Xu.
   </article>
 
   <article class="paper-row">
-    <h3>Insider Trading Regulation, Blockholder Exit, and Governance Roles</h3>
+    <h3><a href="https://www.dropbox.com/scl/fi/gnltb5mi628x3pel5mxcp/Liquidity_Shocks_and_Governance_Involvement_draft_1.pdf?rlkey=e9jffhzcac7yarqmoq4sgra6a&e=1&dl=0">Insider Trading Regulation, Blockholder Exit, and Governance Roles</a></h3>
     <p class="paper-authors">with <u>Mengyu Yang</u></p>
     <details class="paper-abstract">
       <summary><span class="sr-only">Toggle abstract for Insider Trading Regulation, Blockholder Exit, and Governance Roles</span></summary>
