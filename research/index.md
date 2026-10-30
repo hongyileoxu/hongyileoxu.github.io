@@ -21,7 +21,7 @@ description: Job market paper, working papers, and publications by Hongyi Xu.
 
 <section class="paper-list">
   <article class="paper-row">
-    <h3><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4614991">Non-Financial Liabilities and Effective Corporate Restructuring</a></h3>
+    <h3><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4614991">Should Insolvency Law Cover Non-Financial Obligations? Contract Rejection and Debt Capacity</a></h3>
     <p class="paper-authors">with <a href="https://sites.google.com/site/bobecker2/">Bo Becker</a> and <a href="https://sites.google.com/site/jensjosephson71/home">Jens Josephson</a></p>
     <details class="paper-abstract">
       <summary><span class="sr-only">Toggle abstract for Non-Financial Liabilities and Effective Corporate Restructuring</span></summary>
