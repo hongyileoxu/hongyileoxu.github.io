@@ -8,7 +8,7 @@ description: Job market paper, working papers, and publications by Hongyi Xu.
 
 <section class="paper-list">
   <article class="paper-row">
-    <h3>The Expected Future Cash Flow Channel in Debt Financing</h3>
+    <h3><a href="https://livehhsse-my.sharepoint.com/:b:/g/personal/65570_student_hhs_se/IQDpVgGqvmPjRY3Yap2pu_S7AeMiPZggea6DYIQM6aSv3pE?e=ztF8tx">The Expected Future Cash Flow Channel in Debt Financing</a></h3>
     <details class="paper-abstract">
       <summary><span class="sr-only">Toggle abstract for The Expected Future Cash Flow Channel in Debt Financing</span></summary>
       <p>This paper provides the first evidence that expected future cash flows expand firms' borrowing capacity beyond collateral values. I identify exogenous variation in expected future cash flows using new major product liability litigation involving firms' product-market peers. Evaluated at sample means, a 1% increase in sales raises net long-term debt issuance by 14.97%, equivalent to 1.55% of average total debt. The effect is stronger among firms with lower growth opportunities, tighter financial constraints, and lower asset tangibility. Firms experiencing positive expected future cash flow shocks increase investment and cash holdings, issue more unsecured debt, and borrow at lower bond yields, with little evidence of changes in shareholder payouts or leverage. Segment-level analysis further reveals increased investment in unexposed segments of treated firms, consistent with an expansion in financing capacity rather than changes in investment opportunities alone. These findings establish expected future cash flows as a distinct source of corporate borrowing capacity.</p>
