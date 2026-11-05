@@ -8,7 +8,7 @@ After reading this [Financial Times article](https://www.ft.com/content/040aac86
 
 My first impression is that Bending Spoons (NASDAQ: BSP) resembles a listed, open-ended private equity vehicle. Although management has stated that it does not intend to liquidate its portfolio companies, such commitments are ultimately difficult to verify or enforce over the long run.
 
-## Why Go Public?
+### Why Go Public?
 
 According to the article, limited disclosure by portfolio companies constrained BSP's refinancing capacity and was one of the motivations behind the IPO.
 
@@ -18,7 +18,7 @@ A more likely explanation, in my view, is a tightening in the private credit mar
 
 However, the IPO comes with a trade-off. SEC reporting requirements will gradually reveal more information about the performance of BSP's underlying assets and acquisitions. It will be interesting to see how much transparency investors ultimately receive.
 
-## Innovation Outsourcing at Scale
+### Innovation Outsourcing at Scale
 
 Although the model appears risky, it can also be viewed as an extreme form of **innovation outsourcing**, a concept I have long found appealing.
 
@@ -26,7 +26,7 @@ When a firm has substantial financial resources but relatively limited internal 
 
 Corporate venture capital (CVC) is one example of this approach. Bending Spoons represents a more aggressive version, combining elements of venture investing, acquisitions, and roll-up strategies. As noted in the article, more than three-quarters of its acquisitions have occurred within the past three years, illustrating how rapidly the company has pursued external growth.
 
-## Market Performance
+### Market Performance
 
 <div class="tradingview-widget-container">
   <iframe
